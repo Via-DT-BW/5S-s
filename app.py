@@ -3,7 +3,8 @@ from flask_cors import CORS
 import pyodbc
 
 from utils.call_conn import db_conn
-# from routes.main import bp as main_bp
+from routes.main import bp as main_bp
+from routes.dashboard import bp as dashboard_bp
 
 app = Flask(__name__)
 app.secret_key = "emdfbrofn3bfopwndfb3k390#!@#"
@@ -12,13 +13,8 @@ CORS(app)
 
 conn = pyodbc.connect(db_conn)
 
-# app.register_blueprint(main_bp)
-
-
-@app.route("/test")
-def index():
-    return "<h1>Hello World</h1>"
-
+app.register_blueprint(main_bp)
+app.register_blueprint(dashboard_bp)
 
 print(app.url_map)
 
