@@ -5,4 +5,4 @@ bp = Blueprint("dashboard", __name__)
 
 @bp.route("/dashboard/")
 def index():
-    return render_template("dashboard/example.html")
+    return render_template("dashboard/list_all.html")
