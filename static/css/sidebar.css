@@ -11,8 +11,18 @@ a {
     text-decoration: none !important;
 }
 
+a.nav-link i,
+.sidebar-heading {
+    color: #2cedd4 !important;
+}
+
+#accordionSidebar,
 .collapse-inner {
     background-color: #051729;
+}
+
+.sidebar-brand-icon img {
+    height: 45px;
 }
 
 .collapse-item {
