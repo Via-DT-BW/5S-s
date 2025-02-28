@@ -1,19 +1,27 @@
-<ul class="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar" style="background-color: #051729">
+<ul class="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar">
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/out">
         <div class="sidebar-brand-icon">
-            <img src="{{ url_for('static', filename='initial_page/img/app_logo.png') }}" style="height: 45px" alt="LogoBogwarner" />
+            <img src="{{ url_for('static', filename='initial_page/img/app_logo.png') }}">
         </div>
-        <div class="sidebar-brand-text mx-3" style="color: #2cedd4">
+        <div class="sidebar-brand-text mx-3">
             5S
         </div>
     </a>
 
     <hr class="sidebar-divider my-0" />
 
-    <span class="sidebar-heading mt-3" style="color: #2cedd4">Category</span>
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="">
-            <i class="fas fa-list" style="color: #2cedd4"></i>
+    <span class="sidebar-heading mt-3">Categoria</span>
+
+    <li class="nav-item {% if '/dashboard/statistics' in request.path %} active {% endif %}">
+        <a class="nav-link collapsed" href="/dashboard/statistics">
+            <i class="fas fa-chart-pie"></i>
+            <span>Statistics</span>
+        </a>
+    </li>
+
+    <li class="nav-item {% if '/dashboard/listings' in request.path %} active {% endif %}">
+        <a class="nav-link collapsed" href="/dashboard/listings/">
+            <i class="fas fa-list"></i>
             <span>Listagens</span>
         </a>
     </li>
@@ -22,7 +30,7 @@
 
     <li class="nav-item">
         <a class="btn nav-link collapsed" href="/">
-            <i class="fas fa-sign-out-alt" style="color: #2cedd4"></i>
+            <i class="fas fa-sign-out-alt"></i>
             <span>Sair</span>
         </a>
     </li>
