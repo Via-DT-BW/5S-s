@@ -15,11 +15,13 @@ def statistics():
 def index():
     departments = get_departments()
     spaces = get_spaces(departments)
+    sheets = get_sheets(spaces)
     return render_template(
         "dashboard/listings.html",
         active_page="listings",
         departments=departments,
         spaces=spaces,
+        sheets=sheets,
     )
 
 
@@ -68,6 +70,37 @@ def get_spaces(departments):
         print(e)
         return jsonify({"error": f"Ocorreu um erro: {str(e)}"}), 500
 
+    finally:
+        if "cursor" in locals():
+            cursor.close()
+        if "conn" in locals():
+            conn.close()
+
+
+@bp.route("/api/sheets/", methods=["GET"])
+def get_sheets(spaces):
+    try:
+        conn = pyodbc.connect(db_conn)
+        cursor = conn.cursor()
+
+        space_dict = {space["id"]: space["name"] for space in spaces}
+
+        cursor.execute("SELECT id, space, createdAt, signedBy, nextDate from sheets")
+        sheets = [
+            {
+                "id": sheet.id,
+                "space": space_dict.get(sheet.space, "Unknown"),
+                "created_at": sheet.createdAt,
+                "signed_by": sheet.signedBy,
+                "next_date": sheet.nextDate,
+            }
+            for sheet in cursor.fetchall()
+        ]
+        return sheets
+
+    except Exception as e:
+        print(e)
+        return jsonify({"error", f"Ocorreu um erro: {str(e)}"}), 500
     finally:
         if "cursor" in locals():
             cursor.close()

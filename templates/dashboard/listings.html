@@ -52,6 +52,38 @@
                     {% endfor %}
                 {% else %}
                 <tr>
+                    <td>Não há espaços inseridos.</td>
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="card my-4 p-2">
+    <div class="card-header">
+        <h5 class="text-center">Folhas 5s</h5>
+    </div>
+    <div class="card-body table-responsive">
+        <table class="table table-striped table-responsive">
+            <thead>
+                <tr>
+                    <th>Espaço</th>
+                    <th>Assinatura</th>
+                    <th>Próxima</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if sheets %}
+                    {% for sheet in sheets %}
+                        <tr>
+                            <td>{{ sheet.space }}</td>
+                            <td>{{ sheet.signed_by }}, {{ sheet.created_at }}</td>
+                            <td>{{ sheet.next_date }}</td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                <tr>
                     <td>Não há departamentos inseridos.</td>
                 </tr>
                 {% endif %}
@@ -59,5 +91,6 @@
         </table>
     </div>
 </div>
+
 
 {% endblock %}
