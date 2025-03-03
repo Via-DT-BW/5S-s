@@ -1,0 +1,45 @@
+{% extends 'dashboard/dashboard_base.html' %}
+
+{% block content %}
+
+<div class="card my-4 p-2">
+    <div class="card-header">
+        <h5 class="text-center">Auditorias</h5>
+    </div>
+    <div class="card-body table-responsive">
+        <table class="table table-striped table-responsive">
+            <thead>
+                <tr>
+                    <th>Espaço</th>
+                    <th>Assinatura</th>
+                    <th>Próxima Auditoria</th>
+                    <th>Opções</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if audits %}
+                    {% for audit in audits %}
+                        <tr>
+                            <td>{{ audit.space }}</td>
+                            <td><b>{{ audit.signed }}</b>, {{ audit.created_at }}</td>
+                            <td>{{ audit.next_date }}</td>
+                            <td>
+                                <a href="/dashboard/audit/{{ audit.id }}" class="btn btn-info">
+                                    <i class="fa-solid fa-eye"></i>
+                                    Ver
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                <tr>
+                    <td colspan="4">Não há auditorias inseridos.</td>
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+{% endblock %}
