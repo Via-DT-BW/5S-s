@@ -10,4 +10,4 @@ def statistics():
 
 @bp.route("/dashboard/listings/")
 def index():
-    return render_template("dashboard/list_all.html", active_page="list_all")
+    return render_template("dashboard/listings.html", active_page="listings")
