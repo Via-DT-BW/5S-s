@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<div class="card my-4 p-4">
+<div class="card my-4 p-2">
     <div class="card-header">
         <h5 class="text-center">Departamentos</h5>
     </div>
@@ -14,11 +14,47 @@
                 </tr>
             </thead>
             <tbody>
-                {% for dep in departments %}
-                    <tr>
-                        <td>{{ dep.name }}</td>
-                    </tr>
-                {% endfor %}
+                {% if departments %}
+                    {% for dep in departments %}
+                        <tr>
+                            <td>{{ dep.name }}</td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                <tr>
+                    <td>Não há departamentos inseridos.</td>
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="card my-4 p-2">
+    <div class="card-header">
+        <h5 class="text-center">Espaços</h5>
+    </div>
+    <div class="card-body table-responsive">
+        <table class="table table-striped table-responsive">
+            <thead>
+                <tr>
+                    <th>Espaço</th>
+                    <th>Departamento</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if spaces %}
+                    {% for space in spaces %}
+                        <tr>
+                            <td>{{ space.name }}</td>
+                            <td>{{ space.department }}</td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                <tr>
+                    <td>Não há departamentos inseridos.</td>
+                </tr>
+                {% endif %}
             </tbody>
         </table>
     </div>
