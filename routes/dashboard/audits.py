@@ -21,7 +21,6 @@ def index():
 def show_audit(id):
     audit = get_audit(id)
     if audit:
-        print(audit)
         return render_template(
             "dashboard/audits/show_audit.html",
             active_page="audits",

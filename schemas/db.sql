@@ -40,10 +40,11 @@ CREATE TABLE audits (
     FOREIGN KEY (space) REFERENCES spaces(id)
 );
 
+-- TODO: Reformulate how the audits are done
 CREATE TABLE categories (
     id INT IDENTITY(1,1) PRIMARY KEY,
     name NVARCHAR(255) NOT NULL,
-    auditId INT NOT NULL,
+    audit_type INT NOT NULL,
     FOREIGN KEY (auditId) REFERENCES audits(id)
 );
 
