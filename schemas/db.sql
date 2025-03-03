@@ -24,7 +24,7 @@ CREATE TABLE users (
     FOREIGN KEY (department) REFERENCES departments(id)
 );
 
-CREATE TABLE sheets (
+CREATE TABLE audits (
     id INT IDENTITY(1,1) PRIMARY KEY,
     space INT NOT NULL,
     createdAt DATETIME NOT NULL DEFAULT GETDATE(),
@@ -33,7 +33,7 @@ CREATE TABLE sheets (
     FOREIGN KEY (space) REFERENCES spaces(id)
 );
 
-CREATE TABLE sheet_types (
+CREATE TABLE audit_types (
     id INT IDENTITY(1,1) PRIMARY KEY,
     name NVARCHAR(255) NOT NULL
 );
@@ -41,8 +41,8 @@ CREATE TABLE sheet_types (
 CREATE TABLE categories (
     id INT IDENTITY(1,1) PRIMARY KEY,
     name NVARCHAR(255) NOT NULL,
-    sheetId INT NOT NULL,
-    FOREIGN KEY (sheetId) REFERENCES sheets(id)
+    auditId INT NOT NULL,
+    FOREIGN KEY (auditId) REFERENCES audits(id)
 );
 
 CREATE TABLE checklists (
