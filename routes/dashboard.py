@@ -2,6 +2,7 @@ import pyodbc
 from flask import Blueprint, jsonify, render_template
 
 from utils.call_conn import db_conn
+from utils.utils import format_datetime
 
 bp = Blueprint("dashboard", __name__)
 
@@ -90,9 +91,9 @@ def get_sheets(spaces):
             {
                 "id": sheet.id,
                 "space": space_dict.get(sheet.space, "Unknown"),
-                "created_at": sheet.createdAt,
                 "signed_by": sheet.signedBy,
-                "next_date": sheet.nextDate,
+                "created_at": format_datetime(sheet.createdAt),
+                "next_date": format_datetime(sheet.nextDate),
             }
             for sheet in cursor.fetchall()
         ]
@@ -100,7 +101,7 @@ def get_sheets(spaces):
 
     except Exception as e:
         print(e)
-        return jsonify({"error", f"Ocorreu um erro: {str(e)}"}), 500
+        return jsonify({"error": f"Ocorreu um erro: {str(e)}"}), 500
     finally:
         if "cursor" in locals():
             cursor.close()
