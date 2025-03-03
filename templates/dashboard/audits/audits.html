@@ -21,7 +21,7 @@
                     {% for audit in audits %}
                         <tr>
                             <td>{{ audit.space }}</td>
-                            <td><b>{{ audit.signed_by }}</b>, {{ audit.created_at }}</td>
+                            <td><b>{{ audit.signed }}</b>, {{ audit.created_at }}</td>
                             <td>{{ audit.next_date }}</td>
                             <td>
                                 <a href="/dashboard/audit/{{ audit.id }}" class="btn btn-info">

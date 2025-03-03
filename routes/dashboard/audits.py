@@ -45,9 +45,9 @@ def get_audits():
         SELECT 
             a.id,
             s.name,
-            a.signedBy,
-            a.nextDate,
-            a.createdAt
+            a.signed,
+            a.next_date,
+            a.created_at
         FROM 
             audits a
         JOIN 
@@ -58,9 +58,9 @@ def get_audits():
             {
                 "id": audit.id,
                 "space": audit.name,
-                "signed_by": audit.signedBy,
-                "next_date": format_datetime(audit.nextDate),
-                "created_at": format_datetime(audit.createdAt),
+                "signed": audit.signed,
+                "next_date": format_datetime(audit.next_date),
+                "created_at": format_datetime(audit.created_at),
             }
             for audit in cursor.fetchall()
         ]
@@ -87,7 +87,7 @@ def get_audit(id):
         SELECT
             a.id,
             s.name,
-            a.signedBy,
+            a.signed_by,
             a.nextDate,
             a.createdAt
         FROM audits a
@@ -103,7 +103,7 @@ def get_audit(id):
             return {
                 "id": audit.id,
                 "space": audit.name,
-                "signed_by": audit.signedBy,
+                "signed_by": audit.signed_by,
                 "next_date": format_datetime(audit.nextDate),  # Format datetime
                 "created_at": format_datetime(audit.createdAt),  # Format datetime
             }
