@@ -24,9 +24,20 @@ def get_departments():
     try:
         conn = pyodbc.connect(db_conn)
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM departments")
+        cursor.execute("""SELECT 
+            d.id, 
+            d.name AS name, 
+            a.name AS audit_type
+        FROM 
+            departments d
+        JOIN 
+            audit_types a ON d.audit_type = a.id
+        """)
 
-        departments = [{"id": dep.id, "name": dep.name} for dep in cursor.fetchall()]
+        departments = [
+            {"id": dep.id, "name": dep.name, "audit_type": dep.audit_type}
+            for dep in cursor.fetchall()
+        ]
         return departments
 
     except Exception as e:

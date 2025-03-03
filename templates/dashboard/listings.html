@@ -11,6 +11,7 @@
             <thead>
                 <tr>
                     <th>Departamento</th>
+                    <th>Tipo de Auditoria</th>
                 </tr>
             </thead>
             <tbody>
@@ -18,6 +19,7 @@
                     {% for dep in departments %}
                         <tr>
                             <td>{{ dep.name }}</td>
+                            <td>{{ dep.audit_type }}</td>
                         </tr>
                     {% endfor %}
                 {% else %}
