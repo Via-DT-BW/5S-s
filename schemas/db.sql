@@ -1,8 +1,15 @@
 USE teste_hugo
 
-CREATE TABLE departments (
+CREATE TABLE audit_types (
     id INT IDENTITY(1,1) PRIMARY KEY,
     name NVARCHAR(255) NOT NULL
+);
+
+CREATE TABLE departments (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    name NVARCHAR(255) NOT NULL,
+    audit_type INT NOT NULL,
+    FOREIGN KEY (audit_type) REFERENCES audit_types(id)
 );
 
 CREATE TABLE spaces (
@@ -27,15 +34,10 @@ CREATE TABLE users (
 CREATE TABLE audits (
     id INT IDENTITY(1,1) PRIMARY KEY,
     space INT NOT NULL,
-    createdAt DATETIME NOT NULL DEFAULT GETDATE(),
-    signedBy NVARCHAR(255),
-    nextDate DATETIME,
+    created_at DATETIME NOT NULL DEFAULT GETDATE(),
+    signed NVARCHAR(255),
+    next_date DATETIME,
     FOREIGN KEY (space) REFERENCES spaces(id)
-);
-
-CREATE TABLE audit_types (
-    id INT IDENTITY(1,1) PRIMARY KEY,
-    name NVARCHAR(255) NOT NULL
 );
 
 CREATE TABLE categories (
