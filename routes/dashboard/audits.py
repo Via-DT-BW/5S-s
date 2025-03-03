@@ -21,16 +21,14 @@ def index():
 def show_audit(id):
     audit = get_audit(id)
     if audit:
+        print(audit)
         return render_template(
             "dashboard/audits/show_audit.html",
             active_page="audits",
             audit=audit,
         )
     else:
-        render_template(
-            "dashboard/audits/show_audit.html",
-            active_page="audits",
-        )
+        return redirect_audit_to_audits()
 
 
 @bp.route("/dashboard/audit/")
@@ -100,16 +98,17 @@ def get_audit(id):
         )
 
         audit = cursor.fetchone()
+
         if audit:
-            return jsonify(
-                {
-                    "id": audit.id,
-                    "space": audit.name,
-                    "signed_by": audit.signedBy,
-                    "next_date": format_datetime(audit.nextDate),
-                    "created_at": format_datetime(audit.createdAt),
-                }
-            )
+            return {
+                "id": audit.id,
+                "space": audit.name,
+                "signed_by": audit.signedBy,
+                "next_date": format_datetime(audit.nextDate),  # Format datetime
+                "created_at": format_datetime(audit.createdAt),  # Format datetime
+            }
+        else:
+            return jsonify({"error": "Audit not found."})
 
     except Exception as e:
         print(e)
