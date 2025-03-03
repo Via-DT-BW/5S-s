@@ -12,6 +12,7 @@
                 <tr>
                     <th>Departamento</th>
                     <th>Tipo de Auditoria</th>
+                    <th>Opções</th>
                 </tr>
             </thead>
             <tbody>
@@ -20,6 +21,20 @@
                         <tr>
                             <td>{{ dep.name }}</td>
                             <td>{{ dep.audit_type }}</td>
+                            <td>
+                                <a href="#" class="btn btn-info">
+                                    <i class="fa-solid fa-eye"></i>
+                                    Ver
+                                </a>
+                                <a href="#" class="btn btn-secondary">
+                                    <i class="fa-solid fa-pencil"></i>
+                                    Editar
+                                </a>
+                                <a href="#" class="btn btn-danger">
+                                    <i class="fa-solid fa-trash"></i>
+                                    Eliminar
+                                </a>
+                            </td>
                         </tr>
                     {% endfor %}
                 {% else %}
@@ -42,6 +57,7 @@
                 <tr>
                     <th>Espaço</th>
                     <th>Departamento</th>
+                    <th>Opções</th>
                 </tr>
             </thead>
             <tbody>
@@ -50,6 +66,20 @@
                         <tr>
                             <td>{{ space.name }}</td>
                             <td>{{ space.department }}</td>
+                            <td>
+                                <a href="#" class="btn btn-info">
+                                    <i class="fa-solid fa-eye"></i>
+                                    Ver
+                                </a>
+                                <a href="#" class="btn btn-secondary">
+                                    <i class="fa-solid fa-pencil"></i>
+                                    Editar
+                                </a>
+                                <a href="#" class="btn btn-danger">
+                                    <i class="fa-solid fa-trash"></i>
+                                    Eliminar
+                                </a>
+                            </td>
                         </tr>
                     {% endfor %}
                 {% else %}
