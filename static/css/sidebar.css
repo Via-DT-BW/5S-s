@@ -12,6 +12,7 @@ a {
 }
 
 a.nav-link i,
+.sidebar-brand-text,
 .sidebar-heading {
     color: #2cedd4 !important;
 }

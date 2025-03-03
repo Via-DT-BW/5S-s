@@ -22,7 +22,5 @@ def inject_globals():
 app.register_blueprint(main_bp)
 app.register_blueprint(dashboard_bp)
 
-print(app.url_map)
-
 if __name__ == "__main__":
     app.run(debug=True)

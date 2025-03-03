@@ -2,6 +2,26 @@
 
 {% block content %}
 
-<h2>Listagens</h2>
+<div class="card my-4 p-4">
+    <div class="card-header">
+        <h5 class="text-center">Departamentos</h5>
+    </div>
+    <div class="card-body table-responsive">
+        <table class="table table-striped table-responsive">
+            <thead>
+                <tr>
+                    <th>Departamento</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for dep in departments %}
+                    <tr>
+                        <td>{{ dep.name }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
 
 {% endblock %}
