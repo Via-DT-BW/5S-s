@@ -95,28 +95,72 @@ def get_spaces():
             conn.close()
 
 
-@bp.route("/api/audit_types", methods=["GET"])
+@bp.route("/api/audit_types")
 def get_audit_types():
     try:
         conn = pyodbc.connect(db_conn)
         cursor = conn.cursor()
 
-        cursor.execute("SELECT * FROM audit_types")
+        cursor.execute("""
+            SELECT 
+                a.id AS audit_type_id,
+                a.name AS audit_type_name,
+                c.id AS category_id,
+                c.name AS category_name,
+                ch.id AS checklist_id,
+                ch.factor,
+                ch.criteria
+            FROM 
+                audit_types a
+            LEFT JOIN 
+                categories c ON a.id = c.audit_type
+            LEFT JOIN 
+                checklists ch ON c.id = ch.category
+            ORDER BY 
+                a.id, c.id, ch.id;
+        """)
 
-        audit_types = [
-            {
-                "id": audit_type.id,
-                "name": audit_type.name,
-            }
-            for audit_type in cursor.fetchall()
-        ]
+        results = cursor.fetchall()
 
-        return audit_types
+        # Structure the JSON response
+        audit_types_dict = {}
+
+        for row in results:
+            audit_id = row.audit_type_id
+            cat_id = row.category_id
+            chk_id = row.checklist_id
+
+            if audit_id not in audit_types_dict:
+                audit_types_dict[audit_id] = {
+                    "id": audit_id,
+                    "name": row.audit_type_name,
+                    "categories": {},
+                }
+
+            audit = audit_types_dict[audit_id]
+
+            if cat_id and cat_id not in audit["categories"]:
+                audit["categories"][cat_id] = {
+                    "id": cat_id,
+                    "name": row.category_name,
+                    "checklists": [],
+                }
+
+            category = audit["categories"][cat_id]
+
+            if chk_id:
+                category["checklists"].append(
+                    {"id": chk_id, "factor": row.factor, "criteria": row.criteria}
+                )
+
+        # Convert dict to JSON format
+        response_data = list(audit_types_dict.values())
+
+        return response_data
 
     except Exception as e:
         print(e)
-        return jsonify({"error": f"Ocorreu um erro: {str(e)}"}), 500
-
+        return jsonify({"error": f"An error occurred: {str(e)}"}), 500
     finally:
         if "cursor" in locals() and "conn" in locals():
             cursor.close()
