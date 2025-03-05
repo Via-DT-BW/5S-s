@@ -26,11 +26,12 @@
         <form class="my-2">
             <div class="form-group">
                 <label for="departmentField">Departamento</label>
-                <input type="email" class="form-control" id="departmentField" aria-describedby="departmentHelp" placeholder="Insira o nome do departamento..">
+                <input type="email" class="form-control" id="departmentField" aria-describedby="departmentHelp" placeholder="Insira o nome do departamento.." required>
+                <div id="departmentErrorField" class="text-danger"></div>
             </div>
             <div class="form-group">
                 <label for="auditTypeField">Tipo de Auditoria</label>
-                <select class="form-control" id="auditTypeField">
+                <select class="form-control" id="auditTypeField" required>
                     {% if audit_types %}
                         <option class="text-muted" disabled selected>-- Selecione o Tipo de Auditoria --</option>
                         {% for audit_type in audit_types %}
@@ -38,6 +39,7 @@
                         {% endfor %}
                     {% endif %}
                 </select>
+                <div class="invalid-feedback"></div>
             </div>
             <button type="submit" class="btn btn-primary" id="create_department_btn">
                 <i class="fa-solid fa-plus"></i>

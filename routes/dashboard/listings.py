@@ -8,15 +8,9 @@ bp = Blueprint("listings", __name__)
 
 @bp.route("/dashboard/listings/")
 def index():
-    departments = get_departments()
-    spaces = get_spaces()
-    audit_types = get_audit_types()
     return render_template(
         "dashboard/listings.html",
         active_page="listings",
-        departments=departments,
-        spaces=spaces,
-        audit_types=audit_types,
     )
 
 
@@ -183,7 +177,7 @@ def create_department():
         check_query = "SELECT COUNT(name) FROM departments WHERE name=?"
         cursor.execute(check_query, department)
         if cursor.fetchone()[0] > 0:
-            return jsonify({"error": f"Department {department} already exists."}), 409
+            return jsonify({"error": f"Departmento {department} já existe."}), 409
 
         insert_query = "INSERT INTO departments (name, audit_type) VALUES (?, ?)"
         cursor.execute(insert_query, department, audit_type)

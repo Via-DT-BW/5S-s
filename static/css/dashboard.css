@@ -51,3 +51,9 @@
 .audit-table td.scores {
     width: 7%;
 }
+
+.invalidField, .invalidField:focus {
+    border-color: #dc3545;
+    color: #dc3545;
+    box-shadow: 0 0 0 .2rem rgba(220, 53, 69, .25);
+}

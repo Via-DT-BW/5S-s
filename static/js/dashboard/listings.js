@@ -4,11 +4,17 @@ $(document).ready(function() {
     $("#create_department_btn").click(function(e) {
         e.preventDefault();
 
-        let departmentName = $("#departmentField").val().trim();
-        let auditTypeId = $("#auditTypeField").val();
+        let departmentField = $("#departmentField"); // Select the input field
+        let auditTypeField = $("#auditTypeField");
+        let departmentErrorField = $("#departmentErrorField");
+
+        let departmentName = departmentField.val().trim();
+        let auditTypeId = auditTypeField.val();
 
         if (!departmentName || !auditTypeId) {
-            alert("Por favor, preencha todos os campos.");
+            toastr.error("Preencha todos os campos.");
+            departmentField.addClass("invalidField"); // ✅ Fixing class addition
+            departmentErrorField.text("Preencha todos os campos.");
             return;
         }
 
@@ -23,16 +29,22 @@ $(document).ready(function() {
             contentType: "application/json",
             data: JSON.stringify(payload),
             success: function() {
-                $("#departmentField").val('');
-                $("#auditTypeField").val('');
+                departmentField.val('');
+                auditTypeField.val('');
+
+                departmentField.removeClass("invalidField");
+                departmentErrorField.text("");
 
                 fetchDepartments();
 
-                toastr.success(`Departamento ${departmentName} criado com sucesso.`)
+                toastr.success(`Departamento ${departmentName} criado com sucesso.`);
             },
             error: function(xhr) {
                 let errorMsg = xhr.responseJSON?.error || "Ocorreu um erro ao criar o departamento.";
-                alert(errorMsg);
+
+                toastr.error(errorMsg);
+                departmentField.addClass("invalidField");
+                departmentErrorField.text(errorMsg); // ✅ Fixing incorrect property
             }
         });
     });
@@ -41,6 +53,15 @@ $(document).ready(function() {
         $.ajax({
             url: "/api/departments",
             type: "GET",
+            beforeSend: function() {
+                $("#departments-table tbody").html(`
+                    <tr>
+                        <td colspan="4" class="text-center">
+                            <i class="fa fa-spinner fa-spin"></i> Carregando...
+                        </td>
+                    </tr>
+                `);
+            },
             success: function(departments) {
                 let tbody = $("#departments-table tbody");
                 tbody.empty();
@@ -52,21 +73,21 @@ $(document).ready(function() {
 
                 departments.forEach(dep => {
                     tbody.append(`
-                            <tr>
-                                <td>${dep.name}</td>
-                                <td>${dep.audit_type}</td>
-                                <td>${dep.users_count}</td>
-                                <td class="table-options">
-                                    <a href="#" class="btn btn-info"><i class="fa-solid fa-eye"></i> Ver</a>
-                                    <a href="#" class="btn btn-secondary"><i class="fa-solid fa-pencil"></i> Editar</a>
-                                    <a href="#" class="btn btn-danger"><i class="fa-solid fa-trash"></i> Eliminar</a>
-                                </td>
-                            </tr>
-                        `);
+                        <tr>
+                            <td>${dep.name}</td>
+                            <td>${dep.audit_type}</td>
+                            <td><i class="fa-solid fa-user"></i> ${dep.users_count}</td>
+                            <td class="table-options">
+                                <a href="#" class="btn btn-info"><i class="fa-solid fa-eye"></i></a>
+                                <a href="#" class="btn btn-secondary"><i class="fa-solid fa-pencil"></i></a>
+                                <a href="#" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
+                            </td>
+                        </tr>
+                    `);
                 });
             },
             error: function() {
-                alert("Erro ao carregar os departamentos.");
+                toastr.error("Erro ao carregar os departamentos.");
             }
         });
     }
