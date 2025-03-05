@@ -21,7 +21,6 @@ def index():
 def show_audit(id):
     audit = get_audit(id)
     if audit:
-        print(audit)
         return render_template(
             "dashboard/audits/show_audit.html",
             active_page="audits",
@@ -87,9 +86,9 @@ def get_audit(id):
         SELECT
             a.id,
             s.name,
-            a.signed_by,
-            a.nextDate,
-            a.createdAt
+            a.signed,
+            a.next_date,
+            a.created_at
         FROM audits a
         JOIN spaces s ON a.space = s.id
         WHERE a.id = ?
@@ -103,9 +102,9 @@ def get_audit(id):
             return {
                 "id": audit.id,
                 "space": audit.name,
-                "signed_by": audit.signed_by,
-                "next_date": format_datetime(audit.nextDate),  # Format datetime
-                "created_at": format_datetime(audit.createdAt),  # Format datetime
+                "signed": audit.signed,
+                "next_date": format_datetime(audit.next_date),
+                "created_at": format_datetime(audit.created_at),
             }
         else:
             return jsonify({"error": "Audit not found."})
