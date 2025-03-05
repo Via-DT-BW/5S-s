@@ -1,5 +1,5 @@
 import pyodbc
-from flask import Blueprint, jsonify, render_template
+from flask import Blueprint, jsonify, render_template, request
 
 from utils.call_conn import db_conn
 
@@ -122,7 +122,6 @@ def get_audit_types():
 
         results = cursor.fetchall()
 
-        # Structure the JSON response
         audit_types_dict = {}
 
         for row in results:
@@ -153,7 +152,6 @@ def get_audit_types():
                     {"id": chk_id, "factor": row.factor, "criteria": row.criteria}
                 )
 
-        # Convert dict to JSON format
         response_data = list(audit_types_dict.values())
 
         return response_data
@@ -161,6 +159,42 @@ def get_audit_types():
     except Exception as e:
         print(e)
         return jsonify({"error": f"An error occurred: {str(e)}"}), 500
+    finally:
+        if "cursor" in locals() and "conn" in locals():
+            cursor.close()
+            conn.close()
+
+
+@bp.route("/api/department", methods=["POST"])
+def create_department():
+    try:
+        conn = pyodbc.connect(db_conn)
+        cursor = conn.cursor()
+
+        data = request.get_json()
+        if not data or "department" not in data or "audit_type" not in data:
+            return jsonify(
+                {"error": "Missing required fields: 'department' and 'audit_type'"}
+            ), 400
+
+        department = data["department"]
+        audit_type = data["audit_type"]
+
+        check_query = "SELECT COUNT(name) FROM departments WHERE name=?"
+        cursor.execute(check_query, department)
+        if cursor.fetchone()[0] > 0:
+            return jsonify({"error": f"Department {department} already exists."}), 409
+
+        insert_query = "INSERT INTO departments (name, audit_type) VALUES (?, ?)"
+        cursor.execute(insert_query, department, audit_type)
+        cursor.commit()
+
+        return jsonify({"department": {"name": department, "audit_type": audit_type}})
+
+    except Exception as e:
+        print(e)
+        return jsonify({"error": f"Ocorreu um erro: {str(e)}"}), 500
+
     finally:
         if "cursor" in locals() and "conn" in locals():
             cursor.close()
