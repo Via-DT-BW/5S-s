@@ -11,7 +11,7 @@
         <h5 class="text-center">Departamentos</h5>
     </div>
     <div class="card-body table-responsive">
-        <table class="table table-striped table-responsive">
+        <table id="departments-table" class="table table-striped table-responsive">
             <thead>
                 <tr>
                     <th>Departamento</th>
@@ -21,33 +21,6 @@
                 </tr>
             </thead>
             <tbody>
-                {% if departments %}
-                    {% for dep in departments %}
-                        <tr>
-                            <td>{{ dep.name }}</td>
-                            <td>{{ dep.audit_type }}</td>
-                            <td>{{ dep.users_count }}</td>
-                            <td class="table-options">
-                                <a href="#" class="btn btn-info">
-                                    <i class="fa-solid fa-eye"></i>
-                                    Ver
-                                </a>
-                                <a href="#" class="btn btn-secondary">
-                                    <i class="fa-solid fa-pencil"></i>
-                                    Editar
-                                </a>
-                                <a href="#" class="btn btn-danger">
-                                    <i class="fa-solid fa-trash"></i>
-                                    Eliminar
-                                </a>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                {% else %}
-                <tr>
-                    <td colspan="4">Não há departamentos inseridos.</td>
-                </tr>
-                {% endif %}
             </tbody>
         </table>
         <form class="my-2">
@@ -66,7 +39,7 @@
                     {% endif %}
                 </select>
             </div>
-            <button type="submit" class="btn btn-primary">
+            <button type="submit" class="btn btn-primary" id="create_department_btn">
                 <i class="fa-solid fa-plus"></i>
                 Criar
             </button>
@@ -210,4 +183,8 @@
     </div>
 </div>
 
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/dashboard/listings.js') }}"></script>
 {% endblock %}
