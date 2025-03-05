@@ -32,14 +32,8 @@
             <div class="form-group">
                 <label for="auditTypeField">Tipo de Auditoria</label>
                 <select class="form-control" id="auditTypeField" required>
-                    {% if audit_types %}
-                        <option class="text-muted" disabled selected>-- Selecione o Tipo de Auditoria --</option>
-                        {% for audit_type in audit_types %}
-                        <option value="{{ audit_type.id }}">{{ audit_type.name }}</option>
-                        {% endfor %}
-                    {% endif %}
                 </select>
-                <div class="invalid-feedback"></div>
+                <div id="auditTypeFieldError" class="text-danger"></div>
             </div>
             <button type="submit" class="btn btn-primary" id="create_department_btn">
                 <i class="fa-solid fa-plus"></i>

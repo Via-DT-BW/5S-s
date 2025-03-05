@@ -1,10 +1,11 @@
 $(document).ready(function() {
     fetchDepartments();
+    fetchAuditTypes();
 
     $("#create_department_btn").click(function(e) {
         e.preventDefault();
 
-        let departmentField = $("#departmentField"); // Select the input field
+        let departmentField = $("#departmentField");
         let auditTypeField = $("#auditTypeField");
         let departmentErrorField = $("#departmentErrorField");
 
@@ -13,7 +14,7 @@ $(document).ready(function() {
 
         if (!departmentName || !auditTypeId) {
             toastr.error("Preencha todos os campos.");
-            departmentField.addClass("invalidField"); // ✅ Fixing class addition
+            departmentField.addClass("invalidField");
             departmentErrorField.text("Preencha todos os campos.");
             return;
         }
@@ -44,7 +45,7 @@ $(document).ready(function() {
 
                 toastr.error(errorMsg);
                 departmentField.addClass("invalidField");
-                departmentErrorField.text(errorMsg); // ✅ Fixing incorrect property
+                departmentErrorField.text(errorMsg);
             }
         });
     });
@@ -91,4 +92,34 @@ $(document).ready(function() {
             }
         });
     }
+
+    function fetchAuditTypes() {
+        $.ajax({
+            url: "/api/audit_types",
+            type: "GET",
+            beforeSend: function() {
+                $("#auditTypeField").html(`
+                <option disabled selected>Carregando...</option>
+            `);
+            },
+            success: function(auditTypes) {
+                let select = $("#auditTypeField");
+                select.empty(); // Clear existing options
+
+                if (auditTypes.length === 0) {
+                    select.append(`<option disabled>Não há tipos de auditoria disponíveis.</option>`);
+                    return;
+                }
+
+                select.append(`<option class="text-muted" disabled selected>-- Selecione o Tipo de Auditoria --</option>`);
+                auditTypes.forEach(type => {
+                    select.append(`<option value="${type.id}">${type.name}</option>`);
+                });
+            },
+            error: function() {
+                toastr.error("Erro ao carregar os tipos de auditoria.");
+            }
+        });
+    }
+
 });
