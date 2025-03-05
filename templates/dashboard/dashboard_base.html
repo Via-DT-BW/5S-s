@@ -18,6 +18,7 @@
         <link href="{{ url_for('static', filename='plat_static/css/sb-admin-2.min.css') }}" rel="stylesheet" />
         <link href="{{ url_for('static', filename='css/sidebar.css') }}" rel="stylesheet" />
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
+        <link href="{{ url_for('static', filename='toastr/toastr.min.css') }}" rel="stylesheet" />
         {% block styles %} {% endblock %}
     </head>
     <body>
@@ -36,6 +37,7 @@
         <script src="{{ url_for('static', filename='plat_static/js/sb-admin-2.min.js') }}"></script>
         <script src="{{ url_for('static', filename='initial_page/js/jquery.singlePageNav.min.js') }}"></script>
         <script src="{{ url_for('static', filename='initial_page/js/bootstrap.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='toastr/toastr.min.js') }}"></script>
         {% block scripts %} {% endblock %}
     </body>
 </html>
