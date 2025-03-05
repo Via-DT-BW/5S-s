@@ -148,13 +148,12 @@
     <div class="card-body table-responsive">
         {% if audit_types %}
             {% for at in audit_types %}
-                <h5>{{ at.name }}</h5>
                 <table class="table table-striped table-responsive audit-table table-bordered">
                     <thead>
                         <tr>
                             <th colspan="10" class="text-center">
                                 <h4>
-                                    Lista de Verificação dos 5S
+                                    Lista de Verificação dos 5S ({{ at.name }})
                                 </h4>
                             </th>
                         </tr>

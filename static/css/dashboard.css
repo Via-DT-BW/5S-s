@@ -10,16 +10,23 @@
     text-align: center;
     transform: rotate(180deg);
     font-weight: bold;
+    background-color: white;
 }
 
 .audit-table {
     color: black;
     border-collapse: collapse;
+    table-layout: fixed;
+    width: 100%;
 }
 
 .audit-table th {
     text-align: center;
     border-color: black !important;
+}
+
+.audit-table td {
+    text-wrap: pretty;
 }
 
 .audit-table thead tr:first-child,
@@ -41,6 +48,6 @@
     background-color: #c0c0c0;
 }
 
-.audit-table .scores {
-    min-width: 30px;
+.audit-table td.scores {
+    width: 7%;
 }
