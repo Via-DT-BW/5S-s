@@ -45,7 +45,7 @@
                     {% endfor %}
                 {% else %}
                 <tr>
-                    <td>Não há departamentos inseridos.</td>
+                    <td colspan="4">Não há departamentos inseridos.</td>
                 </tr>
                 {% endif %}
             </tbody>
@@ -111,7 +111,7 @@
                     {% endfor %}
                 {% else %}
                 <tr>
-                    <td colspan="2">Não há espaços inseridos.</td>
+                    <td colspan="3">Não há espaços inseridos.</td>
                 </tr>
                 {% endif %}
             </tbody>
@@ -148,13 +148,15 @@
     <div class="card-body table-responsive">
         {% if audit_types %}
             {% for at in audit_types %}
-
-                <h4>{{ at.name }}</h4>
-
-                <table>
+                <h5>{{ at.name }}</h5>
+                <table class="table table-striped table-responsive audit-table table-bordered">
                     <thead>
                         <tr>
-                            <th colspan="6">Lista de Verificação dos 5S</th>
+                            <th colspan="10" class="text-center">
+                                <h4>
+                                    Lista de Verificação dos 5S
+                                </h4>
+                            </th>
                         </tr>
                         <tr>
                             <th rowspan="3">5S</th>
@@ -181,6 +183,7 @@
                         </tr>
                     </thead>
                     <tbody>
+                    {% set aux = namespace(value=1) %}
                     {% for category in at.categories.values() %}
                         {% for checklist in category.checklists %}
                         <tr>
@@ -188,11 +191,17 @@
                                 <td rowspan="{{ category.checklists|length }}" class="vertical-text">{{ category.name }}</td>
                             {% endif %}
 
-                            <td>{{ loop.index }}</td>
+                            <td class="text-center"><b>{{ aux.value }}</b></td>
                             <td>{{ checklist.factor }}</td>
                             <td>{{ checklist.criteria }}</td>
-                            <td></td> <td></td> <td></td> <td></td> <td></td> <td></td>
+                            <td class="scores"></td>
+                            <td class="scores"></td>
+                            <td class="scores"></td>
+                            <td class="scores"></td>
+                            <td class="scores"></td>
+                            <td class="scores"></td>
                         </tr>
+                        {% set aux.value = aux.value + 1 %}
                         {% endfor %}
                     {% endfor %}
                     </tbody>

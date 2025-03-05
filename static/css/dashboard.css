@@ -11,3 +11,36 @@
     transform: rotate(180deg);
     font-weight: bold;
 }
+
+.audit-table {
+    color: black;
+    border-collapse: collapse;
+}
+
+.audit-table th {
+    text-align: center;
+    border-color: black !important;
+}
+
+.audit-table thead tr:first-child,
+.audit-table thead tr:nth-child(2) {
+    color: white;
+    font-weight: bold;
+}
+
+.audit-table thead tr:first-child {
+    background-color: #003366;
+    font-weight: bold;
+}
+
+.audit-table thead tr:nth-child(2) {
+    background-color: black;
+}
+
+.audit-table thead tr:nth-child(3) {
+    background-color: #c0c0c0;
+}
+
+.audit-table .scores {
+    min-width: 30px;
+}
