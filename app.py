@@ -1,7 +1,6 @@
 from datetime import date
 from flask import Flask, Config, redirect, url_for
 from flask_cors import CORS
-from flask_toastr import Toastr
 import pyodbc
 
 from utils.call_conn import db_conn
@@ -14,7 +13,6 @@ app.secret_key = "emdfbrofn3bfopwndfb3k390#!@#"
 app.config.from_object(Config)
 CORS(app)
 conn = pyodbc.connect(db_conn)
-toastr = Toastr(app)
 
 
 @app.context_processor
@@ -25,8 +23,6 @@ def inject_globals():
 app.register_blueprint(main_bp)
 app.register_blueprint(dashboard_listings_bp)
 app.register_blueprint(dashboard_audits_bp)
-
-toastr.init_app(app)
 
 
 @app.route("/dashboard")
