@@ -25,12 +25,12 @@
         </table>
         <form class="my-2">
             <div class="form-group">
-                <label for="departmentField">Departamento</label>
+                <label for="departmentField">Departamento <span class="text-danger">*</span></label>
                 <input type="email" class="form-control" id="departmentField" aria-describedby="departmentHelp" placeholder="Insira o nome do departamento.." required>
                 <div id="departmentErrorField" class="text-danger"></div>
             </div>
             <div class="form-group">
-                <label for="auditTypeField">Tipo de Auditoria</label>
+                <label for="auditTypeField">Tipo de Auditoria <span class="text-danger">*</span></label>
                 <select class="form-control" id="auditTypeField" required>
                 </select>
                 <div id="auditTypeFieldError" class="text-danger"></div>
@@ -61,14 +61,15 @@
 
         <form class="my-2">
             <div class="form-group">
-                <label for="spaceField">Espaço</label>
-                <input type="email" class="form-control" id="spaceField" aria-describedby="spaceHelp" placeholder="Insira o nome do espaço..">
+                <label for="spaceField">Espaço <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" name="space" id="spaceField" aria-describedby="spaceHelp" placeholder="Insira o nome do espaço.." required>
+                <div id="spaceFieldError" class="text-danger"></div>
             </div>
             <div class="form-group">
-                <label for="spaceDepartmentField">Departamento</label>
-                <select class="form-control" id="spaceDepartmentField"></select>
+                <label for="spaceDepartmentField">Departamento <span class="text-danger">*</span></label>
+                <select class="form-control" name="department" id="spaceDepartmentField" required></select>
             </div>
-            <button type="submit" class="btn btn-primary">
+            <button id="create_space_btn" type="submit" class="btn btn-primary">
                 <i class="fa-solid fa-plus"></i>
                 Criar
             </button>

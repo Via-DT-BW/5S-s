@@ -83,15 +83,15 @@ def get_audit(id):
 
         cursor.execute(
             """
-        SELECT
-            a.id,
-            s.name,
-            a.signed,
-            a.next_date,
-            a.created_at
-        FROM audits a
-        JOIN spaces s ON a.space = s.id
-        WHERE a.id = ?
+            SELECT
+                a.id,
+                s.name,
+                a.signed,
+                a.next_date,
+                a.created_at
+            FROM audits a
+            JOIN spaces s ON a.space = s.id
+            WHERE a.id = ?
         """,
             (id),
         )

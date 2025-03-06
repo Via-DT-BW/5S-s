@@ -1,3 +1,4 @@
+import json
 import pyodbc
 from flask import Blueprint, jsonify, render_template, request
 
@@ -50,6 +51,43 @@ def get_departments():
     except Exception as e:
         print(e)
         return jsonify({"error": f"Ocorreu um erro: {str(e)}"}), 500
+    finally:
+        if "cursor" in locals() and "conn" in locals():
+            cursor.close()
+            conn.close()
+
+
+@bp.route("/api/space", methods=["POST"])
+def create_space():
+    try:
+        conn = pyodbc.connect(db_conn)
+        cursor = conn.cursor()
+
+        data = request.get_json()
+
+        if not data or "name" not in data or "department" not in data:
+            return jsonify(
+                {"error": "Missing required fields: 'name' and 'department'"},
+            ), 400
+
+        name = data["name"]
+        department = data["department"]
+
+        check_query = "SELECT COUNT(name) FROM spaces WHERE name=?"
+        cursor.execute(check_query, name)
+        if cursor.fetchone()[0] > 0:
+            return jsonify({"error": f"Espaço {name} já existe."}), 409
+
+        insert_query = "INSERT INTO spaces (name, department) VALUES (?, ?)"
+        cursor.execute(insert_query, name, department)
+        cursor.commit()
+
+        return jsonify({"space": {"name": name, "department": department}})
+
+    except Exception as e:
+        print(e)
+        return jsonify({"error": f"Ocorreu um erro: {str(e)}"}), 500
+
     finally:
         if "cursor" in locals() and "conn" in locals():
             cursor.close()
