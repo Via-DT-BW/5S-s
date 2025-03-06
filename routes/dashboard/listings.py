@@ -26,13 +26,16 @@ def get_departments():
                 d.id, 
                 d.name AS department_name, 
                 a.name AS audit_type,
-                COUNT(u.id) AS user_count
+                COUNT(u.id) AS user_count,
+                COUNT(s.id) AS space_count
             FROM 
                 departments d
             JOIN 
                 audit_types a ON d.audit_type = a.id
             LEFT JOIN 
                 users u ON d.id = u.department
+            LEFT JOIN
+                spaces s ON d.id = s.department
             GROUP BY 
                 d.id, d.name, a.name;
         """)
@@ -43,6 +46,7 @@ def get_departments():
                 "name": dep.department_name,
                 "audit_type": dep.audit_type,
                 "users_count": dep.user_count,
+                "spaces_count": dep.space_count,
             }
             for dep in cursor.fetchall()
         ]

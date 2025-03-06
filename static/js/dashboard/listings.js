@@ -40,6 +40,7 @@ $(document).ready(function() {
                 spaceFieldError.text("");
 
                 loadSpaces();
+                loadDepartments();
                 toastr.success(`Espaço ${name} criado com sucesso.`);
             },
             error: function(xhr) {
@@ -86,6 +87,7 @@ $(document).ready(function() {
                 departmentErrorField.text("");
 
                 loadDepartments();
+
                 toastr.success(`Departamento ${departmentName} criado com sucesso.`);
             },
             error: function(xhr) {
@@ -155,6 +157,7 @@ function updateDepartmentsTable(departments) {
             <tr>
                 <td>${dep.name}</td>
                 <td>${dep.audit_type}</td>
+                <td>${dep.spaces_count}</td>
                 <td><i class="fa-solid fa-user"></i> ${dep.users_count}</td>
                 <td class="table-options">
                     <a href="#" class="btn btn-info"><i class="fa-solid fa-eye"></i></a>
@@ -170,12 +173,13 @@ function updateSpaceDepartmentsSelect(departments) {
     let select = $("#spaceDepartmentField");
     select.empty();
 
+    select.append(`<option class="text-muted" disabled selected>-- Selecione um Departamento --</option>`);
+
     if (departments.length === 0) {
         select.append(`<option disabled>Não há departamentos disponíveis.</option>`);
         return;
     }
 
-    select.append(`<option class="text-muted" disabled selected>-- Selecione um Departamento --</option>`);
     departments.forEach(dep => {
         select.append(`<option value="${dep.id}">${dep.name}</option>`);
     });
