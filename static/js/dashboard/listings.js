@@ -125,7 +125,7 @@ function fetchSpaces() {
 function loadDepartments() {
     $("#departments-table tbody").html(`
         <tr>
-            <td colspan="4" class="text-center">
+            <td colspan="5" class="text-center">
                 <i class="fa fa-spinner fa-spin"></i> Carregando...
             </td>
         </tr>
