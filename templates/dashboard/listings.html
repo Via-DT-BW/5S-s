@@ -168,9 +168,6 @@
 {% with 
     modal_id="deleteDepartmentModal", 
     modal_title="Apagar Departamento",
-    modal_content="
-        <h5>Confirmar a eliminação do Departamento?</h5>
-    ",
     modal_footer="
         <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Não</button>
         <button type='button' class='btn btn-danger' id='deleteDepartmentBtn'>Sim</button>
@@ -184,6 +181,7 @@
 <script src="{{ url_for('static', filename='js/dashboard/listings/departments.js') }}"></script>
 <script src="{{ url_for('static', filename='js/dashboard/listings/spaces.js') }}"></script>
 <script src="{{ url_for('static', filename='js/dashboard/listings/auditTypes.js') }}"></script>
-<script src="{{ url_for('static', filename='js/dashboard/listings/modals.js') }}"></script>
+<script src="{{ url_for('static', filename='js/dashboard/listings/modals/departments.js') }}"></script>
+<script src="{{ url_for('static', filename='js/dashboard/listings/modals/spaces.js') }}"></script>
 <script src="{{ url_for('static', filename='js/dashboard/listings/main.js') }}"></script>
 {% endblock %}

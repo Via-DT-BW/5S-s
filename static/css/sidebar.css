@@ -33,9 +33,3 @@ a.nav-link i,
 .collapse-item:hover {
     color: #051729 !important;
 }
-
-body {
-    font-family: Nunito, -apple-system, BlinkMacSystemFont, "Segoe UI",
-        Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji",
-        "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-}
