@@ -12,7 +12,7 @@ $(function() {
         let type = pwdField.attr("type") === "password" ? "text" : "password";
         pwdField.attr("type", type);
 
-        $(this).toggleClass("fa-eye fa-eye-slash"); // Toggle eye icon
+        $(this).toggleClass("fa-eye fa-eye-slash");
     });
 
     $("#login-form").on("submit", function(e) {
