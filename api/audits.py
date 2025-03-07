@@ -1,41 +1,14 @@
 import pyodbc
-from flask import Blueprint, jsonify, redirect, render_template, url_for
+from flask import Blueprint, jsonify
 
 from utils.call_conn import db_conn
 from utils.utils import format_datetime
 
+
 bp = Blueprint("audits", __name__)
 
 
-@bp.route("/dashboard/audits/")
-def index():
-    audits = get_audits()
-    return render_template(
-        "dashboard/audits/audits.html",
-        active_page="audits",
-        audits=audits,
-    )
-
-
-@bp.route("/dashboard/audit/<int:id>")
-def show_audit(id):
-    audit = get_audit(id)
-    if audit:
-        return render_template(
-            "dashboard/audits/show_audit.html",
-            active_page="audits",
-            audit=audit,
-        )
-    else:
-        return redirect_audit_to_audits()
-
-
-@bp.route("/dashboard/audit/")
-def redirect_audit_to_audits():
-    return redirect(url_for("audits.index"))
-
-
-@bp.route("/api/audits/", methods=["GET"])
+@bp.route("/audits", methods=["GET"])
 def get_audits():
     try:
         conn = pyodbc.connect(db_conn)
@@ -75,7 +48,7 @@ def get_audits():
             conn.close()
 
 
-@bp.route("/api/audit/<int:id>", methods=["GET"])
+@bp.route("/audit/<int:id>", methods=["GET"])
 def get_audit(id):
     try:
         conn = pyodbc.connect(db_conn)
@@ -83,15 +56,15 @@ def get_audit(id):
 
         cursor.execute(
             """
-        SELECT
-            a.id,
-            s.name,
-            a.signed,
-            a.next_date,
-            a.created_at
-        FROM audits a
-        JOIN spaces s ON a.space = s.id
-        WHERE a.id = ?
+            SELECT
+                a.id,
+                s.name,
+                a.signed,
+                a.next_date,
+                a.created_at
+            FROM audits a
+            JOIN spaces s ON a.space = s.id
+            WHERE a.id = ?
         """,
             (id),
         )

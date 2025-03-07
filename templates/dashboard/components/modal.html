@@ -1,0 +1,16 @@
+<div class="modal fade" id="{{ modal_id }}" tabindex="-1" aria-labelledby="{{ modal_id }}Label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="{{ modal_id }}Label">{{ modal_title }}</h5>
+                <i class="fa-solid fa-xmark" data-bs-dismiss="modal" aria-label="Close"></i>
+            </div>
+            <div class="modal-body">
+                {{ modal_content | safe }}
+            </div>
+            <div class="modal-footer">
+                {{ modal_footer | safe }}
+            </div>
+        </div>
+    </div>
+</div>

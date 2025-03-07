@@ -22,14 +22,14 @@
     </li>
 
     <li class="nav-item {% if '/dashboard/listings' in request.path %} active {% endif %}">
-        <a class="nav-link collapsed" href="/dashboard/listings/">
+        <a class="nav-link collapsed" href="{{ url_for('web.dashboard.listings') }}">
             <i class="fas fa-list"></i>
             <span>Listagens</span>
         </a>
     </li>
 
     <li class="nav-item {% if '/dashboard/audits' in request.path %} active {% endif %}">
-        <a class="nav-link collapsed" href="/dashboard/audits/">
+        <a class="nav-link collapsed" href="{{ url_for('web.dashboard.audits') }}">
             <i class="fa-solid fa-file-invoice"></i>
             <span>Auditorias</span>
         </a>
@@ -45,7 +45,7 @@
     </li>
 
     <li class="nav-item">
-        <a class="btn nav-link collapsed" href="/">
+        <a class="btn nav-link collapsed" href="{{ url_for('web.home.home') }}">
             <i class="fas fa-sign-out-alt"></i>
             <span>Sair</span>
         </a>
