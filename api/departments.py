@@ -67,16 +67,19 @@ def create_department():
         department = data["department"]
         audit_type = data["audit_type"]
 
-        check_query = "SELECT COUNT(name) FROM departments WHERE name=?"
-        cursor.execute(check_query, department)
-        if cursor.fetchone()[0] > 0:
-            return jsonify({"error": f"Departmento {department} já existe."}), 409
+        check_name = "SELECT 1 FROM departments WHERE name=?"
+        cursor.execute(check_name, department)
+        if cursor.fetchone():
+            return jsonify({"error": f"Departamento {department} já existe."}), 409
 
-        # TODO: Check if audit type exists
+        check_audit_type = "SELECT COUNT(id) FROM audit_types WHERE id=?"
+        cursor.execute(check_audit_type, audit_type)
+        if cursor.fetchone()[0] == 0:
+            return jsonify({"error": "Tipo de Auditoria inválido"}), 400
 
         insert_query = "INSERT INTO departments (name, audit_type) VALUES (?, ?)"
         cursor.execute(insert_query, department, audit_type)
-        cursor.commit()
+        conn.commit()
 
         return jsonify({"department": {"name": department, "audit_type": audit_type}})
 
@@ -85,9 +88,9 @@ def create_department():
         return jsonify({"error": f"Ocorreu um erro: {str(e)}"}), 500
 
     finally:
-        if "cursor" in locals():
+        if "cursor" in locals() and cursor:
             cursor.close()
-        if "conn" in locals():
+        if "conn" in locals() and conn:
             conn.close()
 
 
@@ -158,7 +161,9 @@ def delete_department(id):
         cursor.execute("DELETE FROM departments WHERE id = ?", id)
         cursor.commit()
 
-        return jsonify({"message": f"Departamento {id} deletado com sucesso."}), 200
+        return jsonify(
+            {"message": f"Departamento #{id} apagado com sucesso com sucesso."}
+        ), 200
 
     except Exception as e:
         print(e)
@@ -181,7 +186,7 @@ def update_department(id):
         if not data or "department" not in data or "audit_type" not in data:
             return jsonify(
                 {"error": "Missing required fields: 'department' and 'audit_type'"}
-            ), 400
+            ), 399
 
         new_name = data["department"]
         new_audit_type = data["audit_type"]
