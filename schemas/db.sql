@@ -34,6 +34,7 @@ CREATE TABLE spaces (
     FOREIGN KEY (department) REFERENCES departments(id)
 );
 
+-- TODO: Implement better the invalid department when the user is freshly created
 CREATE TABLE users (
     id INT IDENTITY(1,1) PRIMARY KEY,
     username NVARCHAR(255) NOT NULL,
@@ -42,7 +43,7 @@ CREATE TABLE users (
     created_at DATETIME2(3) NOT NULL DEFAULT SYSDATETIME(),
     is_admin BIT NOT NULL DEFAULT 0,
     enabled BIT NOT NULL DEFAULT 1,
-    department INT NOT NULL DEFAULT -1, -- invalid department, choose department on first login
+    department INT DEFAULT -1, -- invalid department, choose department on first login
     FOREIGN KEY (department) REFERENCES departments(id)
 );
 

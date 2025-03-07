@@ -1,7 +1,13 @@
 $(document).ready(function() {
+    // Delete Department
     $(document).on("click", ".delete-department-btn", function() {
-        $("#deleteDepartmentModal").data("id", $(this).data("id"));
-        $("#deleteDepartmentModal").data("name", $(this).data("name"));
+        let id = $(this).data("id");
+        let name = $(this).data("name");
+        $("#deleteDepartmentModal").data("id", id);
+        $("#deleteDepartmentModal").data("name", name);
+
+        $("#deleteDepartmentModal .modal-title").text(`Confirmação`)
+        $("#deleteDepartmentModal .modal-body").text(`Tem a certeza que deseja apagar o departamento ${name}?`)
     })
 
     $("#deleteDepartmentBtn").click(function(e) {
@@ -16,13 +22,13 @@ $(document).ready(function() {
             contentType: "application/json",
             success: function() {
                 toastr.success(`Departamento ${name} apagado com sucesso.`);
-                $("#deleteDepartmentModal").modal("hide");
                 loadDepartments();
             },
             error: function(xhr) {
                 toastr.error(xhr.responseJSON?.error || "Erro ao apagar o departamento.");
             }
         });
+        $("#deleteDepartmentModal").modal("hide");
     })
 
     // Edit Department
@@ -76,53 +82,7 @@ $(document).ready(function() {
         });
     });
 
-    $("#create_space_btn").click(function(e) {
-        e.preventDefault();
-
-        let spaceField = $("#spaceField");
-        let spaceFieldError = $("#spaceFieldError");
-        let spaceDepartmentField = $("#spaceDepartmentField");
-
-        let name = spaceField.val().trim();
-        let department = spaceDepartmentField.val();
-
-        if (!name || !department) {
-            toastr.error("Preencha todos os campos.");
-            spaceField.addClass("invalidField");
-            spaceFieldError.text("Preencha todos os campos.");
-            return;
-        }
-
-        let payload = {
-            name: name,
-            department: department
-        }
-
-        $.ajax({
-            url: "/api/space",
-            type: "POST",
-            contentType: "application/json",
-            data: JSON.stringify(payload),
-            success: function() {
-                spaceField.val('');
-                spaceDepartmentField.val('');
-
-                spaceField.removeClass("invalidField");
-                spaceFieldError.text("");
-
-                loadSpaces();
-                loadDepartments();
-                toastr.success(`Espaço ${name} criado com sucesso.`);
-            },
-            error: function(xhr) {
-                let errorMsg = xhr.responseJSON?.error || "Ocorreu um erro ao criar o departamento.";
-                toastr.error(errorMsg);
-                spaceField.addClass("invalidField");
-                spaceFieldError.text(errorMsg);
-            }
-        })
-    });
-
+    // Create Department
     $("#create_department_btn").click(function(e) {
         e.preventDefault();
 
