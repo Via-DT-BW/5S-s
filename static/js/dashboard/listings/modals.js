@@ -18,22 +18,22 @@ $(document).ready(function() {
     $("#saveDepartmentBtn").click(function(e) {
         e.preventDefault();
 
-        let departmentId = $("#editDepartmentModal").data("department-id");
-        let newDepartmentName = $("#editDepartmentModal #editDepartmentField").val();
+        let id = $("#editDepartmentModal").data("department-id");
+        let newName = $("#editDepartmentModal #editDepartmentField").val();
         let newAuditTypeId = $("#editDepartmentModal #editAuditTypeField").val();
 
-        if (!newDepartmentName || !newAuditTypeId) {
+        if (!newName || !newAuditTypeId) {
             toastr.error("Preencha todos os campos.");
             return;
         }
 
         let payload = {
-            department: newDepartmentName,
+            department: newName,
             audit_type: newAuditTypeId
         };
 
         $.ajax({
-            url: `/api/department/${departmentId}`,
+            url: `/api/department/${id}`,
             type: "PUT",
             contentType: "application/json",
             data: JSON.stringify(payload),
@@ -46,11 +46,6 @@ $(document).ready(function() {
                 toastr.error(xhr.responseJSON?.error || "Erro ao atualizar departamento.");
             }
         });
-    });
-
-    $("#editDepartmentModal").on('hidden.bs.modal', function() {
-        // Clear the select when the modal is hidden
-        $("#editDepartmentModal #editAuditTypeField").html('<option disabled selected>A carregar...</option>');
     });
 
     $("#create_space_btn").click(function(e) {
