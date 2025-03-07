@@ -161,10 +161,20 @@
         </form>",
     modal_footer="
         <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Fechar</button>
-        <button type='submit' class='btn btn-primary' id='saveDepartmentBtn'>Salvar</button>
-    "
-%}
-    {% include 'dashboard/components/modal.html' %}
+        <button type='submit' class='btn btn-primary' id='saveDepartmentBtn'>Guardar</button>
+    " %} {% include 'dashboard/components/modal.html' %}
+{% endwith %}
+
+{% with 
+    modal_id="deleteDepartmentModal", 
+    modal_title="Apagar Departamento",
+    modal_content="
+        <h5>Confirmar a eliminação do Departamento?</h5>
+    ",
+    modal_footer="
+        <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Não</button>
+        <button type='button' class='btn btn-danger' id='deleteDepartmentBtn'>Sim</button>
+        " %} {% include 'dashboard/components/modal.html' %}
 {% endwith %}
 
 {% endblock %}

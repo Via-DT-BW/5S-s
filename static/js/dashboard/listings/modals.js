@@ -1,4 +1,31 @@
 $(document).ready(function() {
+    $(document).on("click", ".delete-department-btn", function() {
+        $("#deleteDepartmentModal").data("id", $(this).data("id"));
+        $("#deleteDepartmentModal").data("name", $(this).data("name"));
+    })
+
+    $("#deleteDepartmentBtn").click(function(e) {
+        e.preventDefault();
+
+        let id = $("#deleteDepartmentModal").data("id");
+        let name = $("#deleteDepartmentModal").data("name");
+
+        $.ajax({
+            url: `/api/department/${id}`,
+            type: "DELETE",
+            contentType: "application/json",
+            success: function() {
+                toastr.success(`Departamento ${name} apagado com sucesso.`);
+                $("#deleteDepartmentModal").modal("hide");
+                loadDepartments();
+            },
+            error: function(xhr) {
+                toastr.error(xhr.responseJSON?.error || "Erro ao apagar o departamento.");
+            }
+        });
+    })
+
+    // Edit Department
     $(document).on("click", ".edit-department-btn", function() {
         let id = $(this).data("id");
         let name = $(this).data("name");
@@ -14,6 +41,7 @@ $(document).ready(function() {
         $("#editDepartmentModal #editAuditTypeField").html(optionsHtml);
         $("#editDepartmentModal").data("department-id", id);
     });
+
 
     $("#saveDepartmentBtn").click(function(e) {
         e.preventDefault();
