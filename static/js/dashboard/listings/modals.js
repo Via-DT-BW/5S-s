@@ -1,7 +1,5 @@
 $(document).ready(function() {
     $(document).on("click", ".edit-department-btn", function() {
-        // BUG: After changing the department audit type once
-        // if I try to change it again, it still holds the previous audit type
         let id = $(this).data("id");
         let name = $(this).data("name");
         let auditType = $(this).data("audit-type-id");
@@ -10,7 +8,7 @@ $(document).ready(function() {
 
         let optionsHtml = "";
         $.each(cachedAuditTypes, function(_, auditTypeData) {
-            optionsHtml += `<option value="${auditTypeData.id}" ${auditTypeData.id == auditType ? 'selected' : ''}>${auditTypeData.name}</option>`;
+            optionsHtml += `<option value="${auditTypeData.id}" ${auditTypeData.name == auditType ? 'selected' : ''}>${auditTypeData.name}</option>`;
         });
 
         $("#editDepartmentModal #editAuditTypeField").html(optionsHtml);
@@ -48,6 +46,11 @@ $(document).ready(function() {
                 toastr.error(xhr.responseJSON?.error || "Erro ao atualizar departamento.");
             }
         });
+    });
+
+    $("#editDepartmentModal").on('hidden.bs.modal', function() {
+        // Clear the select when the modal is hidden
+        $("#editDepartmentModal #editAuditTypeField").html('<option disabled selected>A carregar...</option>');
     });
 
     $("#create_space_btn").click(function(e) {
