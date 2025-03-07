@@ -13,8 +13,6 @@ CORS(app)
 app.register_blueprint(api_bp)
 app.register_blueprint(web_bp)
 
-print(app.url_map)
-
 
 @app.context_processor
 def inject_globals():

@@ -82,73 +82,98 @@
     <div class="card-header">
         <h5 class="text-center">Tipos de Auditorias</h5>
     </div>
-    <div class="card-body table-responsive">
-        {% if audit_types %}
-            {% for at in audit_types %}
-                <table class="table table-striped table-responsive audit-table table-bordered">
-                    <thead>
-                        <tr>
-                            <th colspan="10" class="text-center">
-                                <h4>
-                                    Lista de Verificação dos 5S ({{ at.name }})
-                                </h4>
-                            </th>
-                        </tr>
-                        <tr>
-                            <th rowspan="3">5S</th>
-                            <th rowspan="3">Nº</th>
-                            <th rowspan="3">Factor a verificar</th>
-                            <th rowspan="3">Critérios de avaliação</th>
-                            <th colspan="6">Avaliação</th>
-                        </tr>
-                        <tr>
-                            <th>Nº Não<br>Conformidades</th>
-                            <th>Péssimo</th>
-                            <th>Mau</th>
-                            <th>Razoável</th>
-                            <th>Bom</th>
-                            <th>Excelente</th>
-                        </tr>
-                        <tr>
-                            <th>5s NOK</th>
-                            <th>0</th>
-                            <th>1</th>
-                            <th>2</th>
-                            <th>3</th>
-                            <th>4</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    {% set aux = namespace(value=1) %}
-                    {% for category in at.categories.values() %}
-                        {% for checklist in category.checklists %}
-                        <tr>
-                            {% if loop.first %}
-                                <td rowspan="{{ category.checklists|length }}" class="vertical-text">{{ category.name }}</td>
-                            {% endif %}
+    <div id="audit-types-wrapper" class="card-body table-responsive">
+        {% for at in audit_types %}
+        <table class="table table-striped table-responsive audit-table table-bordered">
+            <thead>
+                <tr>
+                    <th colspan="10" class="text-center">
+                        <h4>
+                            Lista de Verificação dos 5S ({{ at.name }})
+                        </h4>
+                    </th>
+                </tr>
+                <tr>
+                    <th rowspan="3">5S</th>
+                    <th rowspan="3">Nº</th>
+                    <th rowspan="3">Factor a verificar</th>
+                    <th rowspan="3">Critérios de avaliação</th>
+                    <th colspan="6">Avaliação</th>
+                </tr>
+                <tr>
+                    <th>Nº Não<br>Conformidades</th>
+                    <th>Péssimo</th>
+                    <th>Mau</th>
+                    <th>Razoável</th>
+                    <th>Bom</th>
+                    <th>Excelente</th>
+                </tr>
+                <tr>
+                    <th>5s NOK</th>
+                    <th>0</th>
+                    <th>1</th>
+                    <th>2</th>
+                    <th>3</th>
+                    <th>4</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% set aux = namespace(value=1) %}
+                {% for category in at.categories.values() %}
+                    {% for checklist in category.checklists %}
+                    <tr>
+                        {% if loop.first %}
+                        <td rowspan="{{ category.checklists|length }}" class="vertical-text">{{ category.name }}</td>
+                        {% endif %}
 
-                            <td class="text-center"><b>{{ aux.value }}</b></td>
-                            <td>{{ checklist.factor }}</td>
-                            <td>{{ checklist.criteria }}</td>
-                            <td class="scores"></td>
-                            <td class="scores"></td>
-                            <td class="scores"></td>
-                            <td class="scores"></td>
-                            <td class="scores"></td>
-                            <td class="scores"></td>
-                        </tr>
-                        {% set aux.value = aux.value + 1 %}
-                        {% endfor %}
+                        <td class="text-center"><b>{{ aux.value }}</b></td>
+                        <td>{{ checklist.factor }}</td>
+                        <td>{{ checklist.criteria }}</td>
+                        <td class="scores"></td>
+                        <td class="scores"></td>
+                        <td class="scores"></td>
+                        <td class="scores"></td>
+                        <td class="scores"></td>
+                        <td class="scores"></td>
+                    </tr>
+                    {% set aux.value = aux.value + 1 %}
                     {% endfor %}
-                    </tbody>
-                </table>
-            {% endfor %}
-        {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endfor %}
     </div>
 </div>
+
+{% with 
+    modal_id="editDepartmentModal", 
+    modal_title="Editar Departamento",
+    modal_content="
+        <form id='editDepartmentForm'>
+            <div class='form-group'>
+                <label for='editDepartmentField'>Departamento <span class='text-danger'>*</span></label>
+                <input type='text' class='form-control' id='editDepartmentField' required>
+            </div>
+            <div class='form-group'>
+                <label for='editAuditTypeField'>Tipo de Auditoria <span class='text-danger'>*</span></label>
+                <select class='form-control' id='editAuditTypeField' required></select>
+            </div>
+        </form>",
+    modal_footer="
+        <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Fechar</button>
+        <button type='submit' class='btn btn-primary' id='saveDepartmentBtn'>Salvar</button>
+    "
+%}
+    {% include 'dashboard/components/modal.html' %}
+{% endwith %}
 
 {% endblock %}
 
 {% block scripts %}
-<script src="{{ url_for('static', filename='js/dashboard/listings.js') }}"></script>
+<script src="{{ url_for('static', filename='js/dashboard/listings/api.js') }}"></script>
+<script src="{{ url_for('static', filename='js/dashboard/listings/departments.js') }}"></script>
+<script src="{{ url_for('static', filename='js/dashboard/listings/spaces.js') }}"></script>
+<script src="{{ url_for('static', filename='js/dashboard/listings/auditTypes.js') }}"></script>
+<script src="{{ url_for('static', filename='js/dashboard/listings/modals.js') }}"></script>
+<script src="{{ url_for('static', filename='js/dashboard/listings/main.js') }}"></script>
 {% endblock %}
