@@ -25,7 +25,7 @@ $(document).ready(function() {
                 loadDepartments();
             },
             error: function(xhr) {
-                toastr.error(xhr.responseJSON?.error || "Erro ao apagar o departamento.");
+                toastr.error(xhr.responseJSON?.error || "Existem espaços associados a este departamento.");
             }
         });
         $("#deleteDepartmentModal").modal("hide");
