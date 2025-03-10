@@ -6,7 +6,7 @@ from .utils import execute_query, fetch_one, validate_json_fields
 bp = Blueprint("auth", __name__)
 
 
-@bp.route("/login", methods=["GET"])
+@bp.route("/login", methods=["POST"])
 def login():
     err = validate_json_fields({"email": str, "password": str})
     if err:
@@ -33,6 +33,8 @@ def login():
     session["id"] = user_id
     session["email"] = email
     session["admin"] = admin
+
+    print(session)
 
     return jsonify({"message": "Login successful"}), 200
 
