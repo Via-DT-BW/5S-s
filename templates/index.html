@@ -43,12 +43,15 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#">Tab 3</a>
                     </li>
+                    {% if "email" in session %}
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('web.dashboard.listings') }}">Dashboard</a>
                     </li>
+                    {% else %}
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('web.auth.home') }}">Login</a>
                     </li>
+                    {% endif %}
                 </ul>
             </div>
         </div>

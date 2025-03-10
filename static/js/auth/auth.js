@@ -72,9 +72,7 @@ $(function() {
             contentType: "application/json",
             data: JSON.stringify(payload),
             success: function() {
-                emailField.val('');
-                pwdField.val('');
-
+                toastr.success("Login efetuado com sucesso!");
                 window.location.href = "/dashboard/";
                 return;
             },

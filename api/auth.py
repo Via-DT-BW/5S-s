@@ -17,20 +17,21 @@ def login():
     password = data["password"]
 
     user = fetch_one(
-        "SELECT id, password, is_admin FROM users WHERE email=? AND enabled=1",
+        "SELECT id, username, password, is_admin FROM users WHERE email=? AND enabled=1",
         (email,),
     )
 
     if not user:
         return jsonify({"error": "Invalid email or password"}), 401
 
-    user_id, stored_hashed_password, admin = user
+    id, username, stored_hashed_password, admin = user
 
     if not check_password_hash(stored_hashed_password, password):
         return jsonify({"error": "Invalid email or password"}), 401
 
     # Store user session
-    session["id"] = user_id
+    session["id"] = id
+    session["username"] = username
     session["email"] = email
     session["admin"] = admin
 
