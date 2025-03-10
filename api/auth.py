@@ -1,57 +1,62 @@
 from flask import Blueprint, jsonify, request, session
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from .utils import fetch_one
+from .utils import execute_query, fetch_one, validate_json_fields
 
 bp = Blueprint("auth", __name__)
 
 
-@bp.route("/login", methods=["GET"])
+@bp.route("/login", methods=["POST"])
 def login():
-    data = request.get_json()
-    if not data or "email" not in data or "password" not in data:
-        return jsonify({"error": "Required fields: 'email' and 'password'"}), 400
+    err = validate_json_fields({"email": str, "password": str})
+    if err:
+        return err
 
+    data = request.get_json()
     email = data["email"]
     password = data["password"]
 
-    user = fetch_one("SELECT id, password FROM users WHERE email=?", (email,))
+    user = fetch_one(
+        "SELECT id, username, password, is_admin FROM users WHERE email=? AND enabled=1",
+        (email,),
+    )
 
     if not user:
         return jsonify({"error": "Invalid email or password"}), 401
 
-    stored_hashed_password = user["password"]
+    id, username, stored_hashed_password, admin = user
 
     if not check_password_hash(stored_hashed_password, password):
         return jsonify({"error": "Invalid email or password"}), 401
 
     # Store user session
-    session["user_id"] = user["id"]
+    session["id"] = id
+    session["username"] = username
     session["email"] = email
+    session["admin"] = admin
+
+    print(session)
 
     return jsonify({"message": "Login successful"}), 200
 
 
 @bp.route("/register", methods=["POST"])
 def register():
-    data = request.get_json()
-    if (
-        not data
-        or "username" not in data
-        or "email" not in data
-        or "password" not in data
-    ):
-        return jsonify(
-            {"error": "Required fields: 'username' and 'email' and 'password'."}
-        ), 400
+    err = validate_json_fields({"username": str, "email": str, "password": str})
+    if err:
+        return err
 
+    data = request.get_json()
     username = data["username"]
     email = data["email"]
     password = data["password"]
 
     hashed_password = generate_password_hash(password)
 
-    fetch_one(
+    if register_invalid(username, email):
+        return jsonify({"error": "Este utilizador já existe."}), 400
+
+    execute_query(
         "INSERT INTO users (username, email, password) VALUES (?, ?, ?)",
         (username, email, hashed_password),
     )
@@ -72,6 +77,17 @@ def logout():
 # ----------------
 # Helper functions
 # ----------------
+
+
+def register_invalid(username, email):
+    user = fetch_one(
+        "SELECT 1 FROM users WHERE username=? AND email=?", (username, email)
+    )
+
+    if user:
+        return True
+
+    return False
 
 
 def login_valid(email, password):

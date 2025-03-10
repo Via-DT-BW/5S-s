@@ -14,28 +14,39 @@
 
     <span class="sidebar-heading mt-3">Categoria</span>
 
+    {% if "admin" in session and "admin" == True %}
     <li class="nav-item {% if '/dashboard/statistics' in request.path %} active {% endif %}">
         <a class="nav-link collapsed" href="#">
             <i class="fas fa-chart-pie"></i>
             <span>Estatísticas</span>
         </a>
     </li>
+    {% endif %}
 
+    {% if "admin" in session and session["admin"] == True %}
     <li class="nav-item {% if '/dashboard/listings' in request.path %} active {% endif %}">
-        <a class="nav-link collapsed" href="{{ url_for('web.dashboard.listings') }}">
+        <a href="{{ url_for('web.dashboard.listings') }}" class="nav-link collapsed">
             <i class="fas fa-list"></i>
             <span>Listagens</span>
         </a>
     </li>
+    {% endif %}
 
     <li class="nav-item {% if '/dashboard/audits' in request.path %} active {% endif %}">
-        <a class="nav-link collapsed" href="{{ url_for('web.dashboard.audits') }}">
+        <a href="{{ url_for('web.dashboard.audits') }}" class="nav-link collapsed">
             <i class="fa-solid fa-file-invoice"></i>
             <span>Auditorias</span>
         </a>
     </li>
 
     <hr class="sidebar-divider my-0">
+
+    <li class="nav-item">
+        <a href="{{ url_for('web.dashboard.home') }}" class="btn nav-link collapsed">
+            <i class="fa-solid fa-user"></i>
+            <span>{{ session["username"] }}</span>
+        </a>
+    </li>
 
     <li class="nav-item">
         <a class="btn nav-link collapsed" href="#">
@@ -45,7 +56,7 @@
     </li>
 
     <li class="nav-item">
-        <a class="btn nav-link collapsed" href="{{ url_for('web.home.home') }}">
+        <a class="btn nav-link collapsed" href="/logout">
             <i class="fas fa-sign-out-alt"></i>
             <span>Sair</span>
         </a>
