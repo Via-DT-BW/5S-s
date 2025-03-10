@@ -1,3 +1,4 @@
+from flask import jsonify, request
 import pyodbc
 from utils.call_conn import db_conn
 
@@ -39,3 +40,24 @@ def execute_query(query, params=()):
     finally:
         cursor.close()
         conn.close()
+
+
+def validate_json_fields(required_fields):
+    """Validate incoming JSON request data against required fields and types."""
+    data = request.get_json()
+
+    if not data:
+        return jsonify({"error": "Invalid or missing JSON body."}), 400
+
+    missing_fields = {
+        field: expected_type.__name__
+        for field, expected_type in required_fields.items()
+        if field not in data
+    }
+
+    if missing_fields:
+        return jsonify(
+            {"error": "There are missing fields.", "required_fields": missing_fields}
+        ), 400
+
+    return None
