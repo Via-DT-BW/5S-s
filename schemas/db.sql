@@ -48,11 +48,13 @@ CREATE TABLE users (
 
 CREATE TABLE audits (
     id INT IDENTITY(1,1) PRIMARY KEY,
-    signed INT NOT NULL,
+    signed INT NULL,
     space INT NOT NULL,
     created_at DATETIME NOT NULL DEFAULT GETDATE(),
     next_date DATETIME NULL,
-    overall_score INT NOT NULL,
+    overall_score INT NULL,
+    comments NVARCHAR(MAX) NULL,
+    completed BIT NOT NULL DEFAULT 0,
     FOREIGN KEY (signed) REFERENCES users(id),
     FOREIGN KEY (space) REFERENCES spaces(id)
 );
