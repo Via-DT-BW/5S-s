@@ -114,7 +114,7 @@ def update_space(id):
 
 @bp.route("/space/<int:id>", methods=["DELETE"])
 def delete_space(id):
-    if not fetch_one("SELECT id FROM departments WHERE id=?", (id,)):
+    if not fetch_one("SELECT id FROM spaces WHERE id=?", (id,)):
         return jsonify({"error": f"Espaço #{id} não encontrado."}), 404
 
     execute_query("DELETE FROM spaces WHERE id=?", (id))
