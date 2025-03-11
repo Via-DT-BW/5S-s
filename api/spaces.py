@@ -1,3 +1,4 @@
+import json
 from flask import Blueprint, request, jsonify
 
 from .utils import execute_query, fetch_all, fetch_one, validate_json_fields
@@ -64,7 +65,7 @@ def create_space():
     if space_exists(name):
         return jsonify({"error": f"Espaço {name} já existe."})
 
-    if is_valid_department(department) is None:
+    if fetch_one("SELECT 1 FROM departments WHERE id=?", (department)) is None:
         return jsonify({"error": f"Departamento #{department} inválido."})
 
     execute_query(
@@ -86,11 +87,14 @@ def update_space(id):
     name = data["name"]
     department = data["department"]
 
-    if space_exists(name):
-        return jsonify({"error": f"Já existe o espaço {name}."})
-
-    if not fetch_one("SELECT id FROM spaces WHERE id = ?", (id)):
+    if fetch_one("SELECT 1 FROM spaces WHERE id = ?", (id)) is None:
         return jsonify({"error": f"Espaço #{id} não encontrado."}), 404
+
+    if fetch_one("SELECT 1 FROM departments WHERE id=?", (department)) is None:
+        return jsonify({"error": f"Departamento #{department} inválido."})
+
+    if fetch_one("SELECT 1 FROM spaces WHERE name=? and id !=?", (name, id)):
+        return jsonify({"error": f"O espaço {name} já existe."})
 
     execute_query(
         "UPDATE spaces SET name=?, department=? WHERE id=?",
@@ -108,14 +112,19 @@ def update_space(id):
     ), 200
 
 
+@bp.route("/space/<int:id>", methods=["DELETE"])
+def delete_space(id):
+    if not fetch_one("SELECT id FROM departments WHERE id=?", (id,)):
+        return jsonify({"error": f"Espaço #{id} não encontrado."}), 404
+
+    execute_query("DELETE FROM spaces WHERE id=?", (id))
+    return jsonify({"message": f"Espaço #{id} apagado com sucesso"})
+
+
 # ----------------
 # Helper Functions
 # ----------------
 
 
 def space_exists(name):
-    return fetch_one("SELECT 1 FROM spaces WHERE name=?", (name,))
-
-
-def is_valid_department(department):
-    return fetch_one("SELECT 1 FROM departments WHERE id=?", (department,))
+    return fetch_one("SELECT 1 FROM spaces WHERE name=?", (name))
