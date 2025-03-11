@@ -1,6 +1,4 @@
-* {
-    font-family: "Montserrat", sans-serif;
-}
+@import url("reset.css")
 
 .table-options {
     display: flex;

@@ -1,23 +1,17 @@
 {% extends 'base.html' %}
 
-{% block title %}Homepage{% endblock %}
+{% block title %}Plataforma 5S{% endblock %}
 
 {% block styles %}
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600" />
-<link rel="stylesheet" href="{{ url_for('static', filename='initial_page/css/all.min.css') }}" />
-<link rel="stylesheet" href="{{ url_for('static', filename='initial_page/css/bootstrap.min.css') }}" />
-<link rel="stylesheet" href="{{ url_for('static', filename='initial_page/css/tooplate-style.css') }}" />
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" />
-<link rel="stylesheet" href="{{ url_for('static', filename='css/index2.css') }}">
-
+<link rel="stylesheet" href="{{ url_for('static', filename='fontawesome/fontawesome.css') }}" />
+<link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/bootstrap.min.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
 {% endblock %}
 
 {% block main %}
 <div class="video-bg">
     <video autoplay muted loop>
-        <source src="{{ url_for('static', filename='initial_page/videos/workforce.mp4')}}" type="video/mp4" />
+        <source src="{{ url_for('static', filename='videos/workforce.mp4')}}" type="video/mp4" />
         Your browser does not support the video tag.
     </video>
     <div class="video-overlay"></div>
@@ -25,8 +19,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-transparent">
         <div class="container-fluid">
             <a class="navbar-brand ms-3" href="#">
-                <img src="{{url_for('static', filename='initial_page/img/app_logo.png') }}" alt="Logo" />
-                5S
+                Plataforma 5S
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
                 aria-controls="navbarContent" aria-expanded="false" aria-label="Alterna navegação">
@@ -63,7 +56,7 @@
     </div>
 
     <footer>
-        <p>Operários
+        <p>
             Copyright &copy; 2025 Digital Transformation - Viana do Castelo
         </p>
     </footer>
@@ -72,6 +65,5 @@
 {% endblock %}
 
 {% block scripts %}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-<script src="{{ url_for('static', filename='initial_page/js/jquery.singlePageNav.min.js') }}"></script>
+<script src="{{ url_for('static', filename='bootstrap/bootstrap.bundle.min.js') }}"></script>
 {% endblock %}
