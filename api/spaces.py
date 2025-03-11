@@ -1,4 +1,3 @@
-import json
 from flask import Blueprint, request, jsonify
 
 from .utils import execute_query, fetch_all, fetch_one, validate_json_fields
