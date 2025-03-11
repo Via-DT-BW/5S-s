@@ -1,4 +1,36 @@
 $(document).ready(function() {
+    $(document).on("click", ".delete-space-btn", function() {
+        let id = $(this).data("id");
+        let name = $(this).data("name");
+        $("#deleteSpaceModal").data("id", id);
+        $("#deleteSpaceModal").data("name", name);
+
+        $("#deleteSpaceModal .modal-title").text(`Confirmação`)
+        $("#deleteSpaceModal .modal-body").text(`Tem a certeza que deseja apagar o espaço ${name}?`)
+    })
+
+    $("#deleteSpaceBtn").click(function(e) {
+        e.preventDefault();
+
+        let id = $("#deleteSpaceModal").data("id");
+        let name = $("#deleteSpaceModal").data("name");
+
+        $.ajax({
+            url: `/api/space/${id}`,
+            type: "DELETE",
+            contentType: "application/json",
+            success: function() {
+                toastr.success(`Espaço ${name} apagado com sucesso.`);
+                loadSpaces()
+                loadDepartments()
+            },
+            error: function(xhr) {
+                toastr.error(xhr.responseJSON?.error);
+            }
+        });
+        $("#deleteSpaceModal").modal("hide");
+    })
+
     $(document).on("click", ".edit-space-btn", function() {
         let id = $(this).data("id");
         let name = $(this).data("name");
