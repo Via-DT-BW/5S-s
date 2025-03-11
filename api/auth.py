@@ -8,11 +8,11 @@ bp = Blueprint("auth", __name__)
 
 @bp.route("/login", methods=["POST"])
 def login():
-    err = validate_json_fields({"email": str, "password": str})
+    data = request.get_json()
+    err = validate_json_fields(data, {"email": str, "password": str})
     if err:
         return err
 
-    data = request.get_json()
     email = data["email"]
     password = data["password"]
 
@@ -40,11 +40,11 @@ def login():
 
 @bp.route("/register", methods=["POST"])
 def register():
-    err = validate_json_fields({"username": str, "email": str, "password": str})
+    data = request.get_json()
+    err = validate_json_fields(data, {"username": str, "email": str, "password": str})
     if err:
         return err
 
-    data = request.get_json()
     username = data["username"]
     email = data["email"]
     password = data["password"]
