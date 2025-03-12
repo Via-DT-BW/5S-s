@@ -19,7 +19,7 @@ a {
     font-weight: bold;
 }
 
-a:hover, a:focus {
+a:hover {
     text-decoration: underline;
 }
 
@@ -38,7 +38,7 @@ button {
     cursor: pointer;
     transition: all .2s ease-in-out;
 
-    &:hover, &:focus {
+    &:hover {
         transform: scale(1.1);
         background: transparent;
         border-color: var(--clr-bw-dark-blue);
@@ -51,7 +51,7 @@ button {
         border-color: var(--clr-tech-blue);
     }
 
-    &.reverse:hover, &.reverse:focus {
+    &.reverse:hover {
         background: transparent;
         color: var(--clr-tech-blue);
         border-color: var(--clr-tech-blue);
