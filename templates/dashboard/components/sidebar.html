@@ -14,12 +14,50 @@
             </a>
         </li>
 
-        {% if "admin" in session and session["admin"] == True %}
         <li {% if '/dashboard/listings' in request.path %} class="active" {% endif %}>
             <a href="{{ url_for('web.dashboard.listings') }}">
                 <i class="fa-solid fa-screwdriver-wrench"></i>
-                <span>Gestão do Sistema</span>
+                <span>Sistema</span>
             </a>
+        </li>
+
+        <!-- TODO: Seperate admin listings into seperate pages -->
+        {% if "admin" in session and session["admin"] == "WIP" %}
+        <li {% if '/dashboard/listings' in request.path %} class="active" {% endif %}>
+            <button onclick=toggleSubMenu(this) class="dropdown-btn">
+                <i class="fa-solid fa-screwdriver-wrench"></i>
+                <span>Sistema</span>
+                <i class="fa-solid fa-angle-down"></i>
+            </button>
+            <ul class="sub-menu">
+                <div>
+                    <li>
+                        <a href="#">
+                            <i class="fa-solid fa-user"></i>
+                            <span>Departamentos</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fa-solid fa-user"></i>
+                            <span>Espaços</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fa-solid fa-user"></i>
+                            <span>Utilizadores</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fa-solid fa-user"></i>
+                            <span>Tipos de Auditorias</span>
+                        </a>
+                    </li>
+                </div>
+            </ul>
+            <!-- <a href="{{ url_for('web.dashboard.listings') }}"> </a> -->
         </li>
         {% endif %}
 
