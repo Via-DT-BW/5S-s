@@ -14,12 +14,14 @@
             </a>
         </li>
 
+        {% if "admin" in session and session["admin"] == True %}
         <li {% if '/dashboard/listings' in request.path %} class="active" {% endif %}>
             <a href="{{ url_for('web.dashboard.listings') }}">
                 <i class="fa-solid fa-screwdriver-wrench"></i>
                 <span>Sistema</span>
             </a>
         </li>
+        {% endif %}
 
         <!-- TODO: Seperate admin listings into seperate pages -->
         {% if "admin" in session and session["admin"] == "WIP" %}

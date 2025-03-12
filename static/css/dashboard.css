@@ -2,9 +2,81 @@
 @import url("colors.css");
 @import url("sidebar.css");
 
+/* Bootstrap adjustments */
+.card {
+    padding: 1rem;
+}
+
+form input[type="text"],
+form input[type="email"],
+form input[type="number"],
+form input[type="password"],
+form select {
+    border-radius: var(--rounded);
+    padding: 12px 15px;
+    width: 100%;
+    transition: all .2s ease-in-out;
+
+    &:focus {
+        border-color: var(--clr-bw-dark-blue);
+        border-color: -webkit-linear-gradient(to right, var(--clr-bw-dark-blue), var(--clr-bw-blue));
+        border-color: linear-gradient(to right, var(--clr-bw-dark-blue), var(--clr-bw-blue));
+    }
+}
+
+.btn {
+    border-radius: var(--rounded);
+    border: 2px solid;
+    font-size: .75rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+    transition: all .2s ease-in-out;
+
+    &:hover {
+        transform: scale(1.1);
+    }
+}
+
+form .btn {
+    padding: .5rem 2.5rem;
+    max-width: 150px;
+    align-self: flex-end;
+
+}
+
+.form-control:focus {
+    box-shadow: 0 0 0 .25rem rgba(0, 56, 108, .25) !important;
+}
+
+.btn-primary {
+    border-color: var(--clr-bw-blue);
+    background-color: var(--clr-bw-dark-blue);
+    background: -webkit-linear-gradient(to right, var(--clr-bw-dark-blue), var(--clr-bw-blue));
+    background: linear-gradient(to right, var(--clr-bw-dark-blue), var(--clr-bw-blue));
+    color: white;
+
+    &:hover {
+        background: transparent;
+        border-color: var(--clr-bw-dark-blue);
+        color: var(--clr-bw-dark-blue);
+    }
+}
+
+.btn-secondary, .btn-secondary:hover {
+    background: var(--clr-tech-blue);
+    color: var(--clr-bw-dark-blue);
+    border-color: var(--clr-tech-blue);
+}
+
+.btn-danger {
+    border-color: var(--bs-btn-border-color);
+}
+
+/* General Styling */
 main {
     background-color: var(--clr-cream);
     color: black;
+    padding: 1rem;
 }
 
 h1, h2, h3, h4, h5 {

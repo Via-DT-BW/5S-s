@@ -36,7 +36,7 @@ function updateDepartmentsTable(departments) {
                 <td>${dep.name}</td>
                 <td>${dep.audit_type}</td>
                 <td>${dep.spaces_count}</td>
-                <td><i class="fa-solid fa-user"></i> ${dep.users_count}</td>
+                <td>${dep.users_count}</td>
                 <td class="table-options">
                     <button class="btn btn-secondary edit-department-btn" 
                         data-id="${dep.id}" 
