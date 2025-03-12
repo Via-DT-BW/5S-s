@@ -1,12 +1,11 @@
 @import url('reset.css');
+@import url('colors.css');
 
 :root{
-    --base-clr: #051729;
-    --line-clr: #42434a;
-    --hover-clr: #222533;
-    --text-clr: #e6e6ef;
-    --accent-clr: #5e63ff;
-    --secondary-text-clr: #b0b3c1;
+    --base-clr: var(--clr-bw-dark-blue);
+    --hover-clr: var(--clr-bw-blue);
+    --text-clr: white;
+    --accent-clr: var(--clr-tech-blue);
 }
 
 body {
@@ -22,7 +21,6 @@ body {
     width: 250px;
     padding: 5px 1em;
     background-color: var(--base-clr);
-    border-right: 1px solid var(--line-clr);
 
     position: sticky;
     top: 0;
@@ -43,6 +41,10 @@ body {
 
 #sidebar ul {
     list-style: none;
+    
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
 }
 
 #sidebar > ul > li:first-child {
@@ -58,7 +60,7 @@ body {
     color: var(--accent-clr);
 
     i.fa-solid{
-        fill: var(--accent-clr);
+        color: var(--accent-clr);
     }
 }
 
@@ -70,6 +72,7 @@ body {
     display: flex;
     align-items: center;
     gap: 1em;
+    transition: all .1s ease-in;
 }
 
 .dropdown-btn {
@@ -90,7 +93,8 @@ body {
     flex-grow: 1;
 }
 
-#sidebar a:hover, #sidebar .dropdown-btn:hover {
+#sidebar a:hover, #sidebar .dropdown-btn:hover,
+#sidebar #toggle-btn:hover {
     background-color: var(--hover-clr);
 }
 
@@ -133,10 +137,6 @@ body {
     }
 }
 
-#sidebar #toggle-btn:hover {
-    background-color: var(--hover-clr);
-}
-
 main {
     padding: 1rem;
 }
@@ -159,7 +159,6 @@ main {
         height: 60px;
         width: 100%;
         border-right: none;
-        border-top: 1px solid var(--line-clr);
         padding: 0;
         position: fixed;
         top: unset;
@@ -198,7 +197,6 @@ main {
             height: 60px;
             width: 100%;
             background-color: var(--hover-clr);
-            border-top: 1px solid var(--line-clr);
             display: flex;
             justify-content: center;
 

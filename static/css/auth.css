@@ -1,25 +1,5 @@
 @import url('reset.css');
-
-:root {
-    /* Primary Colors */
-    --clr-bw-dark-blue: #051729;
-
-    /* Secondary Colors */
-    --clr-bw-blue: #00386C;
-    --clr-sea-green: #0E8187;
-    --clr-tech-blue: #2EFAD9;
-    --clr-forest-green: #0D9E71;
-    --clr-sustain-green: #18DD75;
-    --clr-cream: #F5F0EB;
-
-    /* Supporting Colors */
-    --clr-ocean-ultra: #6578FC;
-    --clr-purple: #CC00FF;
-
-    --rounded: .5rem;
-    --rounded-md: 1rem;
-    --rounded-lg: 2rem;
-}
+@import url('colors.css');
 
 body {
     display: grid;
