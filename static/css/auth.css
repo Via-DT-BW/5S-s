@@ -1,33 +1,11 @@
 @import url('reset.css');
-
-:root {
-    --rounded: .5rem;
-    --rounded-md: 1rem;
-    --rounded-lg: 2rem;
-
-    --bw-dark-blue: #051729;
-    --bw-blue: #00386C;
-    --cream: #F5F0EB;
-}
-
-* {
-    font-family: "Montserrat", sans-serif;
-    outline: none;
-}
+@import url('colors.css');
 
 body {
     display: grid;
     place-items: center;
     min-height: 100vh;
-    background-color: var(--cream);
-}
-
-h1, h2, h3, {
-    line-height: 1.1;
-}
-
-h2 {
-    text-align: center;
+    background-color: var(--clr-cream);
 }
 
 p {
@@ -41,14 +19,16 @@ a {
     font-weight: bold;
 }
 
-a:hover, a:focus {
+a:hover {
     text-decoration: underline;
 }
 
-.auth-btn {
+button {
+    background-color: var(--clr-bw-dark-blue);
+    background: -webkit-linear-gradient(to right, var(--clr-bw-dark-blue), var(--clr-bw-blue));
+    background: linear-gradient(to right, var(--clr-bw-dark-blue), var(--clr-bw-blue));
     border-radius: var(--rounded);
-    border: 2px solid var(--bw-blue);
-    background-color: var(--bw-blue);
+    border: 2px solid var(--clr-bw-blue);
     color: #FFFFFF;
     font-size: .75rem;
     font-weight: bold;
@@ -57,42 +37,46 @@ a:hover, a:focus {
     text-transform: uppercase;
     cursor: pointer;
     transition: all .2s ease-in-out;
-}
 
-.auth-btn .reverse {
-    color: var(--cream);
-    border-color: var(--cream);
-    background-color: transparent;
-}
+    &:hover {
+        transform: scale(1.1);
+        background: transparent;
+        border-color: var(--clr-bw-dark-blue);
+        color: var(--clr-bw-dark-blue);
+    }
 
-.auth-btn:hover, .auth-btn:focus {
-    transform: scale(1.1);
-    background-color: var(--cream);
-    color: var(--bw-dark-blue);
+    &.reverse {
+        background: var(--clr-tech-blue);
+        color: var(--clr-bw-dark-blue);
+        border-color: var(--clr-tech-blue);
+    }
+
+    &.reverse:hover {
+        background: transparent;
+        color: var(--clr-tech-blue);
+        border-color: var(--clr-tech-blue);
+    }
 }
 
 form {
     background-color: #FFFFFF;
     display: flex;
     justify-content: center;
+    align-items: center;
     flex-direction: column;
     padding-inline: 2rem;
     gap: 1rem;
     height: 100%;
 }
 
-form h1 {
-    text-align: center;
-}
-
-form .auth-btn {
+.form-container button {
     margin-top: .5rem;
 }
 
 .input-group {
     width: 100%;
     position: relative;
-    color: var(--bw-dark-blue);
+    color: var(--clr-bw-dark-blue);
 }
 
 .input-group > .fa-eye, .input-group > .fa-eye-slash {
@@ -107,8 +91,8 @@ form .auth-btn {
 }
 
 input {
-    background-color: var(--cream);
-    border: 2px solid var(--cream);
+    background-color: var(--clr-cream);
+    border: 2px solid var(--clr-cream);
     border-radius: var(--rounded);
     padding: 12px 15px;
     width: 100%;
@@ -116,9 +100,9 @@ input {
 }
 
 input:focus {
-    border-color: var(--bw-dark-blue);
-    border-color: -webkit-linear-gradient(to right, var(--bw-dark-blue), var(--bw-blue));
-    border-color: linear-gradient(to right, var(--bw-dark-blue), var(--bw-blue));
+    border-color: var(--clr-bw-dark-blue);
+    border-color: -webkit-linear-gradient(to right, var(--clr-bw-dark-blue), var(--clr-bw-blue));
+    border-color: linear-gradient(to right, var(--clr-bw-dark-blue), var(--clr-bw-blue));
 }
 
 .auth-container {
@@ -193,8 +177,8 @@ input:focus {
 
 .overlay {
     background: var(--bw-blue);
-    background: -webkit-linear-gradient(to right, var(--bw-dark-blue), var(--bw-blue));
-    background: linear-gradient(to right, var(--bw-dark-blue), var(--bw-blue));
+    background: -webkit-linear-gradient(to right, var(--clr-bw-dark-blue), var(--clr-bw-blue));
+    background: linear-gradient(to right, var(--clr-bw-dark-blue), var(--clr-bw-blue));
     background-repeat: no-repeat;
     background-size: cover;
     background-position: 0 0;

@@ -1,5 +1,14 @@
-* {
-    font-family: "Montserrat", sans-serif;
+@import url("reset.css");
+@import url("colors.css");
+@import url("sidebar.css");
+
+main {
+    background-color: var(--clr-cream);
+    color: black;
+}
+
+h1, h2, h3, h4, h5 {
+    color: --var(--clr-bw-dark-blue);
 }
 
 .table-options {
