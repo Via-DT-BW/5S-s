@@ -34,7 +34,6 @@ CREATE TABLE spaces (
     FOREIGN KEY (department) REFERENCES departments(id)
 );
 
--- TODO: Implement better the invalid department when the user is freshly created
 CREATE TABLE users (
     id INT IDENTITY(1,1) PRIMARY KEY,
     username NVARCHAR(255) NOT NULL,
@@ -43,18 +42,21 @@ CREATE TABLE users (
     created_at DATETIME2(3) NOT NULL DEFAULT SYSDATETIME(),
     is_admin BIT NOT NULL DEFAULT 0,
     enabled BIT NOT NULL DEFAULT 1,
-    department INT NULL, -- invalid department, choose department on first login
+    department INT NULL,
     FOREIGN KEY (department) REFERENCES departments(id)
 );
 
 CREATE TABLE audits (
     id INT IDENTITY(1,1) PRIMARY KEY,
-    signed INT NOT NULL,
+    signed INT NULL,
+    space INT NOT NULL,
     created_at DATETIME NOT NULL DEFAULT GETDATE(),
-    next_date DATETIME,
-    overall_score INT NOT NULL,
+    next_date DATETIME NULL,
+    overall_score INT NULL,
+    comments NVARCHAR(MAX) NULL,
     completed BIT NOT NULL DEFAULT 0,
-    FOREIGN KEY (signed) REFERENCES users(id)
+    FOREIGN KEY (signed) REFERENCES users(id),
+    FOREIGN KEY (space) REFERENCES spaces(id)
 );
 
 CREATE TABLE audit_checklist (

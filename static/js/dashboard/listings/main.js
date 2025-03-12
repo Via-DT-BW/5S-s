@@ -4,6 +4,6 @@ $(document).ready(function() {
     loadSpaces();
     loadAuditTypes();
 
-    $("#refresh-departments-btn").click(loadDepartments);
-    $("#refresh-spaces-btn").click(loadSpaces);
+    // $("#refresh-departments-btn").click(loadDepartments);
+    // $("#refresh-spaces-btn").click(loadSpaces);
 });

@@ -1,76 +1,129 @@
 from flask import Blueprint, request, jsonify
-import pyodbc
 
-from utils.call_conn import db_conn
+from .utils import execute_query, fetch_all, fetch_one, validate_json_fields
 
 bp = Blueprint("spaces", __name__)
 
 
 @bp.route("/spaces", methods=["GET"])
 def get_spaces():
-    try:
-        conn = pyodbc.connect(db_conn)
-        cursor = conn.cursor()
+    query = """
+        SELECT
+            s.id, s.name, departments.name AS department_name
+        FROM spaces s
+        JOIN departments ON s.department = departments.id
+    """
 
-        cursor.execute("""
-        SELECT spaces.id, spaces.name, departments.name AS department_name
-        FROM spaces
-        JOIN departments ON spaces.department = departments.id
-        """)
+    spaces = fetch_all(query)
 
-        spaces = [
+    return jsonify(
+        [
             {
                 "id": space.id,
                 "name": space.name,
                 "department": space.department_name,
             }
-            for space in cursor.fetchall()
+            for space in spaces
         ]
+    )
 
-        return spaces
 
-    except Exception as e:
-        print(e)
-        return jsonify({"error": f"Ocorreu um erro: {str(e)}"}), 500
+@bp.route("/space/<int:id>", methods=["GET"])
+def get_space(id):
+    query = """
+        SELECT
+            s.id, s.name, departments.name AS department_name
+        FROM spaces s
+        JOIN departments ON s.department = departments.id
+        WHERE s.id = ?
+    """
 
-    finally:
-        if "cursor" in locals() and "conn" in locals():
-            cursor.close()
-            conn.close()
+    space = fetch_one(query, id)
+    if not space:
+        return jsonify({"error": f"Espaço #{id} não encontrado."})
+
+    return jsonify(
+        {
+            "id": space.id,
+            "name": space.name,
+            "department": space.department_name,
+        }
+    )
 
 
 @bp.route("/space", methods=["POST"])
 def create_space():
-    try:
-        conn = pyodbc.connect(db_conn)
-        cursor = conn.cursor()
+    data = request.get_json()
+    err = validate_json_fields(data, {"name": str, "department": int})
+    if err:
+        return err
 
-        data = request.get_json()
+    name = data["name"]
+    department = data["department"]
 
-        if not data or "name" not in data or "department" not in data:
-            return jsonify(
-                {"error": "Missing required fields: 'name' and 'department'"},
-            ), 400
+    if space_exists(name):
+        return jsonify({"error": f"Espaço {name} já existe."})
 
-        name = data["name"]
-        department = data["department"]
+    if fetch_one("SELECT 1 FROM departments WHERE id=?", (department)) is None:
+        return jsonify({"error": f"Departamento #{department} inválido."})
 
-        check_query = "SELECT COUNT(name) FROM spaces WHERE name=?"
-        cursor.execute(check_query, name)
-        if cursor.fetchone()[0] > 0:
-            return jsonify({"error": f"Espaço {name} já existe."}), 409
+    execute_query(
+        "INSERT INTO spaces (name, department) VALUES (?, ?)",
+        (name, department),
+    )
 
-        insert_query = "INSERT INTO spaces (name, department) VALUES (?, ?)"
-        cursor.execute(insert_query, name, department)
-        cursor.commit()
+    return jsonify({"space": {"name": name, "department": department}})
 
-        return jsonify({"space": {"name": name, "department": department}})
 
-    except Exception as e:
-        print(e)
-        return jsonify({"error": f"Ocorreu um erro: {str(e)}"}), 500
+@bp.route("/space/<int:id>", methods=["PUT"])
+def update_space(id):
+    data = request.get_json()
 
-    finally:
-        if "cursor" in locals() and "conn" in locals():
-            cursor.close()
-            conn.close()
+    err = validate_json_fields(data, {"name": str, "department": int})
+    if err:
+        return err
+
+    name = data["name"]
+    department = data["department"]
+
+    if fetch_one("SELECT 1 FROM spaces WHERE id = ?", (id)) is None:
+        return jsonify({"error": f"Espaço #{id} não encontrado."}), 404
+
+    if fetch_one("SELECT 1 FROM departments WHERE id=?", (department)) is None:
+        return jsonify({"error": f"Departamento #{department} inválido."})
+
+    if fetch_one("SELECT 1 FROM spaces WHERE name=? and id !=?", (name, id)):
+        return jsonify({"error": f"O espaço {name} já existe."})
+
+    execute_query(
+        "UPDATE spaces SET name=?, department=? WHERE id=?",
+        (name, department, id),
+    )
+
+    return jsonify(
+        {
+            "message": "Espaço atualizado com sucesso.",
+            f"{id}": {
+                "name": name,
+                "department": department,
+            },
+        }
+    ), 200
+
+
+@bp.route("/space/<int:id>", methods=["DELETE"])
+def delete_space(id):
+    if not fetch_one("SELECT id FROM spaces WHERE id=?", (id,)):
+        return jsonify({"error": f"Espaço #{id} não encontrado."}), 404
+
+    execute_query("DELETE FROM spaces WHERE id=?", (id))
+    return jsonify({"message": f"Espaço #{id} apagado com sucesso"})
+
+
+# ----------------
+# Helper Functions
+# ----------------
+
+
+def space_exists(name):
+    return fetch_one("SELECT 1 FROM spaces WHERE name=?", (name))

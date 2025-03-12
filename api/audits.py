@@ -1,7 +1,6 @@
-import pyodbc
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, request
 
-from utils.call_conn import db_conn
+from api.utils import fetch_all, fetch_one, validate_json_fields, execute_query
 from utils.utils import format_datetime
 
 
@@ -10,83 +9,104 @@ bp = Blueprint("audits", __name__)
 
 @bp.route("/audits", methods=["GET"])
 def get_audits():
-    try:
-        conn = pyodbc.connect(db_conn)
-        cursor = conn.cursor()
-        cursor.execute("""
-        SELECT 
+    query = """
+        SELECT
             a.id,
-            s.name,
-            a.signed,
+            u.username AS signed,
+            s.name AS space,
+            d.name AS department,
             a.next_date,
-            a.created_at
-        FROM 
-            audits a
-        JOIN 
-            spaces s ON a.space = s.id;
-        """)
+            a.created_at,
+            a.overall_score,
+            a.comments,
+            a.completed
+        FROM audits a
+        LEFT JOIN users u ON a.signed = u.id
+        JOIN spaces s ON a.space = s.id
+        JOIN departments d ON s.department = d.id
+    """
 
-        audits = [
+    audits = fetch_all(query)
+
+    return jsonify(
+        [
             {
                 "id": audit.id,
-                "space": audit.name,
                 "signed": audit.signed,
+                "space": audit.space,
+                "department": audit.department,
                 "next_date": format_datetime(audit.next_date),
                 "created_at": format_datetime(audit.created_at),
+                "overall_score": audit.overall_score,
+                "comments": audit.comments,
+                "completed": audit.completed,
             }
-            for audit in cursor.fetchall()
+            for audit in audits
         ]
-        return audits
-
-    except Exception as e:
-        print(e)
-        return jsonify({"error": f"Ocorreu um erro: {str(e)}"}), 500
-
-    finally:
-        if "cursor" in locals() and "conn" in locals():
-            cursor.close()
-            conn.close()
+    )
 
 
 @bp.route("/audit/<int:id>", methods=["GET"])
 def get_audit(id):
-    try:
-        conn = pyodbc.connect(db_conn)
-        cursor = conn.cursor()
+    query = """
+        SELECT
+            a.id,
+            u.username AS signed,
+            s.name AS space,
+            d.name AS department,
+            a.next_date,
+            a.created_at,
+            a.overall_score,
+            a.comments,
+            a.completed
+        FROM audits a
+        LEFT JOIN users u ON a.signed = u.id
+        JOIN spaces s ON a.space = s.id
+        JOIN departments d ON s.department = d.id
+        WHERE a.id = ?
+    """
 
-        cursor.execute(
-            """
-            SELECT
-                a.id,
-                s.name,
-                a.signed,
-                a.next_date,
-                a.created_at
-            FROM audits a
-            JOIN spaces s ON a.space = s.id
-            WHERE a.id = ?
-        """,
-            (id),
-        )
+    audit = fetch_one(query, (id))
 
-        audit = cursor.fetchone()
+    if not audit:
+        return jsonify({"error": f"Auditoria #{id} não encontrada."})
 
-        if audit:
-            return {
-                "id": audit.id,
-                "space": audit.name,
-                "signed": audit.signed,
-                "next_date": format_datetime(audit.next_date),
-                "created_at": format_datetime(audit.created_at),
-            }
-        else:
-            return jsonify({"error": "Audit not found."})
+    return jsonify(
+        {
+            "id": audit.id,
+            "signed": audit.signed,
+            "space": audit.space,
+            "department": audit.department,
+            "next_date": format_datetime(audit.next_date),
+            "created_at": format_datetime(audit.created_at),
+            "overall_score": audit.overall_score,
+            "comments": audit.comments,
+            "completed": audit.completed,
+        }
+    )
 
-    except Exception as e:
-        print(e)
-        return jsonify({"error": f"Ocorreu um erro: {str(e)}"}), 500
 
-    finally:
-        if "cursor" in locals() and "conn" in locals():
-            cursor.close()
-            conn.close()
+@bp.route("/audit", methods=["POST"])
+def create_audit():
+    data = request.get_json()
+    err = validate_json_fields(data, {"signed": int, "space": int})
+    if err:
+        return err
+
+    signed = data["signed"]
+    space = data["space"]
+
+    if fetch_one("SELECT 1 FROM users WHERE id=?", (signed,)) is None:
+        return jsonify({"error": f"Utilizador {signed} não existe."}), 404
+
+    if fetch_one("SELECT 1 FROM spaces WHERE id=?", (space,)) is None:
+        return jsonify({"error": f"Espaço {space} não existe."}), 404
+
+    execute_query("INSERT INTO audits (signed, space) VALUES (?, ?)", (signed, space))
+
+    return jsonify({"audit": {"signed": signed, "space": space}})
+
+
+@bp.route("/audit/<int:id>", methods=["PUT"])
+def update_audit(id):
+    return jsonify({"audit": {"id": id}})

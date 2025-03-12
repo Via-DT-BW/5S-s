@@ -8,11 +8,11 @@ bp = Blueprint("auth", __name__)
 
 @bp.route("/login", methods=["POST"])
 def login():
-    err = validate_json_fields({"email": str, "password": str})
+    data = request.get_json()
+    err = validate_json_fields(data, {"email": str, "password": str})
     if err:
         return err
 
-    data = request.get_json()
     email = data["email"]
     password = data["password"]
 
@@ -35,26 +35,25 @@ def login():
     session["email"] = email
     session["admin"] = admin
 
-    print(session)
-
     return jsonify({"message": "Login successful"}), 200
 
 
 @bp.route("/register", methods=["POST"])
 def register():
-    err = validate_json_fields({"username": str, "email": str, "password": str})
+    data = request.get_json()
+    err = validate_json_fields(data, {"username": str, "email": str, "password": str})
     if err:
         return err
 
-    data = request.get_json()
     username = data["username"]
     email = data["email"]
     password = data["password"]
 
     hashed_password = generate_password_hash(password)
 
-    if register_invalid(username, email):
-        return jsonify({"error": "Este utilizador já existe."}), 400
+    conflict = users_exists(username, email)
+    if conflict:
+        return jsonify({"error": conflict}), 400
 
     execute_query(
         "INSERT INTO users (username, email, password) VALUES (?, ?, ?)",
@@ -79,21 +78,29 @@ def logout():
 # ----------------
 
 
-def register_invalid(username, email):
+def users_exists(username, email):
     user = fetch_one(
-        "SELECT 1 FROM users WHERE username=? AND email=?", (username, email)
+        "SELECT username, email FROM users WHERE username = ? OR email = ?",
+        (username, email),
     )
 
     if user:
-        return True
+        existing_username, existing_email = user
+        if existing_username == username and existing_email == email:
+            return "Esta conta já existe"
+        elif existing_username == username:
+            return "Este nome já está em uso"
+        elif existing_email == email:
+            return "Este e-mail já está em uso"
 
-    return False
+    return None
 
 
 def login_valid(email, password):
     user = fetch_one(
         "SELECT password FROM users WHERE email=? and password=?", (email, password)
     )
+
     if not user:
         return False
 

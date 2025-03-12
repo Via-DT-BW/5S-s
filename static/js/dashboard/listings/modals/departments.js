@@ -25,7 +25,7 @@ $(document).ready(function() {
                 loadDepartments();
             },
             error: function(xhr) {
-                toastr.error(xhr.responseJSON?.error || "Erro ao apagar o departamento.");
+                toastr.error(xhr.responseJSON?.error || "Existem espaços associados a este departamento.");
             }
         });
         $("#deleteDepartmentModal").modal("hide");
@@ -95,7 +95,8 @@ $(document).ready(function() {
 
         if (!departmentName || !auditTypeId) {
             toastr.error("Preencha todos os campos.");
-            departmentField.addClass("invalidField");
+            departmentField.addClass("is-invalid");
+            auditTypeField.addClass("is-invalid");
             departmentErrorField.text("Preencha todos os campos.");
             return;
         }
@@ -114,7 +115,7 @@ $(document).ready(function() {
                 departmentField.val('');
                 auditTypeField.val('');
 
-                departmentField.removeClass("invalidField");
+                departmentField.removeClass("is-invalid");
                 departmentErrorField.text("");
 
                 loadDepartments();
