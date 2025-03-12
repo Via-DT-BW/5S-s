@@ -48,7 +48,7 @@ button {
     background: -webkit-linear-gradient(to right, var(--clr-bw-dark-blue), var(--clr-bw-blue));
     background: linear-gradient(to right, var(--clr-bw-dark-blue), var(--clr-bw-blue));
     border-radius: var(--rounded);
-    border: 2px solid #FFFFFF;
+    border: 2px solid var(--clr-bw-blue);
     color: #FFFFFF;
     font-size: .75rem;
     font-weight: bold;

@@ -1,65 +1,31 @@
-@import url("reset.css")
+@import url("reset.css");
 
-.table-options {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    align-items: center;
+:root {
+    /* Primary Colors */
+    --clr-bw-dark-blue: #051729;
+
+    /* Secondary Colors */
+    --clr-bw-blue: #00386C;
+    --clr-sea-green: #0E8187;
+    --clr-tech-blue: #2EFAD9;
+    --clr-forest-green: #0D9E71;
+    --clr-sustain-green: #18DD75;
+    --clr-cream: #F5F0EB;
+
+    /* Supporting Colors */
+    --clr-ocean-ultra: #6578FC;
+    --clr-purple: #CC00FF;
+
+    --rounded: .5rem;
+    --rounded-md: 1rem;
+    --rounded-lg: 2rem;
 }
 
-.vertical-text {
-    writing-mode: vertical-rl;
-    text-align: center;
-    transform: rotate(180deg);
-    font-weight: bold;
-    background-color: white;
-}
-
-.audit-table {
+body {
+    background-color: var(--clr-cream);
     color: black;
-    border-collapse: collapse;
-    table-layout: fixed;
-    width: 100%;
 }
 
-.audit-table th {
-    text-align: center;
-    border-color: black !important;
-}
-
-.audit-table td {
-    text-wrap: pretty;
-}
-
-.audit-table thead tr:first-child,
-.audit-table thead tr:nth-child(2) {
-    color: white;
-    font-weight: bold;
-}
-
-.audit-table thead tr:first-child {
-    background-color: #003366;
-    font-weight: bold;
-}
-
-.audit-table thead tr:nth-child(2) {
-    background-color: black;
-}
-
-.audit-table thead tr:nth-child(3) {
-    background-color: #c0c0c0;
-}
-
-.audit-table td.scores {
-    width: 7%;
-}
-
-.invalidField, .invalidField:focus {
-    border-color: #dc3545;
-    color: #dc3545;
-    box-shadow: 0 0 0 .2rem rgba(220, 53, 69, .25);
-}
-
-.modal i.fa-xmark {
-    cursor: pointer;
+h1, h2, h3, h4, h5 {
+    color: --var(--clr-bw-dark-blue);
 }
