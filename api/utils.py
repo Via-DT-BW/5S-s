@@ -1,4 +1,4 @@
-from flask import jsonify, request
+from flask import jsonify
 import pyodbc
 from utils.call_conn import db_conn
 

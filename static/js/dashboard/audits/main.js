@@ -21,6 +21,7 @@ function loadAudits() {
 
     fetchAudits().then(audits => {
         cachedAudits = audits;
+        console.log(audits);
         updateAuditsTable(audits);
     });
 }
@@ -35,29 +36,15 @@ function updateAuditsTable(audits) {
     }
 
     audits.forEach(audit => {
-        console.log(audit);
         tbody.append(`
-            <tr>
-                <td>${audit.name}</td>
-                <td>${audit.audit_type}</td>
-                <td>${audit.spaces_count}</td>
-                <td>${audit.users_count}</td>
-                <td class="table-options">
-                    <button class="btn btn-secondary edit-audit-btn" 
-                        data-id="${audit.id}" 
-                        data-name="${audit.name}" 
-                        data-bs-toggle="modal" 
-                        data-bs-target="#editAuditModal">
-                        <i class="fa-solid fa-pencil"></i>
-                    </button>
-                    <button class="btn btn-danger delete-audit-btn" 
-                        data-id="${dep.id}" 
-                        data-name="${dep.name}" 
-                        data-bs-toggle="modal" 
-                        data-bs-target="#deleteAuditModal">
-                        <i class="fa-solid fa-trash"></i>
-                    </button>
+            <tr data-id=${audit.id}>
+                <td class="d-flex flex-column gap-1">
+                    <span><b>${audit.space}</b></span>
+                    <span class="text-muted">${audit.department}</span>
                 </td>
+                <td>${audit.signed}</td>
+                <td>${audit.created_at}</td>
+                <td>${audit.overall_score}</td>
             </tr>
         `);
     });
