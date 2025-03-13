@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<section id="audit-types" class="container container-fluid mb-5">
+<section id="audit-types" class="container container-fluid">
     <div class="card d-flex flex-column gap-3">
         <div class="card-body">
             <h5 class="card-title mb-3">Tipos de Auditorias</h5>
@@ -11,7 +11,7 @@
     </div>
 </section>
 
-<section id="departments" class="container container-fluid mb-5">
+<section id="departments" class="container container-fluid">
     <div class="card d-flex flex-column gap-3">
         <div class="card-body table-responsive">
             <h5 class="card-title mb-3">Departamentos</h5>
@@ -21,7 +21,7 @@
                         <th>Departamento</th>
                         <th>Tipo de Auditoria</th>
                         <th>Espaços</th>
-                        <th><i class="fa-solid fa-user"></i> <span>Utilizadores</span></th>
+                        <th>Utilizadores</th>
                         <th>Opções</th>
                     </tr>
                 </thead>
@@ -52,7 +52,7 @@
     <div class="card d-flex flex-column gap-3">
         <div class="card-body table-responsive">
             <h5 class="card-title mb-3">Espaços</h5>
-            <table id="spaces-table" class="table table-responsive table-bordered table-striped table-hover">
+            <table id="spaces-table" class="table table-bordered table-striped table-hover">
                 <thead>
                     <tr>
                         <th>Espaço</th>
@@ -78,6 +78,25 @@
                     Criar
                 </button>
             </form>
+        </div>
+    </div>
+</section>
+
+<section id="users" class="container container-fluid">
+    <div class="card d-flex flex-column gap-3">
+        <div class="card-body table-responsive">
+            <h5 class="card-title mb-3">Utilizadores</h5>
+            <table id="users-table" class="table table-bordered table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Utilizador</th>
+                        <th>Auditorias</th>
+                        <th>Cargo</th>
+                        <th>Opções</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
         </div>
     </div>
 </section>
