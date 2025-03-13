@@ -85,7 +85,7 @@ form .btn {
 }
 
 /* General Styling */
-main {
+main, footer {
     background-color: var(--clr-cream);
     color: black;
 }
