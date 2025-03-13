@@ -20,11 +20,5 @@ def inject_globals():
     return {"year": date.today().strftime("%Y")}
 
 
-@app.route("/testing")
-def testing():
-    print(app.config)
-    return "Hey there"
-
-
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()

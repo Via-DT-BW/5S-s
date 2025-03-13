@@ -1,0 +1,30 @@
+{% extends 'dashboard/dashboard_base.html' %}
+
+{% block content %}
+
+<section id="audits" class="container container-fluid mb-5">
+    <div class="card d-flex flex-column gap-3">
+        <div class="card-body table-responsive">
+            <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ url_for('web.dashboard.audits.home') }}">Auditorias</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Nova Auditoria</li>
+                </ol>
+            </nav>
+
+            {% if "admin" in session and session["admin"] == True %}
+            <h5 class="card-title mb-3">Nova Auditoria</h5>
+            {% else %}
+            <div class="alert alert-warning d-flex align-items-center" role="alert">
+                <i class="fa-solid fa-circle-exclamation"></i>
+                <span class="ms-3">
+                    Precisa de pertencer a um departamento para criar uma nova auditoria!<br>
+                    <a href="#">Selecionar Departamento</a>
+                </span>
+            </div>
+            {% endif %}
+            <!-- TODO: Create the rest of the page -->
+        </div>
+    </div>
+</section>
+{% endblock %}

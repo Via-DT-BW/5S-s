@@ -185,6 +185,7 @@ body {
             background-color: var(--hover-clr);
             display: flex;
             justify-content: center;
+            align-items: center;
 
             > div{
                 overflow-x: auto;

@@ -17,9 +17,13 @@
 
         {% include 'dashboard/components/sidebar.html' %}
 
-        <main>
-            {% block content %}{% endblock %}
-        </main>
+        <div class="d-flex flex-column min-vh-100">
+            <main class="flex-grow-1 d-flex flex-column gap-3 p-3">
+                {% block content %}{% endblock %}
+            </main>
+
+            {% include 'dashboard/components/footer.html' %}
+        </div>
 
         <script src="{{ url_for('static', filename='bootstrap/bootstrap.bundle.min.js') }}" type="text/javascript"></script>
         <script src="{{ url_for('static', filename='jquery/jquery-3.6.0.min.js') }}" type="text/javascript"></script>

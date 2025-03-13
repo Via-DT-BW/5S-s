@@ -56,7 +56,7 @@
         {% endif %}
 
         <li {% if '/dashboard/audits' in request.path %} class="active" {% endif %}>
-            <a href="{{ url_for('web.dashboard.audits') }}">
+            <a href="{{ url_for('web.dashboard.audits.home') }}">
                 <i class="fa-solid fa-book"></i>
                 <span>Auditorias</span>
             </a>
@@ -70,6 +70,10 @@
             </button>
             <ul class="sub-menu">
                 <div>
+                    <!-- TODO: Create User's Profile Page -->
+                    <!-- Allow the user to edit its information -->
+                    <!-- Select the corresponding department -->
+                    <!-- Change Password -->
                     <li>
                         <a href="#">
                             <i class="fa-solid fa-address-card"></i>

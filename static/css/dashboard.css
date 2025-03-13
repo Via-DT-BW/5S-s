@@ -2,7 +2,6 @@
 @import url("colors.css");
 @import url("sidebar.css");
 
-
 /* Bootstrap adjustments */
 .card {
     padding: 1rem;
@@ -86,10 +85,9 @@ form .btn {
 }
 
 /* General Styling */
-main {
+main, footer {
     background-color: var(--clr-cream);
     color: black;
-    padding: 1rem;
 }
 
 h1, h2, h3, h4, h5 {
@@ -102,6 +100,8 @@ h1, h2, h3, h4, h5 {
 }
 
 #spaces-table th,
+#users-table th,
+#audits-table th,
 #departments-table th {
     background-color: var(--clr-bw-blue);
     color: white;
