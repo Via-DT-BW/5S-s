@@ -90,3 +90,21 @@ VALUES
     (10, 'Desmultiplicação', 'Há exemplos de áreas modelo e são reaplicadas por toda a organização, neste e noutros departamentos'),
     (10, 'Regras e Procedimentos', 'As normas descritas na Normalização são melhoradas e optimizadas?'),
     (10, 'Auditorias', 'São feitas auditorias com frequência, actualizando-se indicadores planos de acção e seguimentos.');
+
+INSERT INTO departments (name, audit_type)
+VALUES
+    ('Coolers', 1),
+    ('Valves', 1),
+    ('Electronics', 1),
+    ('Heaters', 1),
+    ('Tubes', 1),
+    ('Warehouse', 1),
+    ('HR', 2),
+    ('Finance', 2),
+    ('IT', 2),
+    ('Quality', 2),
+    ('Supply Chain Management', 2),
+    ('Program Management', 2),
+    ('Application Engineering', 2),
+    ('Other / Non identified', 2),
+    ('Manufacturing Services', 2);

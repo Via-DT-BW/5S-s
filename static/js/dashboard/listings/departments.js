@@ -37,7 +37,7 @@ function updateDepartmentsTable(departments) {
                 <td>${dep.audit_type}</td>
                 <td>${dep.spaces_count}</td>
                 <td>${dep.users_count}</td>
-                <td class="table-options">
+                <td class="d-flex flex-wrap gap-3">
                     <button class="btn btn-secondary edit-department-btn" 
                         data-id="${dep.id}" 
                         data-name="${dep.name}" 

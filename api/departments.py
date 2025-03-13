@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 
-from .utils import fetch_all, fetch_one, execute_query
+from .utils import fetch_all, fetch_one, execute_query, validate_json_fields
 
 bp = Blueprint("departments", __name__)
 
@@ -16,6 +16,7 @@ def get_departments():
         LEFT JOIN users u ON d.id = u.department
         LEFT JOIN spaces s ON d.id = s.department
         GROUP BY d.id, d.name, a.name
+        ORDER BY a.name ASC, d.name ASC
     """
     departments = fetch_all(query)
 
@@ -36,10 +37,9 @@ def get_departments():
 @bp.route("/department", methods=["POST"])
 def create_department():
     data = request.get_json()
-    if not data or "department" not in data or "audit_type" not in data:
-        return jsonify(
-            {"error": "Missing required fields: 'department' and 'audit_type'"}
-        ), 400
+    err = validate_json_fields(data, {"department": str, "audit_type": int})
+    if err:
+        return err
 
     department = data["department"]
     audit_type = data["audit_type"]
@@ -98,23 +98,22 @@ def delete_department(id):
 @bp.route("/department/<int:id>", methods=["PUT"])
 def update_department(id):
     data = request.get_json()
-    if not data or "department" not in data or "audit_type" not in data:
-        return jsonify(
-            {"error": "Missing required fields: 'department' and 'audit_type'"}
-        ), 400
+    err = validate_json_fields(data, {"department": str, "audit_type": int})
+    if err:
+        return err
 
-    new_name = data["department"]
-    new_audit_type = data["audit_type"]
+    name = data["department"]
+    audit_type = data["audit_type"]
 
     if not fetch_one("SELECT id FROM departments WHERE id = ?", (id,)):
-        return jsonify({"error": "Departamento não encontrado."}), 404
+        return jsonify({"error": f"Departamento #{id} não encontrado."}), 404
 
     execute_query(
         "UPDATE departments SET name = ?, audit_type = ? WHERE id = ?",
-        (new_name, new_audit_type, id),
+        (name, audit_type, id),
     )
 
-    return jsonify({"message": f"Departamento {id} atualizado com sucesso."}), 200
+    return jsonify({"message": f"Departamento #{id} atualizado com sucesso."}), 200
 
 
 # ----------------

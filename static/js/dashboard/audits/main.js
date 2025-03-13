@@ -21,7 +21,6 @@ function loadAudits() {
 
     fetchAudits().then(audits => {
         cachedAudits = audits;
-        console.log(audits);
         updateAuditsTable(audits);
     });
 }
