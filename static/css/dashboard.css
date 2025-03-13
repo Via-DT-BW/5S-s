@@ -81,7 +81,6 @@ form .btn {
     --bs-accordion-btn-bg: white;
 }
 
-.accordion-button:focus::after, 
 .accordion-button[aria-expanded="true"]::after {
     filter: brightness(0) invert(1); 
 }
