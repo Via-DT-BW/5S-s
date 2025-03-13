@@ -16,6 +16,7 @@ def get_departments():
         LEFT JOIN users u ON d.id = u.department
         LEFT JOIN spaces s ON d.id = s.department
         GROUP BY d.id, d.name, a.name
+        ORDER BY a.name ASC, d.name ASC
     """
     departments = fetch_all(query)
 
