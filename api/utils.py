@@ -1,10 +1,19 @@
 from flask import jsonify
+
 import pyodbc
-from utils.call_conn import db_conn
+import os
 
 
 def get_db_connection():
     """Create and return a new database connection and cursor."""
+    driver = os.getenv("DB_DRIVER")
+    server = os.getenv("DB_SERVER")
+    db = os.getenv("DB_NAME")
+    user = os.getenv("DB_USER")
+    pwd = os.getenv("DB_PASS")
+
+    db_conn = f"DRIVER={{{driver}}};SERVER={server};DATABASE={db};UID={user};PWD={pwd}"
+
     conn = pyodbc.connect(db_conn)
     return conn, conn.cursor()
 
