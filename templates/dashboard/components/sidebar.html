@@ -62,7 +62,7 @@
             </a>
         </li>
 
-        <li {% if '/dashboard/home' in request.path %} class="active" {% endif %}>
+        <li>
             <button onclick=toggleSubMenu(this) class="dropdown-btn">
                 <i class="fa-solid fa-user"></i>
                 <span>{{ session["username"] }}</span>

@@ -5,7 +5,7 @@ bp = Blueprint("auth", __name__)
 
 @bp.route("/auth")
 def home():
-    if session:
+    if "id" in session:
         return redirect(url_for("web.dashboard.home"))
 
     return render_template("auth/auth.html")
