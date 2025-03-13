@@ -71,6 +71,16 @@
             </form>
         </div>
     </div>
+</section>
+
+<section class="container container-fluid">
+    <div class="card d-flex flex-column gap-3">
+        <div class="card-body table-responsive">
+            <h5 class="card-title mb-3">Tipos de Auditorias</h5>
+            <div id="audit-types-listing" class="d-flex flex-column gap-3"></div>
+        </div>
+    </div>
+</section>
 
     <div class="card my-4 p-2">
         <div class="card-header">
@@ -187,6 +197,15 @@
         <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Fechar</button>
         <button type='submit' class='btn btn-primary' id='editSpaceModalBtn'>Guardar</button>
     " %} {% include 'dashboard/components/modal.html' %}
+{% endwith %}
+
+{% with 
+    modal_id="deleteSpaceModal", 
+    modal_title="Apagar Espaço",
+    modal_footer="
+        <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Não</button>
+        <button type='button' class='btn btn-danger' id='deleteSpaceBtn'>Sim</button>
+        " %} {% include 'dashboard/components/modal.html' %}
 {% endwith %}
 
 {% endblock %}
