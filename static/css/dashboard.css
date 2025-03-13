@@ -2,6 +2,7 @@
 @import url("colors.css");
 @import url("sidebar.css");
 
+
 /* Bootstrap adjustments */
 .card {
     padding: 1rem;
@@ -72,6 +73,19 @@ form .btn {
     border-color: var(--bs-btn-border-color);
 }
 
+.accordion {
+    --bs-accordion-btn-focus-border-color: var(--clr-bw-dark-blue);
+    --bs-accordion-btn-focus-box-shadow: 0 0 0 0.25rem rgba(0, 56, 108, 0.25);
+    --bs-accordion-active-bg: var(--clr-bw-blue);
+    --bs-accordion-active-color: white;
+    --bs-accordion-btn-bg: white;
+}
+
+.accordion-button:focus::after, 
+.accordion-button[aria-expanded="true"]::after {
+    filter: brightness(0) invert(1); 
+}
+
 /* General Styling */
 main {
     background-color: var(--clr-cream);
@@ -81,8 +95,21 @@ main {
 
 h1, h2, h3, h4, h5 {
     color: --var(--clr-bw-dark-blue);
+    font-weight: bold;
 }
 
+.modal i.fa-xmark {
+    cursor: pointer;
+}
+
+#spaces-table th,
+#departments-table th {
+    background-color: var(--clr-bw-blue);
+    color: white;
+    text-align: center;
+}
+
+/* Audit Table */
 .vertical-text {
     writing-mode: vertical-rl;
     text-align: center;
@@ -95,25 +122,25 @@ h1, h2, h3, h4, h5 {
     text-wrap: pretty;
 }
 
-.audit-table thead tr:first-child,
-.audit-table thead tr:nth-child(2) {
+.audit-table thead tr:first-child th,
+.audit-table thead tr:nth-child(2) th {
     color: white;
     font-weight: bold;
 }
 
-.audit-table thead tr:first-child {
-    background-color: #003366;
-    font-weight: bold;
+.audit-table thead tr:first-child th {
+    background-color: var(--clr-bw-blue);
+    padding: 1rem 3rem;
 }
 
-.audit-table thead tr:nth-child(2) {
-    background-color: black;
+.audit-table thead tr:nth-child(2) th {
+    background-color: var(--clr-bw-dark-blue);
 }
 
-.audit-table thead tr:nth-child(3) {
-    background-color: #c0c0c0;
+.audit-table thead tr:nth-child(3) th {
+    background-color: var(--bs-secondary-bg);
 }
 
-.modal i.fa-xmark {
-    cursor: pointer;
+.audit-table thead tr:first-child h4 {
+    margin-bottom: 0;
 }
