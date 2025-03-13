@@ -19,7 +19,12 @@
 
         <main class="d-flex flex-column gap-3 p-3">
             {% block content %}{% endblock %}
+
+            <footer class="m-3 pt-3 border-top text-center text-secondary">
+                Copyright &copy; 2025 Digital Transformation - Viana do Castelo
+            </footer>
         </main>
+
 
         <script src="{{ url_for('static', filename='bootstrap/bootstrap.bundle.min.js') }}" type="text/javascript"></script>
         <script src="{{ url_for('static', filename='jquery/jquery-3.6.0.min.js') }}" type="text/javascript"></script>
