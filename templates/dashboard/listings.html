@@ -75,77 +75,9 @@
 
 <section class="container container-fluid">
     <div class="card d-flex flex-column gap-3">
-        <div class="card-body table-responsive">
+        <div class="card-body">
             <h5 class="card-title mb-3">Tipos de Auditorias</h5>
-            <div id="audit-types-listing" class="d-flex flex-column gap-3"></div>
-        </div>
-    </div>
-</section>
-
-    <div class="card my-4 p-2">
-        <div class="card-header">
-            <h5 class="text-center">Tipos de Auditorias</h5>
-        </div>
-        <div id="audit-types-wrapper" class="card-body table-responsive">
-            {% for at in audit_types %}
-            <table class="table table-striped table-responsive audit-table table-bordered">
-                <thead>
-                    <tr>
-                        <th colspan="10" class="text-center">
-                            <h4>
-                                Lista de Verificação dos 5S ({{ at.name }})
-                            </h4>
-                        </th>
-                    </tr>
-                    <tr>
-                        <th rowspan="3">5S</th>
-                        <th rowspan="3">Nº</th>
-                        <th rowspan="3">Factor a verificar</th>
-                        <th rowspan="3">Critérios de avaliação</th>
-                        <th colspan="6">Avaliação</th>
-                    </tr>
-                    <tr>
-                        <th>Nº Não<br>Conformidades</th>
-                        <th>Péssimo</th>
-                        <th>Mau</th>
-                        <th>Razoável</th>
-                        <th>Bom</th>
-                        <th>Excelente</th>
-                    </tr>
-                    <tr>
-                        <th>5s NOK</th>
-                        <th>0</th>
-                        <th>1</th>
-                        <th>2</th>
-                        <th>3</th>
-                        <th>4</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% set aux = namespace(value=1) %}
-                    {% for category in at.categories.values() %}
-                        {% for checklist in category.checklists %}
-                        <tr>
-                            {% if loop.first %}
-                            <td rowspan="{{ category.checklists|length }}" class="vertical-text">{{ category.name }}</td>
-                            {% endif %}
-
-                            <td class="text-center"><b>{{ aux.value }}</b></td>
-                            <td>{{ checklist.factor }}</td>
-                            <td>{{ checklist.criteria }}</td>
-                            <td class="scores"></td>
-                            <td class="scores"></td>
-                            <td class="scores"></td>
-                            <td class="scores"></td>
-                            <td class="scores"></td>
-                            <td class="scores"></td>
-                        </tr>
-                        {% set aux.value = aux.value + 1 %}
-                        {% endfor %}
-                    {% endfor %}
-                </tbody>
-            </table>
-            {% endfor %}
+            <div class="accordion" id="audit-types-listing"></div>
         </div>
     </div>
 </section>
@@ -154,7 +86,7 @@
     modal_id="editDepartmentModal", 
     modal_title="Editar Departamento",
     modal_content="
-        <form id='editDepartmentForm'>
+        <form id='editDepartmentForm' class='d-flex flex-column gap-3'>
             <div class='form-group'>
                 <label for='editDepartmentField'>Departamento <span class='text-danger'>*</span></label>
                 <input type='text' class='form-control' id='editDepartmentField' required>
@@ -176,14 +108,14 @@
     modal_footer="
         <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Não</button>
         <button type='button' class='btn btn-danger' id='deleteDepartmentBtn'>Sim</button>
-        " %} {% include 'dashboard/components/modal.html' %}
+    " %} {% include 'dashboard/components/modal.html' %}
 {% endwith %}
 
 {% with 
     modal_id="editSpaceModal", 
     modal_title="Editar Espaço",
     modal_content="
-        <form id='editSpaceForm'>
+        <form id='editSpaceForm' class='d-flex flex-column gap-3'>
             <div class='form-group'>
                 <label for='spaceField'>Espaço <span class='text-danger'>*</span></label>
                 <input type='text' class='form-control' id='spaceField' required>
@@ -196,7 +128,7 @@
     modal_footer="
         <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Fechar</button>
         <button type='submit' class='btn btn-primary' id='editSpaceModalBtn'>Guardar</button>
-    " %} {% include 'dashboard/components/modal.html' %}
+" %} {% include 'dashboard/components/modal.html' %}
 {% endwith %}
 
 {% with 
@@ -205,7 +137,7 @@
     modal_footer="
         <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Não</button>
         <button type='button' class='btn btn-danger' id='deleteSpaceBtn'>Sim</button>
-        " %} {% include 'dashboard/components/modal.html' %}
+    " %} {% include 'dashboard/components/modal.html' %}
 {% endwith %}
 
 {% endblock %}

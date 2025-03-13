@@ -21,7 +21,7 @@ function loadSpaces() {
                     <tr>
                         <td>${space.name}</td>
                         <td>${space.department}</td>
-                        <td class="table-options">
+                        <td class="d-flex flex-wrap gap-3">
                             <button class="btn btn-secondary edit-space-btn" 
                                 data-id="${space.id}" 
                                 data-name="${space.name}" 

@@ -83,31 +83,12 @@ h1, h2, h3, h4, h5 {
     color: --var(--clr-bw-dark-blue);
 }
 
-.table-options {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    align-items: center;
-}
-
 .vertical-text {
     writing-mode: vertical-rl;
     text-align: center;
     transform: rotate(180deg);
     font-weight: bold;
     background-color: white;
-}
-
-.audit-table {
-    color: black;
-    border-collapse: collapse;
-    table-layout: fixed;
-    width: 100%;
-}
-
-.audit-table th {
-    text-align: center;
-    border-color: black !important;
 }
 
 .audit-table td {
@@ -131,16 +112,6 @@ h1, h2, h3, h4, h5 {
 
 .audit-table thead tr:nth-child(3) {
     background-color: #c0c0c0;
-}
-
-.audit-table td.scores {
-    width: 7%;
-}
-
-.invalidField, .invalidField:focus {
-    border-color: #dc3545;
-    color: #dc3545;
-    box-shadow: 0 0 0 .2rem rgba(220, 53, 69, .25);
 }
 
 .modal i.fa-xmark {
