@@ -64,7 +64,7 @@ def validate_json_fields(data, required_fields):
 
     if missing_fields:
         return jsonify(
-            {"error": "There are missing fields.", "required_fields": missing_fields}
+            {"error": "Existem campos em falta", "required_fields": missing_fields}
         ), 400
 
     return None

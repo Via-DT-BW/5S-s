@@ -93,7 +93,8 @@ $(document).ready(function() {
 
         if (!name || !department) {
             toastr.error("Preencha todos os campos.");
-            spaceField.addClass("invalidField");
+            spaceField.addClass("is-invalid");
+            spaceDepartmentField.addClass("is-invalid");
             spaceFieldError.text("Preencha todos os campos.");
             return;
         }
@@ -112,7 +113,8 @@ $(document).ready(function() {
                 spaceField.val('');
                 spaceDepartmentField.val('');
 
-                spaceField.removeClass("invalidField");
+                spaceField.removeClass("is-invalid");
+                spaceDepartmentField.removeClass("is-invalid");
                 spaceFieldError.text("");
 
                 loadSpaces();

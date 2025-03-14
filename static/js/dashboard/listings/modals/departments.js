@@ -118,6 +118,7 @@ $(document).ready(function() {
                 auditTypeField.val('');
 
                 departmentField.removeClass("is-invalid");
+                auditTypeField.removeClass("is-invalid");
                 departmentErrorField.text("");
 
                 loadDepartments();
