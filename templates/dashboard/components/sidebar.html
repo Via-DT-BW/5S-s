@@ -72,7 +72,7 @@
                 <div>
                     <!-- TODO: Create User's Profile Page -->
                     <!-- Change Password -->
-                    <li>
+                    <li {% if '/dashboard/profile' in request.path %} class="active" {% endif %}>
                         <a href="{{ url_for('web.dashboard.profile.home') }}">
                             <i class="fa-solid fa-address-card"></i>
                             <span>Perfil</span>

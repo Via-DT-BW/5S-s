@@ -6,6 +6,40 @@ from .utils import execute_query, fetch_one, validate_json_fields
 bp = Blueprint("auth", __name__)
 
 
+@bp.route("/password", methods=["PUT"])
+def update_password():
+    data = request.get_json()
+    err = validate_json_fields(data, {"current": str, "new": str})
+    if err:
+        return err
+
+    curr = data["current"]
+    new = data["new"]
+
+    session_user = fetch_one(
+        "SELECT password FROM users WHERE id=? and enabled=1", (session["id"])
+    )
+    if session_user is None:
+        return jsonify({"error": "Sessão inválida"}), 401
+
+    stored_hashed_password = session_user[0]
+
+    if not check_password_hash(stored_hashed_password, curr):
+        return jsonify({"error": "Esta não é a sua palavra-passe atual"}), 401
+
+    try:
+        execute_query(
+            "UPDATE users SET password=? WHERE id=?",
+            (generate_password_hash(new), session["id"]),
+        )
+    except Exception as e:
+        return jsonify(
+            {"error": "Erro ao atualizar a password.", "details": str(e)}
+        ), 500
+
+    return jsonify({"success": "A sua password foi atualizada com sucesso."})
+
+
 @bp.route("/session", methods=["GET"])
 def get_session():
     return jsonify(session)
@@ -76,12 +110,12 @@ def login():
     )
 
     if not user:
-        return jsonify({"error": "Invalid email or password"}), 401
+        return jsonify({"error": "Credenciais inválidas."}), 401
 
     id, username, stored_hashed_password, admin, department = user
 
     if not check_password_hash(stored_hashed_password, password):
-        return jsonify({"error": "Invalid email or password"}), 401
+        return jsonify({"error": "Credenciais inválidas"}), 401
 
     session["id"] = id
     session["username"] = username
@@ -124,7 +158,7 @@ def register():
 @bp.route("/logout", methods=["GET"])
 def logout():
     session.clear()
-    return jsonify({"message": "Logout successful"}), 200
+    return jsonify({"message": "Sessão terminada com sucesso."}), 200
 
 
 # ----------------
