@@ -1,10 +1,38 @@
-import { fetchDepartments, fetchSession } from "../listings/api.js";
+import { fetchDepartments, fetchSession } from "../api.js";
 
 let cachedDepartments = [];
 let cachedUser = {};
 
 $(document).ready(function() {
     loadUserProfile();
+
+    $("#user-profile-form").on("submit", function(event) {
+        event.preventDefault();
+
+        let formData = new FormData(this);
+
+        let data = Object.fromEntries(formData.entries());
+
+        let payload = {
+            username: data.username,
+            email: data.email,
+            department: data.department
+        }
+
+        $.ajax({
+            url: "/api/session",
+            type: "PUT",
+            contentType: "application/json",
+            data: JSON.stringify(payload),
+            success: function() {
+                toastr.success("O seu perfil foi atualizado com sucesso.");
+                $("#sidebar-username").text(data.username)
+            },
+            error: function(xhr) {
+                toastr.error(xhr.responseJSON?.error || "Erro ao atualizar o seu perfil.")
+            }
+        })
+    });
 });
 
 function loadUserProfile() {
@@ -44,7 +72,7 @@ function updateProfileForm(user) {
             </select>
         </div>
 
-        <button id="create_user_btn" type="submit" class="btn btn-primary">
+        <button id="updateProfileBtn" type="submit" class="btn btn-primary">
             <i class="fa-solid fa-rotate-right"></i>
             Atualizar
         </button>
@@ -61,4 +89,3 @@ function populateDepartmentsDropdown(departments, departmentId) {
         select.append(`<option value="${dep.id}" ${selected}>${dep.name}</option>`);
     });
 }
-

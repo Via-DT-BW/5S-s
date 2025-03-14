@@ -65,14 +65,12 @@
         <li>
             <button onclick=toggleSubMenu(this) class="dropdown-btn">
                 <i class="fa-solid fa-user"></i>
-                <span>{{ session["username"] }}</span>
+                <span id="sidebar-username">{{ session["username"] }}</span>
                 <i class="fa-solid fa-angle-down"></i>
             </button>
             <ul class="sub-menu">
                 <div>
                     <!-- TODO: Create User's Profile Page -->
-                    <!-- Allow the user to edit its information -->
-                    <!-- Select the corresponding department -->
                     <!-- Change Password -->
                     <li>
                         <a href="{{ url_for('web.dashboard.profile.home') }}">
