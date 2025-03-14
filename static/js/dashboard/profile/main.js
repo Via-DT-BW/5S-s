@@ -39,6 +39,8 @@ $(document).ready(function() {
                 let success = "A sua password foi atualizada com sucesso."
                 toastr.success(success);
                 $("#newPwdFieldError").empty();
+                $("#currentPwdFieldError").empty();
+                $("#currentPwdField").removeClass("is-invalid");
                 $("#newPwdField").removeClass("is-invalid");
                 $("#confirmNewPwdField").removeClass("is-invalid");
             },
