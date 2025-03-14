@@ -1,0 +1,17 @@
+{% extends 'dashboard/dashboard_base.html' %}
+
+{% block content %}
+
+<section id="audits" class="container container-fluid mb-5">
+    <div class="card d-flex flex-column gap-3">
+        <div class="card-body">
+            <h5 class="card-title mb-3">O Meu Perfil</h5>
+            <form id="user-profile-form" class="d-flex flex-column gap-3"></form>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script type="module" src="{{ url_for('static', filename='js/dashboard/profile/main.js') }}"></script>
+{% endblock %}

@@ -25,28 +25,28 @@
                 <div>
                     <li>
                         <a href="{{ url_for('web.dashboard.listings') }}#audit-types">
-                            <i class="fa-solid fa-clipboard-list"></i> <!-- Clipboard List (Audit Types) -->
+                            <i class="fa-solid fa-clipboard-list"></i>
                             <span>Tipos de Auditorias</span>
                         </a>
                     </li>
 
                     <li>
                         <a href="{{ url_for('web.dashboard.listings') }}#departments">
-                            <i class="fa-solid fa-building"></i> <!-- Building (Departments) -->
+                            <i class="fa-solid fa-building"></i>
                             <span>Departamentos</span>
                         </a>
                     </li>
 
                     <li>
                         <a href="{{ url_for('web.dashboard.listings') }}#spaces">
-                            <i class="fa-solid fa-map-marker-alt"></i> <!-- Location Marker (Spaces) -->
+                            <i class="fa-solid fa-map-marker-alt"></i>
                             <span>Espaços</span>
                         </a>
                     </li>
 
                     <li>
                         <a href="{{ url_for('web.dashboard.listings') }}#users">
-                            <i class="fa-solid fa-users"></i> <!-- Users (Multiple Users) -->
+                            <i class="fa-solid fa-users"></i>
                             <span>Utilizadores</span>
                         </a>
                     </li>
@@ -75,7 +75,7 @@
                     <!-- Select the corresponding department -->
                     <!-- Change Password -->
                     <li>
-                        <a href="#">
+                        <a href="{{ url_for('web.dashboard.profile.home') }}">
                             <i class="fa-solid fa-address-card"></i>
                             <span>Perfil</span>
                         </a>

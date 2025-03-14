@@ -1,3 +1,5 @@
+import { cachedAuditTypes, loadDepartments } from "../departments.js";
+
 $(document).ready(function() {
     // Delete Department
     $(document).on("click", ".delete-department-btn", function() {

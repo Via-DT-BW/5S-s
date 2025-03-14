@@ -1,9 +1,8 @@
 {% extends 'base.html' %}
 
-{% block title %}Plataforma 5S{% endblock %}
+{% block title %}Página Inicial{% endblock %}
 
 {% block styles %}
-<link rel="stylesheet" href="{{ url_for('static', filename='fontawesome/fontawesome.css') }}" />
 <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/bootstrap.min.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
 {% endblock %}
@@ -16,7 +15,7 @@
     </video>
     <div class="video-overlay"></div>
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-transparent">
+    <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container-fluid">
             <a class="navbar-brand ms-3" href="#">
                 Plataforma 5S

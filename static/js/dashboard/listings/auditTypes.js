@@ -1,4 +1,9 @@
-function loadAuditTypes() {
+import { fetchAuditTypes } from "../api.js";
+
+
+let cachedAuditTypes = [];
+
+export function loadAuditTypes() {
     $("#audit-types-listing").html(`<div><i class="fa fa-spinner fa-spin"></i> A carregar...</div>`)
 
     fetchAuditTypes()

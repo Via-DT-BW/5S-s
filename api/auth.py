@@ -6,6 +6,60 @@ from .utils import execute_query, fetch_one, validate_json_fields
 bp = Blueprint("auth", __name__)
 
 
+@bp.route("/session", methods=["GET"])
+def get_session():
+    return jsonify(session)
+
+
+@bp.route("/session", methods=["PUT"])
+def update_session():
+    data = request.get_json()
+    err = validate_json_fields(data, {"username": str, "email": str, "department": int})
+    if err:
+        return err
+
+    id = session["id"]
+    if not id:
+        return jsonify({"error": f"Utilizador #{id} não autenticado."}), 401
+
+    username = data["username"]
+    email = data["email"]
+    department = data["department"]
+
+    if fetch_one("SELECT 1 FROM users WHERE username=? AND id<>?", (username, id)):
+        return jsonify({"error": "Este utilizador já foi escolhido."}), 400
+
+    if fetch_one("SELECT 1 FROM users WHERE email=? AND id<>?", (email, id)):
+        return jsonify({"error": "Este e-mail já foi escolhido."}), 400
+
+    if not fetch_one("SELECT 1 FROM departments WHERE id=?", (department,)):
+        return jsonify({"error": "O departamento selecionado não é válido."}), 400
+
+    try:
+        execute_query(
+            "UPDATE users SET username=?, email=?, department=? WHERE id=?",
+            (username, email, department, id),
+        )
+    except Exception as e:
+        return jsonify({"error": "Erro ao atualizar o perfil.", "details": str(e)}), 500
+
+    session["username"] = username
+    session["email"] = email
+    session["department"] = department
+
+    return jsonify(
+        {
+            "success": "O seu perfil foi atualizado com sucesso.",
+            "session": {
+                "id": id,
+                "username": username,
+                "email": email,
+                "department": department,
+            },
+        }
+    )
+
+
 @bp.route("/login", methods=["POST"])
 def login():
     data = request.get_json()
@@ -17,23 +71,23 @@ def login():
     password = data["password"]
 
     user = fetch_one(
-        "SELECT id, username, password, is_admin FROM users WHERE email=? AND enabled=1",
+        "SELECT id, username, password, is_admin, department FROM users WHERE email=? AND enabled=1",
         (email,),
     )
 
     if not user:
         return jsonify({"error": "Invalid email or password"}), 401
 
-    id, username, stored_hashed_password, admin = user
+    id, username, stored_hashed_password, admin, department = user
 
     if not check_password_hash(stored_hashed_password, password):
         return jsonify({"error": "Invalid email or password"}), 401
 
-    # Store user session
     session["id"] = id
     session["username"] = username
     session["email"] = email
     session["admin"] = admin
+    session["department"] = department
 
     return jsonify({"message": "Login successful"}), 200
 

@@ -1,11 +1,13 @@
-let cachedDepartments = [];
-let cachedAuditTypes = [];
+import { fetchDepartments, fetchAuditTypes } from "../api.js";
 
-function loadDepartments() {
+export let cachedDepartments = [];
+export let cachedAuditTypes = [];
+
+export function loadDepartments() {
     $("#departments-table tbody").html(`
         <tr>
             <td colspan="5" class="text-center">
-                <i class="fa fa-spinner fa-spin"></i> Carregando...
+                <i class="fa fa-spinner fa-spin"></i> A carregar...
             </td>
         </tr>
     `);
@@ -21,7 +23,7 @@ function loadDepartments() {
         });
 }
 
-function updateDepartmentsTable(departments) {
+export function updateDepartmentsTable(departments) {
     let tbody = $("#departments-table tbody");
     tbody.empty();
 
@@ -59,7 +61,7 @@ function updateDepartmentsTable(departments) {
     });
 }
 
-function updateSpaceDepartmentsSelect(departments) {
+export function updateSpaceDepartmentsSelect(departments) {
     let select = $("#spaceDepartmentField");
     select.empty();
 
@@ -75,7 +77,7 @@ function updateSpaceDepartmentsSelect(departments) {
     });
 }
 
-function loadDepartmentAuditTypes() {
+export function loadDepartmentAuditTypes() {
     let select = $("#auditTypeField");
     select.html(`<option disabled selected>A carregar...</option>`);
 

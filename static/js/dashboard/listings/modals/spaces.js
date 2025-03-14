@@ -1,3 +1,6 @@
+import { cachedDepartments, loadDepartments } from "../departments.js";
+import { loadSpaces } from "../spaces.js";
+
 $(document).ready(function() {
     $(document).on("click", ".delete-space-btn", function() {
         let id = $(this).data("id");
@@ -25,7 +28,7 @@ $(document).ready(function() {
                 loadDepartments()
             },
             error: function(xhr) {
-                toastr.error(xhr.responseJSON?.error);
+                toastr.error(xhr.responseJSON?.error || "Existem auditorias realizadas neste espaço");
             }
         });
         $("#deleteSpaceModal").modal("hide");

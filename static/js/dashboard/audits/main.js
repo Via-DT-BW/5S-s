@@ -1,20 +1,16 @@
+import { fetchAudits } from "../api.js";
+
+let cachedAudits = [];
+
 $(document).ready(function() {
     loadAudits();
 });
-
-function fetchAudits() {
-    return $.ajax({
-        url: "/api/audits",
-        type: "GET"
-    });
-}
-
 
 function loadAudits() {
     $("#audits-table tbody").html(`
         <tr>
             <td colspan="4" class="text-center">
-                <i class="fa fa-spinner fa-spin"></i> Carregando...
+                <i class="fa fa-spinner fa-spin"></i> A carregar...
             </td>
         </tr>
     `);
@@ -35,8 +31,7 @@ function updateAuditsTable(audits) {
     }
 
     audits.forEach(audit => {
-        let badgeScore = getBadgeScore(audit.overall_score);
-        let badgeClass = getBadgeClass(audit.overall_score);
+        let badge = getBadge(audit.overall_score)
 
         tbody.append(`
             <tr data-id=${audit.id}>
@@ -46,8 +41,8 @@ function updateAuditsTable(audits) {
                 </td>
                 <td>
                     <div class="position-relative fs-6">
-                        <span class="badge ${badgeClass} text-uppercase position-relative">
-                            ${badgeScore}
+                        <span class="badge ${badge.class} text-uppercase position-relative">
+                            ${badge.score}
                             <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-dark">
                                 ${audit.overall_score}
                             </span>
@@ -61,36 +56,18 @@ function updateAuditsTable(audits) {
     });
 }
 
-function getBadgeScore(score) {
-    switch (true) {
-        case (score >= 0 && score <= 50):
-            return "Péssimo";
-        case (score >= 51 && score <= 70):
-            return "Mau";
-        case (score >= 71 && score <= 80):
-            return "Razoável";
-        case (score >= 81 && score <= 90):
-            return "Bom";
-        case (score >= 91 && score <= 100):
-            return "Excelente";
-        default:
-            return "N/A";
-    }
-}
+function getBadge(score) {
+    return {
+        score: score >= 0 && score <= 50 ? "Péssimo" :
+            score >= 51 && score <= 70 ? "Mau" :
+                score >= 71 && score <= 80 ? "Razoável" :
+                    score >= 81 && score <= 90 ? "Bom" :
+                        score >= 91 && score <= 100 ? "Excelente" : "N/A",
 
-function getBadgeClass(score) {
-    switch (true) {
-        case (score >= 0 && score <= 50):
-            return "bg-danger";
-        case (score >= 51 && score <= 70):
-            return "bg-danger-subtle";
-        case (score >= 71 && score <= 80):
-            return "bg-warning";
-        case (score >= 81 && score <= 90):
-            return "bg-success-subtle";
-        case (score >= 91 && score <= 100):
-            return "bg-success";
-        default:
-            return "bg-secondary";
-    }
+        class: score >= 0 && score <= 50 ? "bg-danger" :
+            score >= 51 && score <= 70 ? "bg-danger-subtle" :
+                score >= 71 && score <= 80 ? "bg-warning" :
+                    score >= 81 && score <= 90 ? "bg-success-subtle" :
+                        score >= 91 && score <= 100 ? "bg-success" : "bg-secondary"
+    };
 }
