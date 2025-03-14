@@ -162,11 +162,7 @@
 {% endblock %}
 
 {% block scripts %}
-<script src="{{ url_for('static', filename='js/dashboard/listings/api.js') }}"></script>
-<script src="{{ url_for('static', filename='js/dashboard/listings/departments.js') }}"></script>
-<script src="{{ url_for('static', filename='js/dashboard/listings/spaces.js') }}"></script>
-<script src="{{ url_for('static', filename='js/dashboard/listings/auditTypes.js') }}"></script>
-<script src="{{ url_for('static', filename='js/dashboard/listings/modals/departments.js') }}"></script>
-<script src="{{ url_for('static', filename='js/dashboard/listings/modals/spaces.js') }}"></script>
-<script src="{{ url_for('static', filename='js/dashboard/listings/main.js') }}"></script>
+<script type="module" src="{{ url_for('static', filename='js/dashboard/listings/modals/departments.js') }}"></script>
+<script type="module" src="{{ url_for('static', filename='js/dashboard/listings/modals/spaces.js') }}"></script>
+<script type="module" src="{{ url_for('static', filename='js/dashboard/listings/main.js') }}"></script>
 {% endblock %}

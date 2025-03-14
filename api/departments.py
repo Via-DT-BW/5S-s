@@ -8,9 +8,12 @@ bp = Blueprint("departments", __name__)
 @bp.route("/departments", methods=["GET"])
 def get_departments():
     query = """
-        SELECT 
-            d.id, d.name AS department_name, a.name AS audit_type,
-            COUNT(u.id) AS user_count, COUNT(s.id) AS space_count
+        SELECT
+            d.id,
+            d.name AS department_name,
+            a.name AS audit_type,
+            COUNT(DISTINCT u.id) AS user_count,
+            COUNT(DISTINCT s.id) AS space_count
         FROM departments d
         JOIN audit_types a ON d.audit_type = a.id
         LEFT JOIN users u ON d.id = u.department

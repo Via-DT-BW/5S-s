@@ -1,4 +1,6 @@
-function loadSpaces() {
+import { fetchSpaces } from "../api.js";
+
+export function loadSpaces() {
     $("#spaces-table tbody").html(`
         <tr>
             <td colspan="3" class="text-center">

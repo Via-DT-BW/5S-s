@@ -1,3 +1,6 @@
+import { cachedDepartments, loadDepartments } from "../departments.js";
+import { loadSpaces } from "../spaces.js";
+
 $(document).ready(function() {
     $(document).on("click", ".delete-space-btn", function() {
         let id = $(this).data("id");
@@ -25,7 +28,7 @@ $(document).ready(function() {
                 loadDepartments()
             },
             error: function(xhr) {
-                toastr.error(xhr.responseJSON?.error);
+                toastr.error(xhr.responseJSON?.error || "Existem auditorias realizadas neste espaço");
             }
         });
         $("#deleteSpaceModal").modal("hide");
@@ -90,7 +93,8 @@ $(document).ready(function() {
 
         if (!name || !department) {
             toastr.error("Preencha todos os campos.");
-            spaceField.addClass("invalidField");
+            spaceField.addClass("is-invalid");
+            spaceDepartmentField.addClass("is-invalid");
             spaceFieldError.text("Preencha todos os campos.");
             return;
         }
@@ -109,7 +113,8 @@ $(document).ready(function() {
                 spaceField.val('');
                 spaceDepartmentField.val('');
 
-                spaceField.removeClass("invalidField");
+                spaceField.removeClass("is-invalid");
+                spaceDepartmentField.removeClass("is-invalid");
                 spaceFieldError.text("");
 
                 loadSpaces();

@@ -25,28 +25,28 @@
                 <div>
                     <li>
                         <a href="{{ url_for('web.dashboard.listings') }}#audit-types">
-                            <i class="fa-solid fa-clipboard-list"></i> <!-- Clipboard List (Audit Types) -->
+                            <i class="fa-solid fa-clipboard-list"></i>
                             <span>Tipos de Auditorias</span>
                         </a>
                     </li>
 
                     <li>
                         <a href="{{ url_for('web.dashboard.listings') }}#departments">
-                            <i class="fa-solid fa-building"></i> <!-- Building (Departments) -->
+                            <i class="fa-solid fa-building"></i>
                             <span>Departamentos</span>
                         </a>
                     </li>
 
                     <li>
                         <a href="{{ url_for('web.dashboard.listings') }}#spaces">
-                            <i class="fa-solid fa-map-marker-alt"></i> <!-- Location Marker (Spaces) -->
+                            <i class="fa-solid fa-map-marker-alt"></i>
                             <span>Espaços</span>
                         </a>
                     </li>
 
                     <li>
                         <a href="{{ url_for('web.dashboard.listings') }}#users">
-                            <i class="fa-solid fa-users"></i> <!-- Users (Multiple Users) -->
+                            <i class="fa-solid fa-users"></i>
                             <span>Utilizadores</span>
                         </a>
                     </li>
@@ -65,17 +65,15 @@
         <li>
             <button onclick=toggleSubMenu(this) class="dropdown-btn">
                 <i class="fa-solid fa-user"></i>
-                <span>{{ session["username"] }}</span>
+                <span id="sidebar-username">{{ session["username"] }}</span>
                 <i class="fa-solid fa-angle-down"></i>
             </button>
             <ul class="sub-menu">
                 <div>
                     <!-- TODO: Create User's Profile Page -->
-                    <!-- Allow the user to edit its information -->
-                    <!-- Select the corresponding department -->
                     <!-- Change Password -->
-                    <li>
-                        <a href="#">
+                    <li {% if '/dashboard/profile' in request.path %} class="active" {% endif %}>
+                        <a href="{{ url_for('web.dashboard.profile.home') }}">
                             <i class="fa-solid fa-address-card"></i>
                             <span>Perfil</span>
                         </a>

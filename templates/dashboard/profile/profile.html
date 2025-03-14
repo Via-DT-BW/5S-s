@@ -1,0 +1,46 @@
+{% extends 'dashboard/dashboard_base.html' %}
+
+{% block content %}
+
+<section id="audits" class="container container-fluid mb-5">
+    <div class="card d-flex flex-column gap-3">
+        <div class="card-body">
+            <h5 class="card-title mb-3">O Meu Perfil</h5>
+            <form id="user-profile-form" class="d-flex flex-column gap-3"></form>
+
+            <button class="btn btn-danger d-flex align-items-center" data-bs-toggle="collapse" data-bs-target="#changePasswordForm">
+                <i class="fa-solid fa-key"></i>
+                <span class="ps-2">Mudar Password</span>
+            </button>
+            <div id="changePasswordForm" class="collapse mt-3">
+                <form id="user-password-form" class="d-flex flex-column gap-3">
+                    <div class="form-group">
+                        <label for="currentPwdField" class="mb-1">Password Atual <span class="text-danger">*</span></label>
+                        <input type="password" class="form-control" name="currentPwd" id="currentPwdField" aria-describedby="currentPwdHelp" placeholder="Insira a sua password atual.." required>
+                        <div id="currentPwdFieldError" class="text-danger"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="newPwdField" class="mb-1">Nova Password <span class="text-danger">*</span></label>
+                        <input type="password" class="form-control" name="newPwd" id="newPwdField" aria-describedby="currentPwdHelp" placeholder="Insira a sua password atual.." required>
+                        <div id="newPwdFieldError" class="text-danger"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmNewPwdField" class="mb-1">Confirmar Nova Password <span class="text-danger">*</span></label>
+                        <input type="password" class="form-control" name="confirmNewPwd" id="confirmNewPwdField" aria-describedby="currentPwdHelp" placeholder="Insira a sua password atual.." required>
+                        <div id="confirmNewPwdFieldError" class="text-danger"></div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa-solid fa-rotate-right"></i>
+                        <span>Mudar</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script type="module" src="{{ url_for('static', filename='js/dashboard/profile/main.js') }}"></script>
+{% endblock %}
