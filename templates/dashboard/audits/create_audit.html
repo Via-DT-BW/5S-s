@@ -66,10 +66,17 @@
                 </thead>
                 <tbody></tbody>
             </table>
-            <canvas id="scoreChart"></canvas>
             <div id="score" class="rounded bg-success text-uppercase p-5 d-flex flex-column gap-1 text-center text-light">
                 <b id="score_value">100</b>
                 <span id="score_name">Excelente</span>
+            </div>
+            <canvas id="scoreChart"></canvas>
+            <div id="chart-legend" class="d-flex justify-content-end gap-2 flex-wrap">
+                <span class="badge bg-danger">0-50: Péssimo</span>
+                <span class="badge bg-danger-subtle">51-70: Mau</span>
+                <span class="badge bg-warning">71-80: Razoável</span>
+                <span class="badge bg-success-subtle">81-90: Bom</span>
+                <span class="badge bg-success">91-100: Excelente</span>
             </div>
             {% endif %}
         </div>
