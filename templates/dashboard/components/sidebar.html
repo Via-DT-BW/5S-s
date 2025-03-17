@@ -16,12 +16,12 @@
 
         {% if "admin" in session and session["admin"] == True %}
         <li>
-            <button onclick=toggleSubMenu(this) class="dropdown-btn">
+            <button onclick=toggleSubMenu(this) class="dropdown-btn rotate">
                 <i class="fa-solid fa-screwdriver-wrench"></i>
                 <span>Sistema</span>
                 <i class="fa-solid fa-angle-down"></i>
             </button>
-            <ul class="sub-menu">
+            <ul class="sub-menu show">
                 <div>
                     <li>
                         <a href="{{ url_for('web.dashboard.listings') }}#audit-types">
