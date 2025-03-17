@@ -42,7 +42,7 @@ def update_password():
 
 @bp.route("/session", methods=["GET"])
 def get_session():
-    return jsonify(session)
+    return jsonify(dict(session))
 
 
 @bp.route("/session", methods=["PUT"])
