@@ -2,8 +2,8 @@
 
 {% block content %}
 <section id="audits" class="container container-fluid mb-5">
-    <div class="card d-flex flex-column gap-3">
-        <div class="card-body">
+    <div class="card">
+        <div class="card-body d-flex flex-column gap-3">
             <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{ url_for('web.dashboard.audits.home') }}">Auditorias</a></li>
@@ -20,9 +20,59 @@
                 </span>
             </div>
             {% else %}
-            <h5 class="card-title mb-3">Nova Auditoria</h5>
+            <h5 class="card-title">Nova Auditoria</h5>
+            <div class="d-flex flex-wrap align-items-center gap-3">
+                <div class="flex-grow-1">
+                    <label for="spaceField" class="mb-1">Local <span class="text-danger">*</span></label>
+                    <!-- TODO: Load all the spaces from this department -->
+                    <select class="form-control" name="space" id="spaceField">
+                        <option disabled>--- Selecione o Local ---</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="departmentField" class="mb-1">Departamento</label>
+                    <input type="text" class="form-control" name="department" id="departmentField" readonly>
+                </div>
+            </div>
+            <table id="audit-table" class="table table-bordered audit-table">
+                <thead class="text-center">
+                    <tr>
+                        <th colspan="10" class="text-center">
+                            <h4>Lista de Verificação dos 5S</h4>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th rowspan="3">5S</th>
+                        <th rowspan="3">Nº</th>
+                        <th rowspan="3">Fator a verificar</th>
+                        <th rowspan="3">Critérios de avaliação</th>
+                        <th colspan="6">Avaliação</th>
+                    </tr>
+                    <tr>
+                        <th>Nº Não<br>Conformidades</th>
+                        <th>Péssimo</th>
+                        <th>Mau</th>
+                        <th>Razoável</th>
+                        <th>Bom</th>
+                        <th>Excelente</th>
+                    </tr>
+                    <tr>
+                        <th>5S NOK</th>
+                        <th>0</th>
+                        <th>1</th>
+                        <th>2</th>
+                        <th>3</th>
+                        <th>4</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
             {% endif %}
         </div>
     </div>
 </section>
+{% endblock %}
+
+{% block scripts %}
+<script type="module" src="{{ url_for('static', filename='js/dashboard/audits/create.js') }}"></script>
 {% endblock %}

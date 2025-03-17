@@ -64,7 +64,7 @@ function updateAuditTypesAccordion(auditTypes) {
                 </h2>
                 <div id="collapse${auditType.id}" class="accordion-collapse collapse" data-bs-parent="#audit-types-listing">
                     <div class="accordion-body table-responsive">
-                        <table class="table table-striped table-bordered table-hover audit-table">
+                        <table class="table table-bordered table-hover audit-table">
                             <thead class="text-center">
                                 <tr>
                                     <th colspan="10" class="text-center">

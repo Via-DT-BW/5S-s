@@ -5,6 +5,24 @@ from .utils import fetch_all, fetch_one, execute_query, validate_json_fields
 bp = Blueprint("departments", __name__)
 
 
+@bp.route("/department/<int:id>/spaces")
+def get_department_spaces(id):
+    query = """
+        SELECT *
+        FROM spaces
+        WHERE department=?
+    """
+
+    spaces = fetch_all(query, (id,))
+
+    return jsonify(
+        [
+            {"id": space.id, "name": space.name, "department": space.department}
+            for space in spaces
+        ]
+    )
+
+
 @bp.route("/departments", methods=["GET"])
 def get_departments():
     query = """
