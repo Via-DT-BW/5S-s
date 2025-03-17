@@ -56,7 +56,7 @@ function updateAuditsTable(audits) {
     });
 }
 
-function getBadge(score) {
+export function getBadge(score) {
     return {
         score: score >= 0 && score <= 50 ? "Péssimo" :
             score >= 51 && score <= 70 ? "Mau" :

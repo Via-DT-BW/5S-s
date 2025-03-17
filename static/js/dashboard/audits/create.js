@@ -1,4 +1,5 @@
 import { fetchDepartmentSpaces, fetchSession, fetchDepartment, fetchAuditTypes } from "../api.js";
+import { getBadge } from "./main.js";
 
 $(document).ready(function() {
     fetchSession().then(user => {
@@ -9,9 +10,64 @@ $(document).ready(function() {
             $("#departmentField").val(user.department_name);
 
             fetchAndPopulateAuditTable(dep)
+            handleAuditScoreChange()
         });
     });
 });
+
+function getAuditTotalScore() {
+    let totalScore = 0;
+
+    $("#audit-table tbody tr").each(function() {
+        let row = $(this);
+        let lastFiveTds = row.find("td").slice(-5);
+        let score = 0;
+
+        lastFiveTds.each(function() {
+            let val = parseInt($(this).text(), 10);
+            if (!isNaN(val)) {
+                score = val;
+                return false;
+            }
+        });
+
+        totalScore += score;
+    });
+
+    let badge = getBadge(totalScore);
+
+    $("#score_name").text(badge.score);
+    $("#score_value").text(totalScore);
+    $("#score").removeClass(function(_, className) {
+        return (className.match(/(^|\s)bg-\S+/g) || []).join(' ');
+    }).addClass(badge.class);
+
+    return totalScore;
+}
+
+function handleAuditScoreChange() {
+    $("#audit-table tbody").on("input", "input[type='number']", function() {
+        let inputVal = parseInt($(this).val(), 10) || 0;
+        let row = $(this).closest("tr");
+        let tds = row.find("td");
+        let lastTdIndex = tds.length - 1;
+
+        tds.slice(-5).text("");
+
+        if (inputVal === 0) {
+            tds.eq(lastTdIndex).text("4");
+        } else if (inputVal === 1) {
+            tds.eq(lastTdIndex - 1).text("3");
+        } else if (inputVal === 2) {
+            tds.eq(lastTdIndex - 2).text("2");
+        } else if (inputVal > 2 && inputVal < 6) {
+            tds.eq(lastTdIndex - 3).text("1");
+        } else if (inputVal >= 6) {
+            tds.eq(lastTdIndex - 4).text("0");
+        }
+        getAuditTotalScore()
+    })
+}
 
 function populateAuditTable(auditType) {
     let audit = auditType[0];
@@ -26,12 +82,14 @@ function populateAuditTable(auditType) {
                     <td class="text-center"><b>${counter}</b></td>
                     <td>${checklist.factor}</td>
                     <td>${checklist.criteria}</td>
+                    <td>
+                        <input type="number" class="form-control text-center" style="max-width: 75px" value=0 min=0 />
+                    </td>
                     <td></td>
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>4</td>
                 </tr>
             `;
             counter++;
