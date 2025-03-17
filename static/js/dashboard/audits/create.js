@@ -156,19 +156,19 @@ function populateAuditTable(auditType) {
     Object.values(audit.categories).forEach(category => {
         category.checklists.forEach((checklist, index) => {
             tableRows += `
-                <tr>
+                <tr data-id="${checklist.id}">
                     ${index === 0 ? `<td rowspan="${category.checklists.length}" class="vertical-text">${category.name}</td>` : ""}
                     <td class="text-center"><b>${counter}</b></td>
                     <td>${checklist.factor}</td>
                     <td>${checklist.criteria}</td>
                     <td>
-                        <input type="number" class="form-control text-center" min=0 />
+                        <input type="number" class="form-control text-center" value=0 min=0 />
                     </td>
                     <td></td>
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td></td>
+                    <td>4</td>
                 </tr>`
                 ;
             counter++;

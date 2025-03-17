@@ -1,7 +1,7 @@
 {% extends 'dashboard/dashboard_base.html' %}
 
 {% block content %}
-<section id="audits" class="container container-fluid mb-5">
+<section id="audits" class="container container-fluid mb-5 table-responsive">
     <div class="card">
         <div class="card-body d-flex flex-column gap-3">
             <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
@@ -66,6 +66,10 @@
                 </thead>
                 <tbody></tbody>
             </table>
+            <button id="create-audit-btn" class="btn btn-primary">
+                <i class="fa-solid fa-plus"></i>
+                <span>Criar Auditoria</span>
+            </button>
             <div id="score" class="rounded bg-success text-uppercase p-5 d-flex flex-column gap-1 text-center text-light">
                 <b id="score_value">100</b>
                 <span id="score_name">Excelente</span>
@@ -86,4 +90,5 @@
 
 {% block scripts %}
 <script type="module" src="{{ url_for('static', filename='js/dashboard/audits/create.js') }}"></script>
+<script type="module" src="{{ url_for('static', filename='js/dashboard/audits/insert.js') }}"></script>
 {% endblock %}
