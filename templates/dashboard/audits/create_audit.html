@@ -1,7 +1,7 @@
 {% extends 'dashboard/dashboard_base.html' %}
 
 {% block content %}
-<section id="audits" class="container container-fluid mb-5 table-responsive">
+<section id="audits" class="container container-fluid my-3 table-responsive">
     <div class="card">
         <div class="card-body d-flex flex-column gap-3">
             <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
@@ -48,25 +48,27 @@
                         <th colspan="6">Avaliação</th>
                     </tr>
                     <tr>
-                        <th>Nº Não<br>Conformidades</th>
-                        <th>Péssimo</th>
-                        <th>Mau</th>
-                        <th>Razoável</th>
-                        <th>Bom</th>
-                        <th>Excelente</th>
+                        <th style="width: 100px"><small>Nº Não<br>Conformidades</small></th>
+                        <th style="width: 100px"><small>Péssimo</small></th>
+                        <th style="width: 100px"><small>Mau</small></th>
+                        <th style="width: 100px"><small>Razoável</small></th>
+                        <th style="width: 100px"><small>Bom</small></th>
+                        <th style="width: 100px"><small>Excelente</small></th>
                     </tr>
                     <tr>
-                        <th>5S NOK</th>
-                        <th>0</th>
-                        <th>1</th>
-                        <th>2</th>
-                        <th>3</th>
-                        <th>4</th>
+                        <small>
+                            <th>5S NOK</th>
+                            <th>0</th>
+                            <th>1</th>
+                            <th>2</th>
+                            <th>3</th>
+                            <th>4</th>
+                        </small>
                     </tr>
                 </thead>
                 <tbody></tbody>
             </table>
-            <button id="create-audit-btn" class="btn btn-primary">
+            <button id="create-audit-btn" class="btn btn-primary align-self-end">
                 <i class="fa-solid fa-plus"></i>
                 <span>Criar Auditoria</span>
             </button>

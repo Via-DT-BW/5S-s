@@ -34,25 +34,28 @@ function updateAuditsTable(audits) {
         let badge = getBadge(audit.overall_score)
 
         tbody.append(`
-            <tr data-id=${audit.id}>
+            <tr class="cursor-pointer" data-url="/dashboard/audits/view?id=${audit.id}">
                 <td class="d-flex flex-column">
                     <span><b>${audit.space}</b></span>
                     <small class="text-muted"><i>${audit.department}</i></small>
                 </td>
-                <td>
-                    <div class="position-relative fs-6">
-                        <span class="badge ${badge.class} text-uppercase position-relative">
-                            ${badge.score}
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-dark">
-                                ${audit.overall_score}
-                            </span>
+                <td class="position-relative fs-6">
+                    <span class="badge ${badge.class} text-uppercase position-relative">
+                        ${badge.score}
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-dark">
+                            ${audit.overall_score}
                         </span>
-                    </div>
+                    </span>
                 </td>
                 <td>${audit.signed}</td>
                 <td>${audit.created_at}</td>
+                <td class="text-muted"><i class="fa-solid fa-angle-right"></i></td>
             </tr>
         `);
+    });
+
+    $(".cursor-pointer").on("click", function() {
+        window.location.href = $(this).data("url");
     });
 }
 

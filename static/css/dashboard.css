@@ -143,3 +143,7 @@ h1, h2, h3, h4, h5 {
 .audit-table thead tr:first-child h4 {
     margin-bottom: 0;
 }
+
+.cursor-pointer {
+    cursor: pointer;
+}
