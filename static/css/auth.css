@@ -74,14 +74,14 @@ button {
     font-weight: bold;
 }
 
-.form-container .input-group {
+.input-group {
     width: 100%;
     position: relative;
     color: var(--clr-bw-dark-blue);
 }
 
-.form-container .input-group > .fa-eye,
-.form-container .input-group > .fa-eye-slash {
+.input-group > .fa-eye,
+.input-group > .fa-eye-slash {
     position: absolute;
     right: 1rem;
     top: 50%;
@@ -90,21 +90,19 @@ button {
     color: var(--bw-blue);
     font-size: 1.125rem;
     font-weight: bold;
+    z-index: 99;
 }
 
+.form-container .input-group-text,
 .form-container input {
-    background-color: var(--clr-cream);
-    border: 2px solid var(--clr-cream);
-    border-radius: var(--bs-border-radius-lg) !important;
-    padding: 12px 15px;
-    width: 100%;
+    background-color: rgba(245, 240, 235, .5);
+    border: 2px solid rgba(245, 240, 235, .5);
     transition: all .2s ease-in-out;
 }
 
-.form-container input:focus {
-    border-color: var(--clr-bw-dark-blue);
-    border-color: -webkit-linear-gradient(to right, var(--clr-bw-dark-blue), var(--clr-bw-blue));
-    border-color: linear-gradient(to right, var(--clr-bw-dark-blue), var(--clr-bw-blue));
+.form-container .input-group-text {
+    background-color: rgba(245, 240, 235, .5);
+    background-color: var(--clr-cream);
 }
 
 .auth-container {
@@ -114,9 +112,9 @@ button {
         0 10px 10px rgba(0,0,0,0.22);
     position: relative;
     overflow: hidden;
-    width: 768px;
-    max-width: 100%;
-    min-height: 480px;
+    min-width: 768px;
+    /* min-width: 65vw; */
+    min-height: 65vh;
 }
 
 .sign-in-container {
@@ -226,8 +224,16 @@ button {
     transform: translateX(20%);
 }
 
-.invalidField, .invalidField:focus {
-    border-color: #dc3545;
-    color: #dc3545;
-    box-shadow: 0 0 0 .2rem rgba(220, 53, 69, .25);
+.overlay-right::after,
+.overlay-left::after {
+    content: "";
+    display: block;
+    width: 200px;
+    height: 50px;
+    background: url('/static/images/BorgWarner_Logo_White.png') no-repeat center/contain;
+    position: absolute;
+    top: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
 }
+
