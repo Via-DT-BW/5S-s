@@ -1,5 +1,8 @@
+import re
 from flask import Blueprint, jsonify, request, session
 from werkzeug.security import check_password_hash, generate_password_hash
+
+from utils.utils import format_datetime
 
 from .utils import execute_query, fetch_one, validate_json_fields
 
@@ -97,30 +100,32 @@ def update_session():
 @bp.route("/login", methods=["POST"])
 def login():
     data = request.get_json()
-    err = validate_json_fields(data, {"email": str, "password": str})
+    err = validate_json_fields(data, {"identifier": str, "password": str})
     if err:
         return err
 
-    email = data["email"]
-    password = data["password"]
+    identifier = data["identifier"].strip()
+    password = data["password"].strip()
 
-    user = fetch_one(
-        "SELECT id, username, password, is_admin, department FROM users WHERE email=? AND enabled=1",
-        (email,),
-    )
+    if is_valid_email(identifier):
+        query = "SELECT id, username, email, password, is_admin, department FROM users WHERE email=? AND enabled=1"
+    else:
+        query = "SELECT id, username, email, password, is_admin, department FROM users WHERE username=? AND enabled=1"
+
+    user = fetch_one(query, (identifier.lower(),))
 
     if not user:
         return jsonify({"error": "Credenciais inválidas."}), 401
 
-    id, username, stored_hashed_password, admin, department = user
+    user_id, username, email, stored_hashed_password, is_admin, department = user
 
     if not check_password_hash(stored_hashed_password, password):
-        return jsonify({"error": "Credenciais inválidas"}), 401
+        return jsonify({"error": "Credenciais inválidas."}), 401
 
-    session["id"] = id
+    session["id"] = user_id
     session["username"] = username
     session["email"] = email
-    session["admin"] = admin
+    session["admin"] = is_admin
     session["department"] = department
 
     return jsonify({"message": "Login successful"}), 200
@@ -129,27 +134,58 @@ def login():
 @bp.route("/register", methods=["POST"])
 def register():
     data = request.get_json()
-    err = validate_json_fields(data, {"username": str, "email": str, "password": str})
+
+    err = validate_json_fields(data, {"email": str, "password": str})
     if err:
         return err
 
-    username = data["username"]
-    email = data["email"]
-    password = data["password"]
+    email = data["email"].strip().lower()
+    password = data["password"].strip()
+
+    if not is_valid_email(email):
+        return jsonify({"error": "Email inválido."}), 400
+
+    if not is_strong_password(password):
+        return jsonify(
+            {
+                "error": "A senha deve ter pelo menos 8 caracteres, incluindo uma letra maiúscula, uma minúscula e um número."
+            }
+        ), 400
+
+    query = "SELECT 1 FROM users WHERE email=? AND enabled=1"
+    if fetch_one(query, (email,)) is not None:
+        return jsonify({"error": f"A conta {email} já existe."}), 400
 
     hashed_password = generate_password_hash(password)
-
-    conflict = users_exists(username, email)
-    if conflict:
-        return jsonify({"error": conflict}), 400
+    username = email.split("@")[0]
 
     execute_query(
         "INSERT INTO users (username, email, password) VALUES (?, ?, ?)",
         (username, email, hashed_password),
     )
 
+    user = fetch_one(
+        "SELECT id, username, email, is_admin, department, created_at FROM users WHERE email=?",
+        (email,),
+    )
+
+    if not user:
+        return jsonify(
+            {"error": "Erro ao consultar os dados do utilizador recém-criado."}
+        ), 500
+
+    user_id, username, email, is_admin, department, created_at = user
+
     return jsonify(
         {
+            "user": {
+                "id": user_id,
+                "username": username,
+                "email": email,
+                "is_admin": is_admin,
+                "department": department,
+                "created_at": format_datetime(created_at),
+            },
             "message": f"Utilizador {username} criado com sucesso.",
         }
     ), 201
@@ -166,25 +202,8 @@ def logout():
 # ----------------
 
 
-def users_exists(username, email):
-    user = fetch_one(
-        "SELECT username, email FROM users WHERE username = ? OR email = ?",
-        (username, email),
-    )
-
-    if user:
-        existing_username, existing_email = user
-        if existing_username == username and existing_email == email:
-            return "Esta conta já existe"
-        elif existing_username == username:
-            return "Este nome já está em uso"
-        elif existing_email == email:
-            return "Este e-mail já está em uso"
-
-    return None
-
-
-def login_valid(email, password):
+def is_login_valid(email, password):
+    """Validates the login."""
     user = fetch_one(
         "SELECT password FROM users WHERE email=? and password=?", (email, password)
     )
@@ -193,3 +212,18 @@ def login_valid(email, password):
         return False
 
     return True
+
+
+def is_valid_email(email):
+    """Validates email format."""
+    return re.match(r"^[\w\.-]+@[\w\.-]+\.\w+$", email) is not None
+
+
+def is_strong_password(password):
+    """Ensures password meets security requirements."""
+    return (
+        len(password) >= 8
+        and any(c.isupper() for c in password)  # At least 1 uppercase letter
+        and len(re.findall(r"[!@#$%^&*()\-_+=\[\]{}|;:'\",.<>?/]", password))
+        >= 2  # At least 2 special characters
+    )
