@@ -27,7 +27,7 @@ button {
     background-color: var(--clr-bw-dark-blue);
     background: -webkit-linear-gradient(to right, var(--clr-bw-dark-blue), var(--clr-bw-blue));
     background: linear-gradient(to right, var(--clr-bw-dark-blue), var(--clr-bw-blue));
-    border-radius: var(--rounded);
+    border-radius: var(--bs-border-radius-lg);
     border: 2px solid var(--clr-bw-blue);
     color: #FFFFFF;
     font-size: .75rem;
@@ -58,28 +58,30 @@ button {
     }
 }
 
-form {
-    background-color: #FFFFFF;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    padding-inline: 2rem;
-    gap: 1rem;
+.form-container {
+    position: absolute;
+    top: 0;
     height: 100%;
+    transition: all 0.6s ease-in-out;
 }
 
 .form-container button {
     margin-top: .5rem;
 }
 
-.input-group {
+.form-container h1 {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.form-container .input-group {
     width: 100%;
     position: relative;
     color: var(--clr-bw-dark-blue);
 }
 
-.input-group > .fa-eye, .input-group > .fa-eye-slash {
+.form-container .input-group > .fa-eye,
+.form-container .input-group > .fa-eye-slash {
     position: absolute;
     right: 1rem;
     top: 50%;
@@ -90,16 +92,16 @@ form {
     font-weight: bold;
 }
 
-input {
+.form-container input {
     background-color: var(--clr-cream);
     border: 2px solid var(--clr-cream);
-    border-radius: var(--rounded);
+    border-radius: var(--bs-border-radius-lg) !important;
     padding: 12px 15px;
     width: 100%;
     transition: all .2s ease-in-out;
 }
 
-input:focus {
+.form-container input:focus {
     border-color: var(--clr-bw-dark-blue);
     border-color: -webkit-linear-gradient(to right, var(--clr-bw-dark-blue), var(--clr-bw-blue));
     border-color: linear-gradient(to right, var(--clr-bw-dark-blue), var(--clr-bw-blue));
@@ -107,7 +109,7 @@ input:focus {
 
 .auth-container {
     background-color: #fff;
-    border-radius: var(--rounded-lg);
+    border-radius: var(--bs-border-radius-lg);
     box-shadow: 0 14px 28px rgba(0,0,0,0.25), 
         0 10px 10px rgba(0,0,0,0.22);
     position: relative;
@@ -115,13 +117,6 @@ input:focus {
     width: 768px;
     max-width: 100%;
     min-height: 480px;
-}
-
-.form-container {
-    position: absolute;
-    top: 0;
-    height: 100%;
-    transition: all 0.6s ease-in-out;
 }
 
 .sign-in-container {

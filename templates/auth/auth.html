@@ -4,18 +4,19 @@
 
 {% block styles %}
 <link href="{{ url_for('static', filename='toastr/toastr.min.css') }}" rel="stylesheet" />
+<link href="{{ url_for('static', filename='bootstrap/bootstrap.min.css') }}" rel="stylesheet" />
 <link href="{{ url_for('static', filename='css/auth.css') }}" rel="stylesheet" />
 {% endblock %}
 
 {% block main %}
 <div class="auth-container" id="container">
 	<div class="form-container sign-up-container">
-		<form id="register-form">
-			<h1>Criar Conta</h1>
-            <div class="input-group">
-                <input type="text" id="registerUsernameField" name="username" placeholder="Nome do Utilizador" />
-                <div id="registerUsernameErrorField" class="text-danger"></div>
-            </div>
+		<form
+            id="register-form"
+            class="d-flex justify-content-center align-items-center flex-column px-4 bg-white h-100 gap-3">
+
+			<h1 class="mb-3">Criar Conta</h1>
+
             <div class="input-group">
                 <input type="email" id="registerEmailField" name="email" placeholder="E-mail" />
                 <div id="registerEmailErrorField" class="text-danger"></div>
@@ -29,32 +30,48 @@
                 <input type="password" id="registerConfirmPwdField" name="confirm-pwd" placeholder="Confirmar Password" />
                 <i class="fa-solid fa-eye"></i>
             </div>
-            <button class="auth-btn" type="submit">Registar</button>
+            <small class="w-100">
+                <ul id="password-requirements" class="mb-0 ps-3 text-muted form-text">
+                    <li>Mínimo de 8 caracteres</li>
+                    <li>Pelo menos, uma letra maiúscula</li>
+                    <li>Pelo menos, dois caracteres especiais</li>
+                </ul>
+            </small>
+            <button class="auth-btn" type="submit">
+                Registar
+            </button>
 		</form>
 	</div>
 	<div class="form-container sign-in-container">
-		<form id="login-form">
-			<h1>Login</h1>
+		<form
+            id="login-form"
+            class="d-flex justify-content-center align-items-center flex-column px-4 bg-white h-100 gap-3">
+
+			<h1 class="mb-3">Login</h1>
+
             <div class="input-group">
-                <input type="email" placeholder="E-mail" name="email" id="loginEmailField" required autofocus />
+                <input type="text" placeholder="Nome / E-mail" name="identifier" id="loginIdentifierField" required autofocus />
             </div>
             <div class="input-group">
                 <input type="password" placeholder="Password" name="pwd" id="loginPwdField" required />
                 <i class="fa-solid fa-eye"></i>
             </div>
-            <a href="#">Forgot your password?</a>
+
+            <a href="#">Esqueceu-se da sua password?</a>
+
             <button class="auth-btn" type="submit">Entrar</button>
 		</form>
 	</div>
 	<div class="overlay-container">
 		<div class="overlay">
-			<div class="overlay-panel overlay-left">
-				<h1>Bem-vindo de volta!</h1>
+			<div
+                class="overlay-panel overlay-left">
+				<h1 class="mb-0">Bem-vindo de volta!</h1>
 				<p>Queres entrar na tua conta?</p>
 				<button class="auth-btn reverse" id="signIn">Login</button>
 			</div>
 			<div class="overlay-panel overlay-right">
-                <h1>Olá, és<br>novo aqui?</h1>
+                <h1 class="mb-0">Olá, és<br>novo aqui?</h1>
 				<p>Queres criar a tua conta?</p>
 				<button class="auth-btn reverse" id="signUp">Registo</button>
 			</div>
