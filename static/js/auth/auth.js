@@ -7,9 +7,8 @@ $(function() {
         $("#container").removeClass("right-panel-active");
     });
 
-    // Toggle Password Visibility
     $(".input-group .fa-lock").click(function() {
-        let pwdField = $(this).siblings("input");
+        let pwdField = $(this).closest(".input-group").find("input");
         let type = pwdField.attr("type") === "password" ? "text" : "password";
         pwdField.attr("type", type);
         $(this).toggleClass("fa-lock fa-unlock");
@@ -19,14 +18,14 @@ $(function() {
     $("#login-form").on("submit", function(e) {
         e.preventDefault();
 
-        const emailField = $("#loginEmailField");
-        const emailErrorField = $("#loginEmailErrorField");
+        const identifierField = $("#loginIdentifierField");
+        const identifierErrorField = $("#loginIdentifierErrorField");
 
         const pwdField = $("#loginPwdField");
         const pwdErrorField = $("#loginPwdErrorField");
 
         let isValid = true;
-        isValid &= isFieldValid(emailField, emailErrorField, "Introduza o seu e-mail.")
+        isValid &= isFieldValid(identifierField, identifierErrorField, "Introduza o seu nome/e-mail.")
         isValid &= isFieldValid(pwdField, pwdErrorField, "Introduza a sua palavra-passe.")
 
         if (!isValid) {
@@ -34,7 +33,7 @@ $(function() {
         }
 
         let payload = {
-            email: emailField.val(),
+            identifier: identifierField.val(),
             password: pwdField.val(),
         }
 
@@ -87,9 +86,27 @@ $(function() {
             type: "POST",
             contentType: "application/json",
             data: JSON.stringify(payload),
-            success: function(responseJSON) {
-                console.log(responseJSON)
-                toastr.success("Conta criada com sucesso!");
+            success: function() {
+                payload = {
+                    identifier: emailField.val(),
+                    password: pwdField.val(),
+                }
+
+                $.ajax({
+                    url: "/api/login",
+                    type: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify(payload),
+                    success: function() {
+                        toastr.success("Conta criada com sucesso.");
+                        window.location.href = "/dashboard/";
+                        return;
+                    },
+                    error: function(xhr) {
+                        let errorMsg = xhr.responseJSON?.error || "Ocorreu um erro ao entrar a sua conta.";
+                        toastr.error(errorMsg);
+                    }
+                })
             },
             error: function(xhr) {
                 let errorMsg = xhr.responseJSON?.error || "Ocorreu um erro ao criar a sua conta.";

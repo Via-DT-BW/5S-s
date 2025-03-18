@@ -63,16 +63,22 @@
 			<h1 class="mb-3">Login</h1>
 
             <div class="input-group">
-                <input type="text" class="form-control" placeholder="Nome / E-mail" name="identifier" id="loginIdentifierField" required autofocus />
+                <span class="input-group-text p-3" id="basic-addon4">
+                    <i class="fa-solid fa-user"></i>
+                </span>
+                <input type="text" class="form-control rounded-end p-3" placeholder="Nome / E-mail" name="identifier" id="loginIdentifierField" aria-label="Nome / E-mail" aria-describly="basic-addon4" required autofocus />
+                <div id="loginIdentifierErrorField" class="invalid-feedback"></div>
             </div>
             <div class="input-group">
-                <input type="password" class="form-control" placeholder="Password" name="pwd" id="loginPwdField" required />
-                <i class="fa-solid fa-eye"></i>
+                <span class="input-group-text p-3" id="basic-addon5">
+                    <i class="fa-solid fa-lock"></i>
+                </span>
+                <input type="password" class="form-control rounded-end p-3" placeholder="Password" name="pwd" id="loginPwdField" aria-label="Password" aria-describly="basic-addon5" required />
             </div>
 
-            <a href="#">Esqueceu-se da sua password?</a>
+            <a class="align-self-start" href="#">Esqueceu-se da sua password?</a>
 
-            <button class="auth-btn" type="submit">
+            <button class="auth-btn align-self-end" type="submit">
                 <i class="fa-solid fa-sign-in-alt"></i>
                 <span>Entrar</span>
             </button>

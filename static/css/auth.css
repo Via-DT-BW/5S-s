@@ -112,9 +112,8 @@ button {
         0 10px 10px rgba(0,0,0,0.22);
     position: relative;
     overflow: hidden;
-    min-width: 768px;
-    /* min-width: 65vw; */
-    min-height: 65vh;
+    min-width: clamp(768px, 80vw, 1024px); 
+    min-height: clamp(65vh, 70vh, 80vh);
 }
 
 .sign-in-container {
