@@ -3,8 +3,8 @@ import { cachedAuditTypes, loadDepartments } from "../departments.js";
 $(document).ready(function() {
     // Delete Department
     $(document).on("click", ".delete-department-btn", function() {
-        let id = $(this).data("id");
-        let name = $(this).data("name");
+        let id = $("#editDepartmentModal").data("department-id");
+        let name = $("#editDepartmentModal").data("department-name");
         $("#deleteDepartmentModal").data("id", id);
         $("#deleteDepartmentModal").data("name", name);
 
@@ -34,7 +34,7 @@ $(document).ready(function() {
     })
 
     // Edit Department
-    $(document).on("click", ".edit-department-btn", function() {
+    $(document).on("click", "#departments-table tbody tr", function() {
         let id = $(this).data("id");
         let name = $(this).data("name");
         let auditType = $(this).data("audit-type-id");
@@ -48,6 +48,7 @@ $(document).ready(function() {
 
         $("#editDepartmentModal #editAuditTypeField").html(optionsHtml);
         $("#editDepartmentModal").data("department-id", id);
+        $("#editDepartmentModal").data("department-name", name);
     });
 
 

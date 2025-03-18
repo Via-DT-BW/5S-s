@@ -15,6 +15,11 @@
     padding: .5rem 1rem;
 }
 
+.modal-header {
+    background-color: var(--clr-bw-blue);
+    color: white;
+}
+
 form input[type="text"],
 form input[type="email"],
 form input[type="number"],
@@ -66,6 +71,12 @@ form .btn {
         border-color: var(--clr-bw-dark-blue);
         color: var(--clr-bw-dark-blue);
     }
+}
+
+.btn-danger:hover {
+    background: transparent;
+    border-color: var(--bs-btn-border-color);
+    color: var(--bs-btn-border-color);
 }
 
 .btn-secondary, .btn-secondary:hover {

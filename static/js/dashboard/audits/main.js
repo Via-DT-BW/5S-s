@@ -36,7 +36,7 @@ function updateAuditsTable(audits) {
         tbody.append(`
             <tr class="cursor-pointer" data-url="/dashboard/audits/view?id=${audit.id}">
                 <td class="d-flex flex-column">
-                    <span><b>${audit.space}</b></span>
+                    <b>${audit.space}</b>
                     <small class="text-muted"><i>${audit.department}</i></small>
                 </td>
                 <td class="position-relative fs-6">

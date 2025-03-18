@@ -34,28 +34,16 @@ export function updateDepartmentsTable(departments) {
 
     departments.forEach(dep => {
         tbody.append(`
-            <tr>
-                <td>${dep.name}</td>
-                <td>${dep.audit_type}</td>
+            <tr class="cursor-pointer"
+                data-id="${dep.id}" data-name="${dep.name}" data-audit-type-id="${dep.audit_type}" 
+                data-bs-toggle="modal" data-bs-toggle="modal" data-bs-target="#editDepartmentModal">
+                <td class="d-flex flex-column">
+                    <b>${dep.name}</b>
+                    <small><i>${dep.audit_type}</i></small>
+                </td>
                 <td>${dep.spaces_count}</td>
                 <td>${dep.users_count}</td>
-                <td class="d-flex flex-wrap gap-3">
-                    <button class="btn btn-secondary edit-department-btn" 
-                        data-id="${dep.id}" 
-                        data-name="${dep.name}" 
-                        data-audit-type-id="${dep.audit_type}" 
-                        data-bs-toggle="modal" 
-                        data-bs-target="#editDepartmentModal">
-                        <i class="fa-solid fa-pencil"></i>
-                    </button>
-                    <button class="btn btn-danger delete-department-btn" 
-                        data-id="${dep.id}" 
-                        data-name="${dep.name}" 
-                        data-bs-toggle="modal" 
-                        data-bs-target="#deleteDepartmentModal">
-                        <i class="fa-solid fa-trash"></i>
-                    </button>
-                </td>
+                <td><i class="fa-solid fa-angle-right" aria-hidden="true"></i></td>
             </tr>
         `);
     });

@@ -19,10 +19,8 @@
                 <thead>
                     <tr>
                         <th>Departamento</th>
-                        <th>Tipo de Auditoria</th>
                         <th>Espaços</th>
-                        <th>Utilizadores</th>
-                        <th>Opções</th>
+                        <th colspan=2>Utilizadores</th>
                     </tr>
                 </thead>
                 <tbody class="align-middle"></tbody>
@@ -115,7 +113,7 @@
             </div>
         </form>",
     modal_footer="
-        <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Fechar</button>
+        <button type='button' class='btn btn-danger delete-department-btn' data-bs-toggle='modal' data-bs-target='#deleteDepartmentModal'>Eliminar</button>
         <button type='submit' class='btn btn-primary' id='saveDepartmentBtn'>Guardar</button>
     " %} {% include 'dashboard/components/modal.html' %}
 {% endwith %}
