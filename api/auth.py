@@ -19,6 +19,13 @@ def update_password():
     curr = data["current"]
     new = data["new"]
 
+    if not is_strong_password(new):
+        return jsonify(
+            {
+                "error": "A password deve ter pelo menos 8 caracteres, incluindo uma letra maiúscula, uma minúscula e um número."
+            }
+        ), 400
+
     session_user = fetch_one(
         "SELECT password FROM users WHERE id=? and enabled=1", (session["id"])
     )

@@ -7,12 +7,20 @@
     padding: 1rem;
 }
 
+.input-group-text {
+    min-width: 50px;
+}
+
+.table>:not(caption)>*>* {
+    padding: .5rem 1rem;
+}
+
 form input[type="text"],
 form input[type="email"],
 form input[type="number"],
 form input[type="password"],
 form select {
-    border-radius: var(--rounded);
+    border-radius: var(--bs-border-radius-lg);
     padding: 12px 15px;
     width: 100%;
     transition: all .2s ease-in-out;
@@ -25,7 +33,7 @@ form select {
 }
 
 .btn {
-    border-radius: var(--rounded);
+    border-radius: var(--bs-border-radius-lg);
     border: 2px solid;
     font-size: .75rem;
     font-weight: bold;
@@ -39,9 +47,7 @@ form select {
 
 form .btn {
     padding: .5rem 2.5rem;
-    max-width: 150px;
     align-self: flex-end;
-
 }
 
 .form-control:focus {

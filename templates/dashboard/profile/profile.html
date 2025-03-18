@@ -6,33 +6,74 @@
     <div class="card d-flex flex-column gap-3">
         <div class="card-body">
             <h5 class="card-title mb-3">O Meu Perfil</h5>
-            <form id="user-profile-form" class="d-flex flex-column gap-3"></form>
+            <form id="user-profile-form" class="d-flex flex-column gap-3">
+                <div class="input-group">
+                    <label for="basic-addon1" class="w-100 form-label">E-mail <span class="text-danger">*</span></label>
+                    <span class="input-group-text p-3 rounded-start" id="basic-addon1">
+                        <i class="fa-solid fa-at"></i>
+                    </span>
+                    <input type="text" class="form-control rounded-end p-3" placeholder="E-mail" name="email" id="emailField" aria-label="E-mail" aria-describly="basic-addon1" required autofocus />
+                    <div id="emailErrorField" class="invalid-feedback"></div>
+                </div>
+
+                <div class="input-group">
+                    <label for="basic-addon2" class="w-100 form-label">Departamento <span class="text-danger">*</span></label>
+                    <span class="input-group-text p-3 rounded-start" id="basic-addon2">
+                        <i class="fa-solid fa-building"></i>
+                    </span>
+                    <select name="department" id="userDepartmentField" class="form-control form-select rounded-end p-3" aria-label="Departamento" aria-describly="basic-addon2">
+                        <option disabled> -- Escolha um Departamento --</option>
+                    </select>
+                </div>
+
+                <button id="updateProfileBtn" type="submit" class="btn btn-primary">
+                    <i class="fa-solid fa-rotate-right"></i>
+                    <span class="ps-1">Atualizar</span>
+                </button>
+            </form>
 
             <button class="btn btn-danger d-flex align-items-center" data-bs-toggle="collapse" data-bs-target="#changePasswordForm">
                 <i class="fa-solid fa-key"></i>
                 <span class="ps-2">Mudar Password</span>
             </button>
+
             <div id="changePasswordForm" class="collapse mt-3">
                 <form id="user-password-form" class="d-flex flex-column gap-3">
-                    <div class="form-group">
-                        <label for="currentPwdField" class="mb-1">Password Atual <span class="text-danger">*</span></label>
-                        <input type="password" class="form-control" name="currentPwd" id="currentPwdField" aria-describedby="currentPwdHelp" placeholder="Insira a sua password atual.." required>
-                        <div id="currentPwdFieldError" class="text-danger"></div>
+                    <div class="input-group">
+                        <label for="currentPwdField" class="w-100 form-label">Password Atual <span class="text-danger">*</span></label>
+                        <span class="input-group-text p-3 rounded-start" id="basic-addon3">
+                            <i class="fa-solid fa-lock"></i>
+                        </span>
+                        <input type="password" class="form-control" name="currentPwd" id="currentPwdField" aria-describedby="currentPwdHelp" placeholder="********" aria-label="Password atual" aria-describly="basic-addon3">
                     </div>
-                    <div class="form-group">
-                        <label for="newPwdField" class="mb-1">Nova Password <span class="text-danger">*</span></label>
-                        <input type="password" class="form-control" name="newPwd" id="newPwdField" aria-describedby="currentPwdHelp" placeholder="Insira a sua password atual.." required>
-                        <div id="newPwdFieldError" class="text-danger"></div>
+
+                    <small class="w-100">
+                        <ul class="mb-0 ps-3 text-muted form-text">
+                            <li>Mínimo de 8 caracteres</li>
+                            <li>Pelo menos, uma letra maiúscula</li>
+                            <li>Pelo menos, dois caracteres especiais</li>
+                        </ul>
+                    </small>
+
+                    <div class="input-group">
+                        <label for="newPwdField" class="w-100 form-label">Nova Password <span class="text-danger">*</span></label>
+                        <span class="input-group-text p-3 rounded-start" id="basic-addon4">
+                            <i class="fa-solid fa-lock"></i>
+                        </span>
+                        <input type="password" class="form-control" name="newPwd" id="newPwdField" aria-describedby="newPwdHelp" placeholder="********" aria-label="Nova Password" aria-describly="basic-addon4">
                     </div>
-                    <div class="form-group">
-                        <label for="confirmNewPwdField" class="mb-1">Confirmar Nova Password <span class="text-danger">*</span></label>
-                        <input type="password" class="form-control" name="confirmNewPwd" id="confirmNewPwdField" aria-describedby="currentPwdHelp" placeholder="Insira a sua password atual.." required>
-                        <div id="confirmNewPwdFieldError" class="text-danger"></div>
+
+                    <div class="input-group">
+                        <label for="confirmNewPwdField" class="w-100 form-label">Confirmar Nova Password <span class="text-danger">*</span></label>
+                        <span class="input-group-text p-3 rounded-start" id="basic-addon5">
+                            <i class="fa-solid fa-lock"></i>
+                        </span>
+                        <input type="password" class="form-control" name="confirmNewPwd" id="confirmNewPwdField" aria-describedby="currentPwdHelp" placeholder="********" aria-label="Confirmar Nova Password" aria-describly="basic-addon5">
                     </div>
 
                     <button type="submit" class="btn btn-primary">
                         <i class="fa-solid fa-rotate-right"></i>
-                        <span>Mudar</span>
+                        <span class="ps-2">Mudar</span>
                     </button>
                 </form>
             </div>

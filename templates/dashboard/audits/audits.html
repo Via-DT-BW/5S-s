@@ -7,14 +7,13 @@
         <div class="card-body table-responsive">
             <h5 class="card-title mb-3">
                 Auditorias
-                <!-- <span class="badge bg-light text-dark border-dark rounded">5</span> -->
             </h5>
             <div class="d-flex align-items-center justify-content-between flex-wrap pb-3">
-                <div class="d-flex gap-2">
+                <div class="input-group w-auto">
                     <button class="btn btn-primary">
                         <i class="fa-solid fa-magnifying-glass"></i>
                     </button>
-                    <input type="text" class="form-control" placeholder="Pesquisar.." name="search" id="searchField">
+                    <input type="text" class="form-control rounded-end p-3" placeholder="Pesquisar.." name="search" id="searchField" aria-label="Pesquisar.." aria-describly="basic-addon1">
                 </div>
                 <a href="{{ url_for('web.dashboard.audits.create') }}" class="btn btn-primary">
                     <i class="fa-solid fa-plus"></i>
