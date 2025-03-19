@@ -24,6 +24,10 @@ CREATE TABLE departments (
     id INT IDENTITY(1,1) PRIMARY KEY,
     name NVARCHAR(255) NOT NULL,
     audit_type INT NOT NULL,
+    audit_interval_value INT DEFAULT 1 CHECK (audit_interval_value > 0),
+    audit_interval_unit VARCHAR(10) DEFAULT 'MONTH' CHECK (audit_interval_unit IN ('WEEK', 'MONTH')), 
+    next_required_audit_date DATE,
+    audit_status BIT DEFAULT 0,
     FOREIGN KEY (audit_type) REFERENCES audit_types(id)
 );
 
@@ -46,15 +50,22 @@ CREATE TABLE users (
     FOREIGN KEY (department) REFERENCES departments(id)
 );
 
+CREATE TABLE department_responsibles (
+    department INT NOT NULL,
+    responsible INT NOT NULL,
+    role NVARCHAR(100) NOT NULL, -- MKT, PL, PLM, etc.
+    PRIMARY KEY (department, responsible),
+    FOREIGN KEY (department) REFERENCES departments(id),
+    FOREIGN KEY (responsible) REFERENCES users(id)
+)
+
 CREATE TABLE audits (
     id INT IDENTITY(1,1) PRIMARY KEY,
     signed INT NULL,
     space INT NOT NULL,
     created_at DATETIME NOT NULL DEFAULT GETDATE(),
-    next_date DATETIME NULL,
     overall_score INT NULL,
     comments NVARCHAR(MAX) NULL,
-    completed BIT NOT NULL DEFAULT 0,
     FOREIGN KEY (signed) REFERENCES users(id),
     FOREIGN KEY (space) REFERENCES spaces(id)
 );
@@ -69,10 +80,29 @@ CREATE TABLE audit_checklist (
     FOREIGN KEY (checklist) REFERENCES checklists(id)
 );
 
--- TODO: Reformulate how the noks are done in the near future
--- CREATE TABLE noks (
---     id INT IDENTITY(1,1) PRIMARY KEY,
---     checklist INT NOT NULL,
---     description NVARCHAR(MAX) NOT NULL,
---     FOREIGN KEY (checklist) REFERENCES checklists(id)
--- );
+-- Trigger to update department audit status
+CREATE TRIGGER trg_update_audit_status
+ON audits
+AFTER INSERT
+AS
+BEGIN
+    UPDATE d
+    SET 
+        d.audit_status = 1,
+        d.next_required_audit_date = CASE 
+            WHEN d.audit_interval_unit = 'WEEK' THEN DATEADD(WEEK, d.audit_interval_value, GETDATE())
+            WHEN d.audit_interval_unit = 'MONTH' THEN DATEADD(MONTH, d.audit_interval_value, GETDATE())
+        END
+    FROM departments d
+    JOIN inserted i ON d.id = (SELECT department FROM spaces WHERE id = i.space)
+    WHERE d.audit_status = 0;
+END;
+
+-- Stored procedure to reset audit status for missed audits
+CREATE PROCEDURE sp_check_missed_audits
+AS
+BEGIN
+    UPDATE departments
+    SET audit_status = 0
+    WHERE next_required_audit_date < GETDATE() AND audit_status = 1;
+END;
