@@ -11,10 +11,6 @@
     min-width: 50px;
 }
 
-.table>:not(caption)>*>* {
-    padding: .5rem 1rem;
-}
-
 .modal-header {
     background-color: var(--clr-bw-blue);
     color: white;

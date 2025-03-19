@@ -15,7 +15,7 @@
     <div class="card d-flex flex-column gap-3">
         <div class="card-body table-responsive">
             <h5 class="card-title mb-3">Departamentos</h5>
-            <table id="departments-table" class="table table-responsive table-hover">
+            <table id="departments-table" class="table table-hover">
                 <thead>
                     <tr>
                         <th>Departamento</th>
@@ -52,9 +52,7 @@
             <table id="spaces-table" class="table table-responsive table-hover">
                 <thead>
                     <tr>
-                        <th>Espaço</th>
-                        <th>Departamento</th>
-                        <th>Opções</th>
+                        <th colspan=2>Espaço</th>
                     </tr>
                 </thead>
                 <tbody class="align-middle"></tbody>
@@ -103,13 +101,19 @@
     modal_title="Editar Departamento",
     modal_content="
         <form id='editDepartmentForm' class='d-flex flex-column gap-3'>
-            <div class='form-group'>
-                <label for='editDepartmentField'>Departamento <span class='text-danger'>*</span></label>
-                <input type='text' class='form-control' id='editDepartmentField' required>
+            <div class='input-group'>
+                <label for='basic-addon1' class='w-100 form-label'>Departamento <span class='text-danger'>*</span></label>
+                <span class='input-group-text rounded-start' id='basic-addon1'>
+                    <i class='fa-solid fa-building mx-auto'></i>
+                </span>
+                <input type='text' class='form-control rounded-end p-3' id='editDepartmentField' placeholder='Departamento' aria-label='Departamento' aria-describly='basic-addon1' required>
             </div>
-            <div class='form-group'>
-                <label for='editAuditTypeField'>Tipo de Auditoria <span class='text-danger'>*</span></label>
-                <select class='form-control' id='editAuditTypeField' required></select>
+            <div class='input-group'>
+                <label for='basic-addon2' class='w-100 form-label'>Tipo de Auditoria <span class='text-danger'>*</span></label>
+                <span class='input-group-text rounded-start' id='basic-addon2'>
+                    <i class='fa-solid fa-clipboard-list mx-auto'></i>
+                </span>
+                <select class='form-select rounded-end p-3' id='editAuditTypeField' aria-label='Tipo de Auditoria' aria-describly='basic-addon2' required></select>
             </div>
         </form>",
     modal_footer="
@@ -132,17 +136,23 @@
     modal_title="Editar Espaço",
     modal_content="
         <form id='editSpaceForm' class='d-flex flex-column gap-3'>
-            <div class='form-group'>
-                <label for='spaceField'>Espaço <span class='text-danger'>*</span></label>
-                <input type='text' class='form-control' id='spaceField' required>
+            <div class='input-group'>
+                <label for='basic-addon2' class='w-100 form-label'>Espaço <span class='text-danger'>*</span></label>
+                <span class='input-group-text rounded-start' id='basic-addon2'>
+                    <i class='fa-solid fa-map-marker-alt mx-auto'></i>
+                </span>
+                <input type='text' class='form-control rounded-end p-3' id='spaceField' placeholder='Espaço' aria-label='Espaço' aria-describly='basic-addon2' required>
             </div>
-            <div class='form-group'>
-                <label for='departmentField'>Departamento <span class='text-danger'>*</span></label>
-                <select class='form-control' id='departmentField' required></select>
+            <div class='input-group'>
+                <label for='basic-addon3' class='w-100 form-label'>Departamento <span class='text-danger'>*</span></label>
+                <span class='input-group-text rounded-start' id='basic-addon3'>
+                    <i class='fa-solid fa-building mx-auto'></i>
+                </span>
+                <select class='form-select rounded-end p-3' id='departmentField' placeholder='Departamento' aria-label='Departamento' aria-describly='basic-addon3' required></select>
             </div>
         </form>",
     modal_footer="
-        <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Fechar</button>
+        <button type='button' class='btn btn-danger delete-space-btn' data-bs-toggle='modal' data-bs-target='#deleteSpaceModal'>Eliminar</button>
         <button type='submit' class='btn btn-primary' id='editSpaceModalBtn'>Guardar</button>
 " %} {% include 'dashboard/components/modal.html' %}
 {% endwith %}
