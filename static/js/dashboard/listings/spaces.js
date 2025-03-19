@@ -21,13 +21,13 @@ export function loadSpaces() {
         spaces.forEach(space => {
             tbody.append(`
                 <tr class="cursor-pointer"
-                    data-id=${space.id} data-name="${space.name}" data-department=${space.department}
+                    data-id=${space.id} data-name="${space.name}" data-department="${space.department}"
                     data-bs-toggle="modal" data-bs-target="#editSpaceModal">
                     <td class="d-flex flex-column">
                         <b>${space.name}</b>
                         <small><i>${space.department}</i></small>
                     </td>
-                    <td><i class="fa-solid fa-angle-right" aria-hidden="true"</i></td>
+                    <td><i class="fa-solid fa-angle-right"></i></td>
                 </tr>
             `);
         });

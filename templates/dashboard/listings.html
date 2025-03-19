@@ -2,97 +2,101 @@
 
 {% block content %}
 
-<section id="audit-types" class="container container-fluid">
-    <div class="card d-flex flex-column gap-3">
-        <div class="card-body">
-            <h5 class="card-title mb-3">Tipos de Auditorias</h5>
-            <div class="accordion" id="audit-types-listing"></div>
-        </div>
+<section id="audit-types" class="container container-fluid card">
+    <div class="card-body d-flex flex-column gap-3">
+        <h5 class="card-title mb-3">Tipos de Auditorias</h5>
+        <div class="accordion" id="audit-types-listing"></div>
     </div>
 </section>
 
-<section id="departments" class="container container-fluid">
-    <div class="card d-flex flex-column gap-3">
-        <div class="card-body table-responsive">
-            <h5 class="card-title mb-3">Departamentos</h5>
-            <table id="departments-table" class="table table-hover">
-                <thead>
-                    <tr>
-                        <th>Departamento</th>
-                        <th>Espaços</th>
-                        <th colspan=2>Utilizadores</th>
-                    </tr>
-                </thead>
-                <tbody class="align-middle"></tbody>
-            </table>
-            <form class="d-flex flex-column gap-3">
-                <div>
-                    <label for="departmentField" class="mb-1">Departamento <span class="text-danger">*</span></label>
-                    <input type="email" class="form-control" id="departmentField" aria-describedby="departmentHelp" placeholder="Insira o nome do departamento.." required>
-                    <div id="departmentErrorField" class="text-danger"></div>
-                </div>
-                <div>
-                    <label for="auditTypeField" class="mb-1">Tipo de Auditoria <span class="text-danger">*</span></label>
-                    <select class="form-control" id="auditTypeField" required></select>
-                    <div id="auditTypeFieldError" class="text-danger"></div>
-                </div>
-                <button type="submit" class="btn btn-primary" id="create_department_btn">
-                    <i class="fa-solid fa-plus"></i>
-                    <span>Criar</span>
-                </button>
-            </form>
-        </div>
+<section id="departments" class="container container-fluid card">
+    <div class="card-body d-flex flex-column gap-3 table-responsive">
+        <h5 class="card-title">Departamentos</h5>
+        <table id="departments-table" class="table table-hover rounded overflow-hidden">
+            <thead>
+                <tr>
+                    <th>Departamento</th>
+                    <th>Espaços</th>
+                    <th colspan=2>Utilizadores</th>
+                </tr>
+            </thead>
+            <tbody class="align-middle"></tbody>
+        </table>
+        <form class="d-flex flex-column gap-3">
+            <div class="input-group">
+                <label for="departmentField" class="w-100 form-label">Departamento <span class="text-danger">*</span></label>
+                <span class="input-group-text p-3 rounded-start">
+                    <i class="fa-solid fa-building mx-auto"></i>
+                </span>
+                <input type="email" class="form-control rounded-end" id="departmentField" aria-describedby="departmentHelp" placeholder="Departamento..">
+                <div id="departmentErrorField" class="text-danger w-100"></div>
+            </div>
+            <div class="input-group">
+                <label for="auditTypeField" class="w-100 form-label">Tipo de Auditoria <span class="text-danger">*</span></label>
+                <span class="input-group-text p-3 rounded-start">
+                    <i class="fa-solid fa-clipboard-list mx-auto"></i>
+                </span>
+                <select class="form-select rounded-end" id="auditTypeField" required></select>
+                <div id="auditTypeFieldError" class="text-danger"></div>
+            </div>
+            <button type="submit" class="btn btn-secondary" id="create_department_btn">
+                <i class="fa-solid fa-plus"></i>
+                <span>Criar Departamento</span>
+            </button>
+        </form>
     </div>
 </section>
 
-<section id="spaces" class="container container-fluid">
-    <div class="card d-flex flex-column gap-3">
-        <div class="card-body table-responsive">
-            <h5 class="card-title mb-3">Espaços</h5>
-            <table id="spaces-table" class="table table-responsive table-hover">
-                <thead>
-                    <tr>
-                        <th colspan=2>Espaço</th>
-                    </tr>
-                </thead>
-                <tbody class="align-middle"></tbody>
-            </table>
+<section id="spaces" class="container container-fluid card">
+    <div class="card-body table-responsive d-flex flex-column gap-3">
+        <h5 class="card-title">Espaços</h5>
+        <table id="spaces-table" class="table table-responsive table-hover rounded overflow-hidden">
+            <thead>
+                <tr>
+                    <th colspan=2>Espaço</th>
+                </tr>
+            </thead>
+            <tbody class="align-middle"></tbody>
+        </table>
 
-            <form class="d-flex flex-column gap-3">
-                <div class="form-group">
-                    <label for="spaceField" class="mb-1">Espaço <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" name="space" id="spaceField" aria-describedby="spaceHelp" placeholder="Insira o nome do espaço.." required>
-                    <div id="spaceFieldError" class="text-danger"></div>
-                </div>
-                <div class="form-group">
-                    <label for="spaceDepartmentField" class="mb-1">Departamento <span class="text-danger">*</span></label>
-                    <select class="form-control" name="department" id="spaceDepartmentField" required></select>
-                </div>
-                <button id="create_space_btn" type="submit" class="btn btn-primary">
-                    <i class="fa-solid fa-plus"></i>
-                    Criar
-                </button>
-            </form>
-        </div>
+        <form class="d-flex flex-column gap-3">
+            <div class="input-group">
+                <label for="spaceField" class="form-label w-100">Espaço <span class="text-danger">*</span></label>
+                <span class="input-group-text p-3 rounded-start">
+                    <i class="fa-solid fa-map-marker-alt"></i>
+                </span>
+                <input type="text" class="form-control rounded-end" name="space" id="spaceField" aria-describedby="spaceHelp" placeholder="Insira o nome do espaço.." required>
+                <div id="spaceFieldError" class="text-danger w-100"></div>
+            </div>
+            <div class="input-group">
+                <label for="spaceDepartmentField" class="form-label w-100">Departamento <span class="text-danger">*</span></label>
+                <span class="input-group-text p-3 rounded-start">
+                    <i class="fa-solid fa-building"></i>
+                </span>
+                <select class="form-select rounded-end" name="department" id="spaceDepartmentField" required></select>
+            </div>
+            <button id="create_space_btn" type="submit" class="btn btn-secondary">
+                <i class="fa-solid fa-plus"></i>
+                <span>Criar Espaço</span>
+            </button>
+        </form>
     </div>
 </section>
 
-<section id="users" class="container container-fluid">
-    <div class="card d-flex flex-column gap-3">
-        <div class="card-body table-responsive">
-            <h5 class="card-title mb-3">Utilizadores</h5>
-            <table id="users-table" class="table table-responsive table-hover">
-                <thead>
-                    <tr>
-                        <th>Utilizador</th>
-                        <th>Auditorias</th>
-                        <th>Cargo</th>
-                        <th>Opções</th>
-                    </tr>
-                </thead>
-                <tbody class="align-middle"></tbody>
-            </table>
-        </div>
+<section id="users" class="container container-fluid card">
+    <div class="card-body table-responsive d-flex flex-column gap-3">
+        <h5 class="card-title">Utilizadores</h5>
+        <table id="users-table" class="table table-responsive table-hover rounded overflow-hidden">
+            <thead>
+                <tr>
+                    <th>Utilizador</th>
+                    <th>Auditorias</th>
+                    <th>Cargo</th>
+                    <th>Opções</th>
+                </tr>
+            </thead>
+            <tbody class="align-middle"></tbody>
+        </table>
     </div>
 </section>
 
@@ -102,18 +106,18 @@
     modal_content="
         <form id='editDepartmentForm' class='d-flex flex-column gap-3'>
             <div class='input-group'>
-                <label for='basic-addon1' class='w-100 form-label'>Departamento <span class='text-danger'>*</span></label>
-                <span class='input-group-text rounded-start' id='basic-addon1'>
+                <label for='editDepartmentField' class='w-100 form-label'>Departamento <span class='text-danger'>*</span></label>
+                <span class='input-group-text rounded-start'>
                     <i class='fa-solid fa-building mx-auto'></i>
                 </span>
-                <input type='text' class='form-control rounded-end p-3' id='editDepartmentField' placeholder='Departamento' aria-label='Departamento' aria-describly='basic-addon1' required>
+                <input type='text' class='form-control rounded-end p-3' id='editDepartmentField' placeholder='Departamento' aria-label='Departamento' required>
             </div>
             <div class='input-group'>
-                <label for='basic-addon2' class='w-100 form-label'>Tipo de Auditoria <span class='text-danger'>*</span></label>
-                <span class='input-group-text rounded-start' id='basic-addon2'>
+                <label for='editAuditTypeField' class='w-100 form-label'>Tipo de Auditoria <span class='text-danger'>*</span></label>
+                <span class='input-group-text rounded-start'>
                     <i class='fa-solid fa-clipboard-list mx-auto'></i>
                 </span>
-                <select class='form-select rounded-end p-3' id='editAuditTypeField' aria-label='Tipo de Auditoria' aria-describly='basic-addon2' required></select>
+                <select class='form-select rounded-end p-3' id='editAuditTypeField' aria-label='Tipo de Auditoria' required></select>
             </div>
         </form>",
     modal_footer="
@@ -137,18 +141,18 @@
     modal_content="
         <form id='editSpaceForm' class='d-flex flex-column gap-3'>
             <div class='input-group'>
-                <label for='basic-addon2' class='w-100 form-label'>Espaço <span class='text-danger'>*</span></label>
-                <span class='input-group-text rounded-start' id='basic-addon2'>
+                <label for='spaceField' class='w-100 form-label'>Espaço <span class='text-danger'>*</span></label>
+                <span class='input-group-text rounded-start'>
                     <i class='fa-solid fa-map-marker-alt mx-auto'></i>
                 </span>
-                <input type='text' class='form-control rounded-end p-3' id='spaceField' placeholder='Espaço' aria-label='Espaço' aria-describly='basic-addon2' required>
+                <input type='text' class='form-control rounded-end p-3' id='spaceField' placeholder='Espaço' aria-label='Espaço' required>
             </div>
             <div class='input-group'>
-                <label for='basic-addon3' class='w-100 form-label'>Departamento <span class='text-danger'>*</span></label>
-                <span class='input-group-text rounded-start' id='basic-addon3'>
+                <label for='departmentField' class='w-100 form-label'>Departamento <span class='text-danger'>*</span></label>
+                <span class='input-group-text rounded-start'>
                     <i class='fa-solid fa-building mx-auto'></i>
                 </span>
-                <select class='form-select rounded-end p-3' id='departmentField' placeholder='Departamento' aria-label='Departamento' aria-describly='basic-addon3' required></select>
+                <select class='form-select rounded-end p-3' id='departmentField' placeholder='Departamento' aria-label='Departamento' required></select>
             </div>
         </form>",
     modal_footer="

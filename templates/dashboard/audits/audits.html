@@ -2,36 +2,34 @@
 
 {% block content %}
 
-<section id="audits" class="container container-fluid mb-5">
-    <div class="card d-flex flex-column gap-3">
-        <div class="card-body table-responsive">
-            <h5 class="card-title mb-3">
-                Auditorias
-            </h5>
-            <div class="d-flex align-items-center justify-content-between flex-wrap pb-3">
-                <div class="input-group w-auto">
-                    <button class="btn btn-primary">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                    </button>
-                    <input type="text" class="form-control rounded-end p-2" placeholder="Pesquisar.." name="search" id="searchField" aria-label="Pesquisar.." aria-describly="basic-addon1">
-                </div>
-                <a href="{{ url_for('web.dashboard.audits.create') }}" class="btn btn-primary">
-                    <i class="fa-solid fa-plus"></i>
-                    <span>Criar Auditoria</span>
-                </a>
+<section id="audits" class="container container-fluid card">
+    <div class="card-body table-responsive d-flex flex-column gap-3">
+        <h5 class="card-title">
+            Auditorias
+        </h5>
+        <div class="d-flex align-items-center justify-content-between flex-wrap">
+            <a href="{{ url_for('web.dashboard.audits.create') }}" class="btn btn-secondary">
+                <i class="fa-solid fa-plus"></i>
+                <span>Criar Auditoria</span>
+            </a>
+            <div class="input-group w-auto">
+                <input type="text" class="form-control rounded-start" placeholder="Pesquisar.." name="search" id="searchField" aria-label="Pesquisar..">
+                <button class="btn btn-primary">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
             </div>
-            <table id="audits-table" class="table table-responsive table-hover">
-                <thead>
-                    <tr>
-                        <th>Local</th>
-                        <th>Resultado</th>
-                        <th>Responsável</th>
-                        <th colspan=2>Data</th>
-                    </tr>
-                </thead>
-                <tbody class="align-middle"></tbody>
-            </table>
         </div>
+        <table id="audits-table" class="table table-responsive table-hover">
+            <thead>
+                <tr>
+                    <th>Local</th>
+                    <th>Resultado</th>
+                    <th>Responsável</th>
+                    <th colspan=2>Data</th>
+                </tr>
+            </thead>
+            <tbody class="align-middle"></tbody>
+        </table>
     </div>
 </section>
 {% endblock %}

@@ -36,14 +36,14 @@ export function updateDepartmentsTable(departments) {
         tbody.append(`
             <tr class="cursor-pointer"
                 data-id="${dep.id}" data-name="${dep.name}" data-audit-type-id="${dep.audit_type}" 
-                data-bs-toggle="modal" data-bs-toggle="modal" data-bs-target="#editDepartmentModal">
+                data-bs-toggle="modal" data-bs-target="#editDepartmentModal">
                 <td class="d-flex flex-column">
                     <b>${dep.name}</b>
                     <small><i>${dep.audit_type}</i></small>
                 </td>
                 <td>${dep.spaces_count}</td>
                 <td>${dep.users_count}</td>
-                <td><i class="fa-solid fa-angle-right" aria-hidden="true"></i></td>
+                <td><i class="fa-solid fa-angle-right"></i></td>
             </tr>
         `);
     });

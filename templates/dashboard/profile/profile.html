@@ -8,20 +8,20 @@
             <h5 class="card-title mb-3">O Meu Perfil</h5>
             <form id="user-profile-form" class="d-flex flex-column gap-3">
                 <div class="input-group">
-                    <label for="basic-addon1" class="w-100 form-label">E-mail <span class="text-danger">*</span></label>
-                    <span class="input-group-text p-3 rounded-start" id="basic-addon1">
+                    <label for="emailField" class="w-100 form-label">E-mail <span class="text-danger">*</span></label>
+                    <span class="input-group-text p-3 rounded-start">
                         <i class="fa-solid fa-at"></i>
                     </span>
-                    <input type="text" class="form-control rounded-end p-3" placeholder="E-mail" name="email" id="emailField" aria-label="E-mail" aria-describly="basic-addon1" required autofocus />
+                    <input type="text" class="form-control rounded-end p-3" placeholder="E-mail" name="email" id="emailField" aria-label="E-mail" required autofocus />
                     <div id="emailErrorField" class="invalid-feedback"></div>
                 </div>
 
                 <div class="input-group">
-                    <label for="basic-addon2" class="w-100 form-label">Departamento <span class="text-danger">*</span></label>
-                    <span class="input-group-text p-3 rounded-start" id="basic-addon2">
+                    <label for="userDepartmentField" class="w-100 form-label">Departamento <span class="text-danger">*</span></label>
+                    <span class="input-group-text p-3 rounded-start">
                         <i class="fa-solid fa-building"></i>
                     </span>
-                    <select name="department" id="userDepartmentField" class="form-control form-select rounded-end p-3" aria-label="Departamento" aria-describly="basic-addon2">
+                    <select name="department" id="userDepartmentField" class="form-control form-select rounded-end p-3" aria-label="Departamento">
                         <option disabled> -- Escolha um Departamento --</option>
                     </select>
                 </div>
@@ -41,10 +41,10 @@
                 <form id="user-password-form" class="d-flex flex-column gap-3">
                     <div class="input-group">
                         <label for="currentPwdField" class="w-100 form-label">Password Atual <span class="text-danger">*</span></label>
-                        <span class="input-group-text p-3 rounded-start" id="basic-addon3">
+                        <span class="input-group-text p-3 rounded-start">
                             <i class="fa-solid fa-lock"></i>
                         </span>
-                        <input type="password" class="form-control" name="currentPwd" id="currentPwdField" aria-describedby="currentPwdHelp" placeholder="********" aria-label="Password atual" aria-describly="basic-addon3">
+                        <input type="password" class="form-control" name="currentPwd" id="currentPwdField" aria-describedby="currentPwdHelp" placeholder="********" aria-label="Password atual">
                     </div>
 
                     <small class="w-100">
@@ -57,18 +57,18 @@
 
                     <div class="input-group">
                         <label for="newPwdField" class="w-100 form-label">Nova Password <span class="text-danger">*</span></label>
-                        <span class="input-group-text p-3 rounded-start" id="basic-addon4">
+                        <span class="input-group-text p-3 rounded-start">
                             <i class="fa-solid fa-lock"></i>
                         </span>
-                        <input type="password" class="form-control" name="newPwd" id="newPwdField" aria-describedby="newPwdHelp" placeholder="********" aria-label="Nova Password" aria-describly="basic-addon4">
+                        <input type="password" class="form-control" name="newPwd" id="newPwdField" aria-describedby="newPwdHelp" placeholder="********" aria-label="Nova Password">
                     </div>
 
                     <div class="input-group">
                         <label for="confirmNewPwdField" class="w-100 form-label">Confirmar Nova Password <span class="text-danger">*</span></label>
-                        <span class="input-group-text p-3 rounded-start" id="basic-addon5">
+                        <span class="input-group-text p-3 rounded-start">
                             <i class="fa-solid fa-lock"></i>
                         </span>
-                        <input type="password" class="form-control" name="confirmNewPwd" id="confirmNewPwdField" aria-describedby="currentPwdHelp" placeholder="********" aria-label="Confirmar Nova Password" aria-describly="basic-addon5">
+                        <input type="password" class="form-control" name="confirmNewPwd" id="confirmNewPwdField" aria-describedby="currentPwdHelp" placeholder="********" aria-label="Confirmar Nova Password">
                     </div>
 
                     <button type="submit" class="btn btn-primary">
