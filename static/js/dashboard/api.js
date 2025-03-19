@@ -46,3 +46,10 @@ export function fetchDepartment(id) {
         type: "GET"
     })
 }
+
+export function fetchEnabledUsers() {
+    return $.ajax({
+        url: `/api/users/search?enabled=true`,
+        type: "GET"
+    })
+}
