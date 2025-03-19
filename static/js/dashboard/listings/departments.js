@@ -88,4 +88,3 @@ export function loadDepartmentAuditTypes() {
             toastr.error("Erro ao carregar os tipos de auditoria.");
         });
 }
-

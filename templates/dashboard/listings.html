@@ -39,6 +39,16 @@
                 <select class="form-select rounded-end" id="auditTypeField" required></select>
                 <div id="auditTypeFieldError" class="text-danger"></div>
             </div>
+            <div class="input-group">
+                <label for="#" class="w-100 form-label">Responsáveis</label>
+                <span class="input-group-text p-3 rounded-start">
+                    <i class="fa-solid fa-users-gear mx-auto"></i>
+                </span>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#depResponsiblesModal">
+                    Adicionar Responsáveis
+                </button>
+            </div>
+            <div class="mt-2" id="selectedItems"></div>
             <button type="submit" class="btn btn-secondary" id="create_department_btn">
                 <i class="fa-solid fa-plus"></i>
                 <span>Criar Departamento</span>
@@ -170,10 +180,103 @@
     " %} {% include 'dashboard/components/modal.html' %}
 {% endwith %}
 
+
+{% with
+    modal_id="depResponsiblesModal",
+    modal_title="Selecionar Responsáveis do Departamento",
+    modal_content="
+    <input type='text' class='form-control mb-3' id='searchInput' placeholder='Search...'>
+    <ul class='list-group'>
+        <li class='list-group-item d-flex align-items-center gap-2'>
+            <input type='checkbox' class='form-check-input option-checkbox'>
+            <img src='https://i.pravatar.cc/30?img=1' class='rounded-circle' alt='Avatar 1'>
+            <div class='d-flex flex-column'>
+                <strong>huvieira</strong>
+                <small class='text-muted'>Admin</small>
+            </div>
+        </li>
+        <li class='list-group-item d-flex align-items-center gap-2'>
+            <input type='checkbox' class='form-check-input option-checkbox'>
+            <img src='https://i.pravatar.cc/30?img=2' class='rounded-circle' alt='Avatar 2'>
+            <div class='d-flex flex-column'>
+                <strong>josefina@borgwarner.com</strong>
+                <small class='text-muted'>MKT</small>
+            </div>
+        </li>
+        <li class='list-group-item d-flex align-items-center gap-2'>
+            <input type='checkbox' class='form-check-input option-checkbox'>
+            <img src='https://i.pravatar.cc/30?img=3' class='rounded-circle' alt='Avatar 3'>
+            <div class='d-flex flex-column'>
+                <strong>jose@borgwarner.com</strong>
+                <small class='text-muted'>PLM</small>
+            </div>
+        </li>
+    </ul>
+    " %} {% include 'dashboard/components/modal.html' %}
+{% endwith %}
+
 {% endblock %}
 
 {% block scripts %}
 <script type="module" src="{{ url_for('static', filename='js/dashboard/listings/modals/departments.js') }}"></script>
 <script type="module" src="{{ url_for('static', filename='js/dashboard/listings/modals/spaces.js') }}"></script>
 <script type="module" src="{{ url_for('static', filename='js/dashboard/listings/main.js') }}"></script>
+<script>
+$(document).ready(function() {
+    $("#searchInput").on("keyup", function() {
+        var searchTerm = $(this).val().toLowerCase().trim();
+        var anyMatch = false;
+
+        $(".list-group-item").each(function() {
+            var username = $(this).find("strong").text().toLowerCase().trim();
+
+            if (username.includes(searchTerm)) {
+                $(this).removeClass("d-none");
+                anyMatch = true;
+            } else {
+                $(this).addClass("d-none");
+            }
+        });
+
+        // If no match is found or search is empty, show all items
+        if (!anyMatch || searchTerm === "") {
+            $(".list-group-item").removeClass("d-none");
+        }
+    });
+
+    $(".option-checkbox").on("change", function() {
+        let selectedContainer = $("#selectedItems");
+        let listItem = $(this).closest(".list-group-item");
+        let username = listItem.find("strong").text().trim(); // Get username/email
+
+        if ($(this).is(":checked")) {
+            // Append badge only if not already present
+            if ($(`.selected-badge[data-value='${username}']`).length === 0) {
+                selectedContainer.append(`
+                    <span class="badge bg-primary rounded-pill me-2 mb-2 selected-badge" data-value="${username}">
+                        ${username}
+                        <button type="button" class="btn-close btn-close-white ms-1" aria-label="Remove"></button>
+                    </span>
+                `);
+            }
+        } else {
+            $(`.selected-badge[data-value='${username}']`).remove();
+        }
+    });
+
+    $(document).on("click", ".selected-badge .btn-close", function() {
+        let parentBadge = $(this).closest(".selected-badge");
+        let username = parentBadge.data("value");
+
+        // Uncheck the corresponding checkbox
+        $(".list-group-item").each(function() {
+            if ($(this).find("strong").text().trim() === username) {
+                $(this).find(".option-checkbox").prop("checked", false);
+            }
+        });
+
+        parentBadge.remove();
+    });
+});
+</script>
 {% endblock %}
