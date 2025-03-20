@@ -8,6 +8,8 @@ $(document).ready(function() {
     let paginationContainer = $("#pagination");
     let usersPerPageSelect = $("#usersPerPage");
 
+    let selectedUsers = new Set();
+
     let cachedUsers = null;
     let cachedSessionUser = null;
     let currentPage = 1;
@@ -40,10 +42,12 @@ $(document).ready(function() {
 
         paginatedUsers.forEach(user => {
             let isCurrentUser = sessionUser && user.id === sessionUser.id;
+            let isChecked = selectedUsers.has(user.id);
+            let hiddenClass = isChecked ? "d-none" : ""; // Hide instead of removing
 
             let listItem = $(`
-                <li class="list-group-item d-flex align-items-center gap-3">
-                    <input type="checkbox" class="form-check-input option-checkbox" value="${user.id}">
+                <li class="list-group-item d-flex align-items-center gap-3 ${hiddenClass}" data-user-id="${user.id}">
+                    <input type="checkbox" class="form-check-input option-checkbox" value="${user.id}" ${isChecked ? "checked" : ""}>
                     ${renderAvatar(user.username)}
                     <div class="d-flex flex-column">
                         <strong>
@@ -55,11 +59,71 @@ $(document).ready(function() {
                 </li>
             `);
 
+            listItem.find(".option-checkbox").on("change", function() {
+                let userId = parseInt($(this).val());
+                if (this.checked) {
+                    selectedUsers.add(userId);
+                    listItem.addClass("d-none"); // Hide when selected
+                    addUserBadge(user);
+                } else {
+                    selectedUsers.delete(userId);
+                    listItem.removeClass("d-none");
+                    removeUserBadge(userId);
+                }
+            });
+
             listGroup.append(listItem);
         });
 
         renderPagination(users.length);
     }
+
+    function addUserBadge(user) {
+        let badge = $(`
+            <span class="badge bg-primary d-flex align-items-center gap-2 p-2" data-user-id="${user.id}">
+                ${user.username}
+                <button type="button" class="btn-close btn-close-white" aria-label="Remove"></button>
+            </span>
+        `);
+
+        badge.find(".btn-close").on("click", function() {
+            selectedUsers.delete(user.id);
+            $(`li[data-user-id="${user.id}"]`).removeClass("d-none").find(".option-checkbox").prop("checked", false);
+            badge.remove();
+        });
+
+        $("#selectedUsersList").append(badge);
+    }
+
+    function removeUserBadge(userId) {
+        $(`#selectedUsersList span[data-user-id="${userId}"]`).remove();
+    }
+
+    $("#saveDepartmentResponsiblesBtn").on("click", function() {
+        let selectedContainer = $("#selectedDepartmentResponsibles");
+        selectedContainer.empty(); // Clear previous selections
+
+        $("#selectedUsersList span").each(function() {
+            let userId = $(this).data("user-id");
+            let username = $(this).text().trim(); // Get username
+
+            let badge = $(`
+            <span class="badge bg-primary d-flex align-items-center gap-2 p-2" data-user-id="${userId}">
+                ${username}
+                <button type="button" class="btn-close btn-close-white" aria-label="Remove"></button>
+            </span>
+        `);
+
+            badge.find(".btn-close").on("click", function() {
+                selectedUsers.delete(userId);
+                $(`#selectedUsersList span[data-user-id="${userId}"]`).remove();
+                $(`li[data-user-id="${userId}"]`).removeClass("d-none").find(".option-checkbox").prop("checked", false);
+                badge.remove();
+            });
+
+            selectedContainer.append(badge);
+        });
+    });
 
     function renderPagination(totalUsers) {
         paginationContainer.empty();
