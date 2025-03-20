@@ -6,7 +6,7 @@ bp = Blueprint("users", __name__)
 
 
 @bp.route("/users", methods=["GET"])
-def get_spaces():
+def get_users():
     query = """
         SELECT 
             u.id, 
