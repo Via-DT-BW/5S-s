@@ -7,6 +7,7 @@ from .audit_types import bp as audit_types_bp
 from .users import bp as users_bp
 from .auth import bp as auth_bp
 from .audit_checklist import bp as audit_checklist_bp
+from .department_responsibles import bp as department_responsibles_bp
 
 api_bp = Blueprint("api", __name__, url_prefix="/api")
 
@@ -17,3 +18,4 @@ api_bp.register_blueprint(audit_types_bp)
 api_bp.register_blueprint(auth_bp)
 api_bp.register_blueprint(users_bp)
 api_bp.register_blueprint(audit_checklist_bp)
+api_bp.register_blueprint(department_responsibles_bp)

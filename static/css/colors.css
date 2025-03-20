@@ -98,7 +98,6 @@ form .input-group-text,
 form input,
 form select {
     background-color: rgba(245, 240, 235, .5) !important;
-    border: 2px solid rgba(245, 240, 235, .5) !important;
     transition: all .2s ease-in-out;
 }
 

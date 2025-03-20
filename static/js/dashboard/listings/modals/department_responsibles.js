@@ -132,7 +132,7 @@ $(document).ready(function() {
         if (totalPages <= 1) return;
 
         let prevButton = $(`<li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
-            <a class="page-link" href="#">Anterior</a>
+            <a class="page-link rounded-3" href="#"><i class="fa-solid fa-angle-left"></i></a>
         </li>`);
         prevButton.click(function(e) {
             e.preventDefault();
@@ -146,7 +146,7 @@ $(document).ready(function() {
 
         for (let i = 1; i <= totalPages; i++) {
             let pageItem = $(`<li class="page-item ${i === currentPage ? 'active' : ''}">
-                <a class="page-link" href="#">${i}</a>
+                <a class="page-link rounded-3" href="#">${i}</a>
             </li>`);
             pageItem.click(function(e) {
                 e.preventDefault();
@@ -158,7 +158,7 @@ $(document).ready(function() {
         }
 
         let nextButton = $(`<li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
-            <a class="page-link" href="#">Próximo</a>
+            <a class="page-link rounded-3" href="#"><i class="fa-solid fa-angle-right"></i></a>
         </li>`);
         nextButton.click(function(e) {
             e.preventDefault();
