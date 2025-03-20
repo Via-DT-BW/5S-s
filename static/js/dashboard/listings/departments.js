@@ -1,4 +1,5 @@
 import { fetchDepartments, fetchAuditTypes } from "../api.js";
+import { renderAvatar } from "../utils.js";
 
 export let cachedDepartments = [];
 export let cachedAuditTypes = [];
@@ -41,6 +42,13 @@ export function updateDepartmentsTable(departments) {
                     <div class="d-flex flex-column">
                         <b>${dep.name}</b>
                         <small><i>${dep.audit_type}</i></small>
+                    </div>
+                </td>
+                <td>
+                    <div class="d-flex align-items-center avatar-snake">
+                        ${renderAvatar(dep.name)}
+                        ${renderAvatar(dep.name)}
+                        ${renderAvatar(dep.name)}
                     </div>
                 </td>
                 <td>${dep.spaces_count}</td>

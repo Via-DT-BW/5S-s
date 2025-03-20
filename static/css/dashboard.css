@@ -113,3 +113,12 @@ button[data-bs-target="#depResponsiblesModal"] {
 #card-icon i {
     margin: 0 auto;
 }
+
+/* Avatar Snake */
+.avatar-snake .user-avatar {
+    margin-left: -10px;
+}
+
+.avatar-snake:first-child {
+    margin-left: 0;
+}
