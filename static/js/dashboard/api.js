@@ -47,9 +47,9 @@ export function fetchDepartment(id) {
     })
 }
 
-export function fetchEnabledUsers() {
+export function fetchUsers() {
     return $.ajax({
-        url: `/api/users/search?enabled=true`,
+        url: `/api/users`,
         type: "GET"
     })
 }

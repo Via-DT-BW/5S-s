@@ -1,6 +1,5 @@
 import { fetchAuditTypes } from "../api.js";
 
-
 let cachedAuditTypes = [];
 
 export function loadAuditTypes() {

@@ -7,7 +7,6 @@ $(document).ready(function() {
     loadDepartmentAuditTypes();
     loadSpaces();
     loadAuditTypes();
-
     // $("#refresh-departments-btn").click(loadDepartments);
     // $("#refresh-spaces-btn").click(loadSpaces);
 });

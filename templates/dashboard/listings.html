@@ -186,32 +186,17 @@
     modal_title="Selecionar Responsáveis do Departamento",
     modal_content="
     <input type='text' class='form-control mb-3' id='searchInput' placeholder='Search...'>
-    <ul class='list-group'>
-        <li class='list-group-item d-flex align-items-center gap-2'>
-            <input type='checkbox' class='form-check-input option-checkbox'>
-            <img src='https://i.pravatar.cc/30?img=1' class='rounded-circle' alt='Avatar 1'>
-            <div class='d-flex flex-column'>
-                <strong>huvieira</strong>
-                <small class='text-muted'>Admin</small>
-            </div>
-        </li>
-        <li class='list-group-item d-flex align-items-center gap-2'>
-            <input type='checkbox' class='form-check-input option-checkbox'>
-            <img src='https://i.pravatar.cc/30?img=2' class='rounded-circle' alt='Avatar 2'>
-            <div class='d-flex flex-column'>
-                <strong>josefina@borgwarner.com</strong>
-                <small class='text-muted'>MKT</small>
-            </div>
-        </li>
-        <li class='list-group-item d-flex align-items-center gap-2'>
-            <input type='checkbox' class='form-check-input option-checkbox'>
-            <img src='https://i.pravatar.cc/30?img=3' class='rounded-circle' alt='Avatar 3'>
-            <div class='d-flex flex-column'>
-                <strong>jose@borgwarner.com</strong>
-                <small class='text-muted'>PLM</small>
-            </div>
-        </li>
-    </ul>
+    <ul class='list-group'></ul>
+    <div class='d-flex justify-content-between align-items-center mb-2'>
+    <label for='usersPerPage' class='me-2'>Mostrar:</label>
+    <select id='usersPerPage' class='form-select w-auto'>
+            <option value='5'>5 por página</option>
+            <option value='10'>10 por página</option>
+            <option value='15'>15 por página</option>
+            <option value='20'>20 por página</option>
+        </select>
+    </div>
+    <ul id='pagination' class='pagination justify-content-center mt-3'></ul>
     ",
     modal_footer="
         <button class='btn btn-secondary' id='saveDepartmentResponsiblesBtn'>Guardar</button>

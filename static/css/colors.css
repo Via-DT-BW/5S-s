@@ -17,3 +17,13 @@
     --bs-success-bg-subtle: #99cc00;
     --bs-danger-bg-subtle: #ff9900;
 }
+
+.bg-primary {
+    background-color: var(--clr-bw-blue) !important;
+}
+
+.form-check-input:checked {
+    background-color: var(--clr-bw-blue);
+    border-color: var(--clr-bw-dark-blue);
+}
+
