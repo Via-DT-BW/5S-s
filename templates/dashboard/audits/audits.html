@@ -2,35 +2,53 @@
 
 {% block content %}
 
-<section id="audits" class="container container-fluid mb-5">
-    <div class="card d-flex flex-column gap-3">
-        <div class="card-body table-responsive">
-            <h5 class="card-title mb-3">Auditorias</h5>
-            <div class="d-flex align-items-center justify-content-between flex-wrap pb-3">
-                <a href="{{ url_for('web.dashboard.audits.create') }}" class="btn btn-primary">
-                    <i class="fa-solid fa-plus"></i>
-                    <span>Criar Auditoria</span>
-                </a>
-                <div class="d-flex gap-2">
-                    <button class="btn btn-primary">
-                        <i class="fa-solid fa-filter"></i>
-                    </button>
-                    <input type="text" class="form-control" placeholder="Pesquisar.." name="search" id="searchField">
+<section id="audits" class="container container-fluid card px-0 rounded-3">
+    <div class="table-responsive d-flex flex-column">
+
+        <div class="d-flex gap-3 align-items-center flex-wrap justify-content-between mx-3">
+            <div class="flex-grow-1 d-flex align-items-center gap-3">
+                <div id="card-icon" class="rounded-3 d-flex align-items-center" style="background: var(--clr-cream); color: var(--clr-bw-blue);">
+                    <i class="fa-regular fa-newspaper fs-4"></i>
+                </div>
+                <div class="d-flex flex-column">
+                    <h5 class="card-title mb-0">Auditorias</h5>
+                    <span class="text-muted fs-6">Aqui podes encontrar todas as auditorias de todos os departamentos.</span>
+                </div>
+            </div>
+
+
+            <a href="{{ url_for('web.dashboard.audits.create') }}" class="btn btn-secondary">
+                <i class="fa-solid fa-plus"></i>
+                <span>Criar Auditoria</span>
+            </a>
+        </div>
+
+        <hr>
+
+        <div class="d-flex flex-column mx-3 gap-3">
+            <div class="d-flex align-items-center justify-content-between flex-wrap">
+                <ul class="list-group list-group-horizontal">
+                    <a href="#" class="list-group-item list-group-item-action w-auto active" aria-current="true">Todos</a>
+                    <a href="#" class="list-group-item list-group-item-action w-auto">Por Fazer</a>
+                    <a href="#" class="list-group-item list-group-item-action w-auto">Concluídos</a>
+                </ul>
+                <div class="input-group w-auto">
                     <button class="btn btn-primary">
                         <i class="fa-solid fa-magnifying-glass"></i>
                     </button>
+                    <input type="text" class="form-control rounded-end" placeholder="Pesquisar.." name="search" id="searchField" aria-label="Pesquisar..">
                 </div>
             </div>
-            <table id="audits-table" class="table table-striped table-responsive table-hover table-bordered">
+            <table id="audits-table" class="table table-responsive table-striped table-hover rounded-3 overflow-hidden mb-0">
                 <thead>
                     <tr>
-                        <th>Espaço</th>
-                        <th>Pontuação</th>
-                        <th>Assinatura</th>
-                        <th>Data</th>
+                        <th>Local</th>
+                        <th>Responsável</th>
+                        <th>Resultado</th>
+                        <th colspan=2>Data</th>
                     </tr>
                 </thead>
-                <tbody></tbody>
+                <tbody class="align-middle"></tbody>
             </table>
         </div>
     </div>

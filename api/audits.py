@@ -15,15 +15,15 @@ def get_audits():
             u.username AS signed,
             s.name AS space,
             d.name AS department,
-            a.next_date,
+            ud.name AS signed_department,
             a.created_at,
             a.overall_score,
-            a.comments,
-            a.completed
+            a.comments
         FROM audits a
         LEFT JOIN users u ON a.signed = u.id
         JOIN spaces s ON a.space = s.id
         JOIN departments d ON s.department = d.id
+        LEFT JOIN departments ud ON u.department = ud.id
     """
 
     audits = fetch_all(query)
@@ -35,11 +35,10 @@ def get_audits():
                 "signed": audit.signed,
                 "space": audit.space,
                 "department": audit.department,
-                "next_date": format_datetime(audit.next_date),
+                "signed_department": audit.signed_department,
                 "created_at": format_datetime(audit.created_at),
                 "overall_score": audit.overall_score,
                 "comments": audit.comments,
-                "completed": audit.completed,
             }
             for audit in audits
         ]
@@ -89,12 +88,15 @@ def get_audit(id):
 @bp.route("/audit", methods=["POST"])
 def create_audit():
     data = request.get_json()
-    err = validate_json_fields(data, {"signed": int, "space": int})
+    err = validate_json_fields(
+        data, {"signed": int, "space": int, "overall_score": int}
+    )
     if err:
         return err
 
     signed = data["signed"]
     space = data["space"]
+    overall_score = data["overall_score"]
 
     if fetch_one("SELECT 1 FROM users WHERE id=?", (signed,)) is None:
         return jsonify({"error": f"Utilizador {signed} não existe."}), 404
@@ -102,9 +104,35 @@ def create_audit():
     if fetch_one("SELECT 1 FROM spaces WHERE id=?", (space,)) is None:
         return jsonify({"error": f"Espaço {space} não existe."}), 404
 
-    execute_query("INSERT INTO audits (signed, space) VALUES (?, ?)", (signed, space))
+    if overall_score < 0 or overall_score > 100:
+        return jsonify({"error": f"Resultado final inválido {overall_score}."}), 400
 
-    return jsonify({"audit": {"signed": signed, "space": space}})
+    execute_query(
+        "INSERT INTO audits (signed, space, overall_score) VALUES (?, ?, ?)",
+        (signed, space, overall_score),
+    )
+
+    inserted = fetch_one(
+        "SELECT id, signed, space, created_at, next_date, overall_score, comments, completed "
+        "FROM audits WHERE signed=? AND space=? ORDER BY created_at DESC",
+        (signed, space),
+    )
+
+    if inserted is None:
+        return jsonify({"error": "Erro ao criar auditoria."}), 500
+
+    audit_dict = {
+        "id": inserted[0],
+        "signed": inserted[1],
+        "space": inserted[2],
+        "created_at": inserted[3],
+        "next_date": inserted[4],
+        "overall_score": inserted[5],
+        "comments": inserted[6],
+        "completed": bool(inserted[7]),
+    }
+
+    return jsonify({"audit": audit_dict}), 201
 
 
 @bp.route("/audit/<int:id>", methods=["PUT"])

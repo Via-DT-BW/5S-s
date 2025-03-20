@@ -51,6 +51,17 @@ def execute_query(query, params=()):
         conn.close()
 
 
+def execute_bulk_insert(query, params=()):
+    """Helper function that inserts multiple rows at once."""
+    conn, cursor = get_db_connection()
+    try:
+        cursor.executemany(query, params)
+        conn.commit()
+    finally:
+        cursor.close()
+        conn.close()
+
+
 def validate_json_fields(data, required_fields):
     """Validate incoming JSON request data against required fields and types."""
     if not data:

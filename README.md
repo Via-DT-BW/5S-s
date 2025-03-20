@@ -1,12 +1,6 @@
 # 5S Dashboard
 
-A web-based dashboard for managing 5S data, built using Flask, Jinja2, SQL Server and Bootstrap.
-
-## 📌 Features
-- Sidebar navigation with dynamic active links
-- Dashboard pages using Jinja templating
-- Bootstrap-based UI
-- Data visualization with ApexCharts
+A web-based dashboard for managing 5S data, built using Flask, Jinja2, SQL Server, Bootstrap and ChartJS.
 
 ## 🚀 Installation
 

@@ -27,7 +27,7 @@ button {
     background-color: var(--clr-bw-dark-blue);
     background: -webkit-linear-gradient(to right, var(--clr-bw-dark-blue), var(--clr-bw-blue));
     background: linear-gradient(to right, var(--clr-bw-dark-blue), var(--clr-bw-blue));
-    border-radius: var(--rounded);
+    border-radius: var(--bs-border-radius-lg);
     border: 2px solid var(--clr-bw-blue);
     color: #FFFFFF;
     font-size: .75rem;
@@ -58,19 +58,20 @@ button {
     }
 }
 
-form {
-    background-color: #FFFFFF;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    padding-inline: 2rem;
-    gap: 1rem;
+.form-container {
+    position: absolute;
+    top: 0;
     height: 100%;
+    transition: all 0.6s ease-in-out;
 }
 
 .form-container button {
     margin-top: .5rem;
+}
+
+.form-container h1 {
+    font-size: 2rem;
+    font-weight: bold;
 }
 
 .input-group {
@@ -79,7 +80,8 @@ form {
     color: var(--clr-bw-dark-blue);
 }
 
-.input-group > .fa-eye, .input-group > .fa-eye-slash {
+.input-group > .fa-eye,
+.input-group > .fa-eye-slash {
     position: absolute;
     right: 1rem;
     top: 50%;
@@ -88,40 +90,18 @@ form {
     color: var(--bw-blue);
     font-size: 1.125rem;
     font-weight: bold;
-}
-
-input {
-    background-color: var(--clr-cream);
-    border: 2px solid var(--clr-cream);
-    border-radius: var(--rounded);
-    padding: 12px 15px;
-    width: 100%;
-    transition: all .2s ease-in-out;
-}
-
-input:focus {
-    border-color: var(--clr-bw-dark-blue);
-    border-color: -webkit-linear-gradient(to right, var(--clr-bw-dark-blue), var(--clr-bw-blue));
-    border-color: linear-gradient(to right, var(--clr-bw-dark-blue), var(--clr-bw-blue));
+    z-index: 99;
 }
 
 .auth-container {
     background-color: #fff;
-    border-radius: var(--rounded-lg);
+    border-radius: var(--bs-border-radius-lg);
     box-shadow: 0 14px 28px rgba(0,0,0,0.25), 
         0 10px 10px rgba(0,0,0,0.22);
     position: relative;
     overflow: hidden;
-    width: 768px;
-    max-width: 100%;
-    min-height: 480px;
-}
-
-.form-container {
-    position: absolute;
-    top: 0;
-    height: 100%;
-    transition: all 0.6s ease-in-out;
+    min-width: clamp(768px, 80vw, 1024px); 
+    min-height: clamp(65vh, 70vh, 80vh);
 }
 
 .sign-in-container {
@@ -231,8 +211,16 @@ input:focus {
     transform: translateX(20%);
 }
 
-.invalidField, .invalidField:focus {
-    border-color: #dc3545;
-    color: #dc3545;
-    box-shadow: 0 0 0 .2rem rgba(220, 53, 69, .25);
+.overlay-right::after,
+.overlay-left::after {
+    content: "";
+    display: block;
+    width: 200px;
+    height: 50px;
+    background: url('/static/images/BorgWarner_Logo_White.png') no-repeat center/contain;
+    position: absolute;
+    top: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
 }
+

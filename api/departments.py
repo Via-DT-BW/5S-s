@@ -5,6 +5,24 @@ from .utils import fetch_all, fetch_one, execute_query, validate_json_fields
 bp = Blueprint("departments", __name__)
 
 
+@bp.route("/department/<int:id>/spaces")
+def get_department_spaces(id):
+    query = """
+        SELECT *
+        FROM spaces
+        WHERE department=?
+    """
+
+    spaces = fetch_all(query, (id,))
+
+    return jsonify(
+        [
+            {"id": space.id, "name": space.name, "department": space.department}
+            for space in spaces
+        ]
+    )
+
+
 @bp.route("/departments", methods=["GET"])
 def get_departments():
     query = """
@@ -58,7 +76,24 @@ def create_department():
         (department, audit_type),
     )
 
-    return jsonify({"department": {"name": department, "audit_type": audit_type}}), 201
+    query = (
+        "SELECT id FROM departments WHERE name = ? AND audit_type = ? ORDER BY id DESC"
+    )
+    new_department = fetch_one(query, (department, audit_type))
+
+    if new_department:
+        department_id = new_department[0]
+        return jsonify(
+            {
+                "department": {
+                    "id": department_id,
+                    "name": department,
+                    "audit_type": audit_type,
+                }
+            }
+        ), 201
+    else:
+        return jsonify({"error": "Erro ao recuperar o departamento recém-criado."}), 500
 
 
 @bp.route("/department/<int:id>", methods=["GET"])

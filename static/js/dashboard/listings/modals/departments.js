@@ -3,8 +3,8 @@ import { cachedAuditTypes, loadDepartments } from "../departments.js";
 $(document).ready(function() {
     // Delete Department
     $(document).on("click", ".delete-department-btn", function() {
-        let id = $(this).data("id");
-        let name = $(this).data("name");
+        let id = $("#editDepartmentModal").data("department-id");
+        let name = $("#editDepartmentModal").data("department-name");
         $("#deleteDepartmentModal").data("id", id);
         $("#deleteDepartmentModal").data("name", name);
 
@@ -34,7 +34,7 @@ $(document).ready(function() {
     })
 
     // Edit Department
-    $(document).on("click", ".edit-department-btn", function() {
+    $(document).on("click", "#departments-table tbody tr", function() {
         let id = $(this).data("id");
         let name = $(this).data("name");
         let auditType = $(this).data("audit-type-id");
@@ -48,6 +48,7 @@ $(document).ready(function() {
 
         $("#editDepartmentModal #editAuditTypeField").html(optionsHtml);
         $("#editDepartmentModal").data("department-id", id);
+        $("#editDepartmentModal").data("department-name", name);
     });
 
 
@@ -113,17 +114,31 @@ $(document).ready(function() {
             type: "POST",
             contentType: "application/json",
             data: JSON.stringify(payload),
-            success: function() {
-                departmentField.val('');
-                auditTypeField.val('');
+            success: function(response) {
+                let newDepId = response.department.id;
+                let selectedResponsibles = getSelectedResponsibles()
 
-                departmentField.removeClass("is-invalid");
-                auditTypeField.removeClass("is-invalid");
-                departmentErrorField.text("");
+                payload = {
+                    responsibles: selectedResponsibles
+                }
+                $.ajax({
+                    url: `/api/department/${newDepId}/responsibles`,
+                    type: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify(payload),
+                    success: function() {
+                        departmentField.val('');
+                        auditTypeField.val('');
 
-                loadDepartments();
+                        departmentField.removeClass("is-invalid");
+                        auditTypeField.removeClass("is-invalid");
+                        departmentErrorField.text("");
 
-                toastr.success(`Departamento ${departmentName} criado com sucesso.`);
+                        loadDepartments();
+                        toastr.success(`Departamento ${departmentName} criado com sucesso.`);
+                    }
+                })
+
             },
             error: function(xhr) {
                 let errorMsg = xhr.responseJSON?.error || "Ocorreu um erro ao criar o departamento.";
@@ -135,3 +150,10 @@ $(document).ready(function() {
     });
 });
 
+
+function getSelectedResponsibles() {
+    return $("#selectedDepartmentResponsibles")
+        .children().map(function() {
+            return $(this).data("user-id");
+        }).get();
+}

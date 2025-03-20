@@ -14,10 +14,105 @@
     --clr-ocean-ultra: #6578FC;
     --clr-purple: #CC00FF;
 
-    --rounded: .5rem;
-    --rounded-md: 1rem;
-    --rounded-lg: 2rem;
-
     --bs-success-bg-subtle: #99cc00;
     --bs-danger-bg-subtle: #ff9900;
+    --bs-primary-bg-subtle: rgba(0, 56, 108, .25);
+}
+
+main, footer {
+    background-color: var(--clr-cream);
+    color: var(--clr-bw-dark-blue);
+}
+
+h1, h2, h3, h4, h5 {
+    color: var(--clr-bw-dark-blue);
+    font-weight: bold;
+}
+
+.bg-primary {
+    background-color: var(--clr-bw-blue) !important;
+}
+
+.form-check-input:checked {
+    background-color: var(--clr-bw-blue);
+    border-color: var(--clr-bw-dark-blue);
+}
+
+.list-group-item.active {
+    --bs-list-group-active-bg: var(--clr-bw-blue);
+    --bs-list-group-active-border-color: var(--clr-bw-blue);
+}
+
+.modal-header {
+    background-color: var(--clr-bw-blue);
+    color: white;
+}
+
+form input:not([type="submit"]):focus,
+form select:focus {
+    border-color: var(--clr-bw-blue) !important;
+    box-shadow: 0 0 0 .25rem rgba(0, 56, 108, .25) !important;
+}
+
+.form-control:focus {
+    box-shadow: 0 0 0 .25rem rgba(0, 56, 108, .25) !important;
+}
+
+.btn-primary, .btn-primary:hover {
+    border-color: var(--clr-bw-blue);
+    background-color: var(--clr-bw-dark-blue);
+    background: -webkit-linear-gradient(to right, var(--clr-bw-dark-blue), var(--clr-bw-blue));
+    background: linear-gradient(to right, var(--clr-bw-dark-blue), var(--clr-bw-blue));
+    color: white;
+}
+
+.btn-danger:hover {
+    background: transparent;
+    border-color: var(--bs-btn-border-color);
+    color: var(--bs-btn-border-color);
+}
+
+.btn-secondary, .btn-secondary:hover {
+    background: var(--clr-tech-blue);
+    color: var(--clr-bw-dark-blue);
+    border-color: var(--clr-tech-blue) !important;
+}
+
+.btn-danger {
+    border-color: var(--bs-btn-border-color);
+}
+
+.accordion {
+    --bs-accordion-btn-focus-border-color: var(--clr-bw-dark-blue);
+    --bs-accordion-btn-focus-box-shadow: 0 0 0 0.25rem rgba(0, 56, 108, 0.25);
+    --bs-accordion-active-bg: var(--clr-bw-blue);
+    --bs-accordion-active-color: white;
+    --bs-accordion-btn-bg: white;
+}
+
+.accordion-button[aria-expanded="true"]::after {
+    filter: brightness(0) invert(1); 
+}
+
+form .input-group-text,
+form input,
+form select {
+    background-color: rgba(245, 240, 235, .5) !important;
+    transition: all .2s ease-in-out;
+}
+
+form input:focus {
+    border-color: var(--clr-bw-blue);
+    box-shadow: 0 0 0 .25rem rgba(0, 56, 108, .25);
+}
+
+form .input-group-text {
+    background-color: rgba(245, 240, 235, .5) !important;
+    background-color: var(--clr-cream) !important;
+}
+
+gable:not(.audit-table) th {
+    background-color: var(--clr-bw-blue) !important;
+    color: white;
+    font-weight: 500;
 }

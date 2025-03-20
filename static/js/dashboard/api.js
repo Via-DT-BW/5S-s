@@ -32,3 +32,24 @@ export function fetchAudits() {
         type: "GET"
     });
 }
+
+export function fetchDepartmentSpaces(id) {
+    return $.ajax({
+        url: `/api/department/${id}/spaces`,
+        type: "GET"
+    })
+}
+
+export function fetchDepartment(id) {
+    return $.ajax({
+        url: `/api/department/${id}`,
+        type: "GET"
+    })
+}
+
+export function fetchUsers() {
+    return $.ajax({
+        url: `/api/users`,
+        type: "GET"
+    })
+}

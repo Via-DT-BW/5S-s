@@ -3,8 +3,8 @@ import { loadSpaces } from "../spaces.js";
 
 $(document).ready(function() {
     $(document).on("click", ".delete-space-btn", function() {
-        let id = $(this).data("id");
-        let name = $(this).data("name");
+        let id = $("#editSpaceModal").data("id");
+        let name = $("#editSpaceModal").data("name");
         $("#deleteSpaceModal").data("id", id);
         $("#deleteSpaceModal").data("name", name);
 
@@ -34,7 +34,7 @@ $(document).ready(function() {
         $("#deleteSpaceModal").modal("hide");
     })
 
-    $(document).on("click", ".edit-space-btn", function() {
+    $(document).on("click", "#spaces-table tbody tr", function() {
         let id = $(this).data("id");
         let name = $(this).data("name");
         let department = $(this).data("department");
@@ -48,7 +48,8 @@ $(document).ready(function() {
 
         $('#editSpaceForm #departmentField').html(optionsHtml);
 
-        $("#editSpaceForm").data("space-id", id);
+        $("#editSpaceModal").data("id", id);
+        $("#editSpaceModal").data("name", name);
     });
 
     $(document).on("click", "#editSpaceModalBtn", function(e) {
