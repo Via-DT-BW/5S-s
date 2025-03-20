@@ -11,22 +11,12 @@
     min-width: 50px;
 }
 
-.modal-header {
-    background-color: var(--clr-bw-blue);
-    color: white;
-}
-
 form input:not([type="submit"]),
 form select {
     border-radius: var(--bs-border-radius-lg);
     padding: 12px 15px;
     width: 100%;
     transition: all .2s ease-in-out;
-
-    &:focus {
-        border-color: var(--clr-bw-blue);
-        box-shadow: 0 0 0 .25rem rgba(0, 56, 108, .25);
-    }
 }
 
 .btn {
@@ -47,74 +37,19 @@ form .btn {
     align-self: flex-end;
 }
 
-.form-control:focus {
-    box-shadow: 0 0 0 .25rem rgba(0, 56, 108, .25) !important;
-}
-
-.btn-primary {
-    border-color: var(--clr-bw-blue);
-    background-color: var(--clr-bw-dark-blue);
-    background: -webkit-linear-gradient(to right, var(--clr-bw-dark-blue), var(--clr-bw-blue));
-    background: linear-gradient(to right, var(--clr-bw-dark-blue), var(--clr-bw-blue));
-    color: white;
-
-    &:hover {
-        background: transparent;
-        border-color: var(--clr-bw-dark-blue);
-        color: var(--clr-bw-dark-blue);
-    }
-}
-
-.btn-danger:hover {
-    background: transparent;
-    border-color: var(--bs-btn-border-color);
-    color: var(--bs-btn-border-color);
-}
-
-.btn-secondary, .btn-secondary:hover {
-    background: var(--clr-tech-blue);
-    color: var(--clr-bw-dark-blue);
-    border-color: var(--clr-tech-blue);
-}
-
-.btn-danger {
-    border-color: var(--bs-btn-border-color);
-}
-
-.accordion {
-    --bs-accordion-btn-focus-border-color: var(--clr-bw-dark-blue);
-    --bs-accordion-btn-focus-box-shadow: 0 0 0 0.25rem rgba(0, 56, 108, 0.25);
-    --bs-accordion-active-bg: var(--clr-bw-blue);
-    --bs-accordion-active-color: white;
-    --bs-accordion-btn-bg: white;
-}
-
-.accordion-button[aria-expanded="true"]::after {
-    filter: brightness(0) invert(1); 
-}
-
 /* General Styling */
-main, footer {
-    background-color: var(--clr-cream);
-    color: black;
-}
-
-h1, h2, h3, h4, h5 {
-    color: --var(--clr-bw-dark-blue);
-    font-weight: bold;
-}
-
 .modal i.fa-xmark {
     cursor: pointer;
 }
 
+/* Tables */
 #spaces-table th,
 #users-table th,
 #audits-table th,
 #departments-table th {
     background-color: var(--clr-bw-blue);
     color: white;
-    font-weight: normal;
+    font-weight: 500;
 }
 
 /* Audit Table */
@@ -162,9 +97,19 @@ button[data-bs-target="#depResponsiblesModal"] {
     align-self: initial;
 }
 
-#depResponsiblesModal .rounded-circle {
+.user-avatar {
     --size: 40px;
 
     width: var(--size);
     height: var(--size);
+}
+
+#card-icon {
+    --size: 50px;
+    width: var(--size);
+    height: var(--size);
+}
+
+#card-icon i {
+    margin: 0 auto;
 }

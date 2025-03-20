@@ -1,5 +1,6 @@
 import { fetchAuditTypes } from "../api.js";
 
+
 let cachedAuditTypes = [];
 
 export function loadAuditTypes() {
@@ -66,9 +67,7 @@ function updateAuditTypesAccordion(auditTypes) {
                         <table class="table table-bordered table-hover audit-table">
                             <thead class="text-center">
                                 <tr>
-                                    <th colspan="10" class="text-center">
-                                        <h4>Lista de Verificação dos 5S</h4>
-                                    </th>
+                                    <th colspan="10" class="text-center h5"> Lista de Verificação dos 5S </th>
                                 </tr>
                                 <tr>
                                     <th rowspan="3">5S</th>

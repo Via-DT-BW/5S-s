@@ -1,4 +1,5 @@
 import { fetchAudits } from "../api.js";
+import { renderAvatar } from "../utils.js";
 
 let cachedAudits = [];
 
@@ -35,9 +36,20 @@ function updateAuditsTable(audits) {
 
         tbody.append(`
             <tr class="cursor-pointer" data-url="/dashboard/audits/view?id=${audit.id}">
-                <td class="d-flex flex-column">
-                    <b>${audit.space}</b>
-                    <small class="text-muted"><i>${audit.department}</i></small>
+                <td>
+                    <div class="d-flex flex-column">
+                        <b>${audit.space}</b>
+                        <small class="text-muted"><i>${audit.department}</i></small>
+                    </div>
+                </td>
+                <td>
+                    <div class="d-flex align-items-center gap-3">
+                        ${renderAvatar(audit.signed)}
+                        <div class="d-flex flex-column">
+                            <strong>${audit.signed}</strong>
+                            <small class="text-muted">${audit.signed_department || "N/A"}</small>
+                        </div>
+                    </div>
                 </td>
                 <td class="position-relative fs-6">
                     <span class="badge ${badge.class} text-uppercase position-relative">
@@ -47,7 +59,6 @@ function updateAuditsTable(audits) {
                         </span>
                     </span>
                 </td>
-                <td>${audit.signed}</td>
                 <td>${audit.created_at}</td>
                 <td class="text-muted"><i class="fa-solid fa-angle-right"></i></td>
             </tr>

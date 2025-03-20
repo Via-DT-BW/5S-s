@@ -93,23 +93,6 @@ button {
     z-index: 99;
 }
 
-.form-container .input-group-text,
-.form-container input {
-    background-color: rgba(245, 240, 235, .5);
-    border: 2px solid rgba(245, 240, 235, .5);
-    transition: all .2s ease-in-out;
-}
-
-.form-container input:focus {
-    border-color: var(--clr-bw-blue);
-    box-shadow: 0 0 0 .25rem rgba(0, 56, 108, .25);
-}
-
-.form-container .input-group-text {
-    background-color: rgba(245, 240, 235, .5);
-    background-color: var(--clr-cream);
-}
-
 .auth-container {
     background-color: #fff;
     border-radius: var(--bs-border-radius-lg);

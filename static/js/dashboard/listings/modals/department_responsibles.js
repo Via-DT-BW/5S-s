@@ -44,7 +44,7 @@ $(document).ready(function() {
             let listItem = $(`
                 <li class="list-group-item d-flex align-items-center gap-3">
                     <input type="checkbox" class="form-check-input option-checkbox" value="${user.id}">
-                    ${renderAvatar(user)}
+                    ${renderAvatar(user.username)}
                     <div class="d-flex flex-column">
                         <strong>
                             ${user.username}

@@ -37,13 +37,17 @@ export function updateDepartmentsTable(departments) {
             <tr class="cursor-pointer"
                 data-id="${dep.id}" data-name="${dep.name}" data-audit-type-id="${dep.audit_type}" 
                 data-bs-toggle="modal" data-bs-target="#editDepartmentModal">
-                <td class="d-flex flex-column">
-                    <b>${dep.name}</b>
-                    <small><i>${dep.audit_type}</i></small>
+                <td>
+                    <div class="d-flex flex-column">
+                        <b>${dep.name}</b>
+                        <small><i>${dep.audit_type}</i></small>
+                    </div>
                 </td>
                 <td>${dep.spaces_count}</td>
                 <td>${dep.users_count}</td>
-                <td><i class="fa-solid fa-angle-right"></i></td>
+                <td>
+                    <i class="fa-solid fa-angle-right"></i>
+                </td>
             </tr>
         `);
     });
