@@ -44,6 +44,7 @@ CREATE TABLE users (
     email NVARCHAR(255) NOT NULL,
     password NVARCHAR(255) NOT NULL,
     created_at DATETIME2(3) NOT NULL DEFAULT SYSDATETIME(),
+    role NVARCHAR(100) NOT NULL, -- MKT, PL, PLM, etc.
     is_admin BIT NOT NULL DEFAULT 0,
     enabled BIT NOT NULL DEFAULT 1,
     department INT NULL,
@@ -53,7 +54,6 @@ CREATE TABLE users (
 CREATE TABLE department_responsibles (
     department INT NOT NULL,
     responsible INT NOT NULL,
-    role NVARCHAR(100) NOT NULL, -- MKT, PL, PLM, etc.
     PRIMARY KEY (department, responsible),
     FOREIGN KEY (department) REFERENCES departments(id),
     FOREIGN KEY (responsible) REFERENCES users(id)
