@@ -1,8 +1,5 @@
-# Melhorias
+# Melhorias / Alterações
 
-- Fazer login logo após o registo ser feito com sucesso
-- Retirar campo username, usar apenas e-mail
-    - Exemplo: huvieira@borgwarner.com -> huvieira
 - Não limitar a auditoria ao departamento associado
 
 # Levantamento de requisitos
@@ -16,3 +13,6 @@
 
 - Estatísticas
     - Camadas (desconstruir mais!)
+    - Última auditoria
+    - Último relatório
+    - Feita/Por fazer auditoria pelo tempo do seu departamento

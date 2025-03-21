@@ -1,4 +1,4 @@
-import { fetchDepartments, fetchAuditTypes } from "../api.js";
+import { fetchAuditTypes, fetchDepartments } from "../api.js";
 import { renderAvatar } from "../utils.js";
 
 export let cachedDepartments = [];
@@ -14,7 +14,7 @@ export function loadDepartments() {
     `);
 
     fetchDepartments()
-        .then(departments => {
+        .then((departments) => {
             cachedDepartments = departments;
             updateDepartmentsTable(departments);
             updateSpaceDepartmentsSelect(departments);
@@ -25,15 +25,17 @@ export function loadDepartments() {
 }
 
 export function updateDepartmentsTable(departments) {
-    let tbody = $("#departments-table tbody");
+    const tbody = $("#departments-table tbody");
     tbody.empty();
 
     if (departments.length === 0) {
-        tbody.append(`<tr><td colspan="5">Não há departamentos inseridos.</td></tr>`);
+        tbody.append(
+            `<tr><td colspan="5">Não há departamentos inseridos.</td></tr>`,
+        );
         return;
     }
 
-    departments.forEach(dep => {
+    departments.forEach((dep) => {
         tbody.append(`
             <tr class="cursor-pointer" data-id="${dep.id}" data-bs-toggle="modal" data-bs-target="#editDepartmentModal">
                 <td>
@@ -44,11 +46,14 @@ export function updateDepartmentsTable(departments) {
                 </td>
                 <td>
                     <div class="d-flex align-items-center avatar-snake">
-                        ${dep.responsibles.map(responsible => renderAvatar(responsible.name)).join("")}
+                        ${
+            dep.responsibles.map((responsible) =>
+                renderAvatar(responsible.name)
+            ).join("")
+        }
                     </div>
                 </td>
                 <td data-spaces_count="${dep.spaces_count}">${dep.spaces_count}</td>
-                <td data-users_count="${dep.users_count}">${dep.users_count}</td>
                 <td><i class="fa-solid fa-angle-right"></i></td>
             </tr>
         `);
@@ -56,38 +61,48 @@ export function updateDepartmentsTable(departments) {
 }
 
 export function updateSpaceDepartmentsSelect(departments) {
-    let select = $("#spaceDepartmentField");
+    const select = $("#spaceDepartmentField");
     select.empty();
 
-    select.append(`<option class="text-muted" disabled selected>-- Selecione um Departamento --</option>`);
+    select.append(
+        `<option class="text-muted" disabled selected>-- Selecione um Departamento --</option>`,
+    );
 
     if (departments.length === 0) {
-        select.append(`<option disabled>Não há departamentos disponíveis.</option>`);
+        select.append(
+            `<option disabled>Não há departamentos disponíveis.</option>`,
+        );
         return;
     }
 
-    departments.forEach(dep => {
+    departments.forEach((dep) => {
         select.append(`<option value="${dep.id}">${dep.name}</option>`);
     });
 }
 
 export function loadDepartmentAuditTypes() {
-    let select = $("#auditTypeField");
+    const select = $("#auditTypeField");
     select.html(`<option disabled selected>A carregar...</option>`);
 
     fetchAuditTypes()
-        .then(auditTypes => {
+        .then((auditTypes) => {
             cachedAuditTypes = auditTypes;
 
             select.empty();
             if (auditTypes.length === 0) {
-                select.append(`<option disabled>Não há tipos de auditoria disponíveis.</option>`);
+                select.append(
+                    `<option disabled>Não há tipos de auditoria disponíveis.</option>`,
+                );
                 return;
             }
 
-            select.append(`<option class="text-muted" disabled selected>-- Selecione o Tipo de Auditoria --</option>`);
-            auditTypes.forEach(type => {
-                select.append(`<option value="${type.id}">${type.name}</option>`);
+            select.append(
+                `<option class="text-muted" disabled selected>-- Selecione o Tipo de Auditoria --</option>`,
+            );
+            auditTypes.forEach((type) => {
+                select.append(
+                    `<option value="${type.id}">${type.name}</option>`,
+                );
             });
         })
         .catch(() => {

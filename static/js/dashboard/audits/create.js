@@ -1,29 +1,14 @@
-import { fetchDepartmentSpaces, fetchAuditTypes, fetchDepartmentsSpaces } from "../api.js";
+import { fetchAuditTypes, fetchDepartmentsSpaces } from "../api.js";
 import { getBadge } from "./main.js";
 
 let auditChart;
 
 $(document).ready(function() {
+    initializeChart();
+
     fetchDepartmentsSpaces().then(deps => {
         populateDepartmentsAndSpaces(deps);
     })
-    // $.when(fetchSession(), fetchDepartmentsSpaces()).done((fetchedUser, fetchedDeps) => {
-    //     let departments = fetchedDeps[0];
-    //
-    //     populateDepartmentsAndSpaces(departments)
-    // })
-
-    // fetchSession().then(user => {
-    //     fetchDepartment(user.department).then(dep => {
-    //         user["department_name"] = dep["name"];
-    //
-    //         fetchAndPopulateSpaces(user.department);
-    //         $("#departmentField").val(user.department_name);
-    //
-    //         fetchAndPopulateAuditTable(dep);
-    //         handleAuditScoreChange();
-    //     });
-    // });
 });
 
 function populateDepartmentsAndSpaces(departments) {
@@ -31,13 +16,8 @@ function populateDepartmentsAndSpaces(departments) {
     let spaceField = $("#spaceField");
 
     // Hide the audit table and create audit button initially
-    $(".audit-table").addClass("d-none");
-    $("#create-audit-btn").addClass("d-none");
-    $("#score").addClass("d-none");
-    $("#scoreChart").addClass("d-none");
-    $("#chart-legend").addClass("d-none");
+    $(".audit-table, #create-audit-btn, #score, #scoreChart, #chart-legend").addClass("d-none");
 
-    departmentField.append($("<option selected disabled>-- Selecione um Departamento --</option>"));
     departments.forEach(department => {
         let newOption = $(`<option value="${department.id}">${department.name}</option>`);
         departmentField.append(newOption);
@@ -46,7 +26,7 @@ function populateDepartmentsAndSpaces(departments) {
     departmentField.on("change", function() {
         let selectedDepartmentId = $(this).val();
 
-        spaceField.prop("selectedIndex", -1); // Remove selected attribute
+        spaceField.prop("selectedIndex", -1);
 
         let selectedDepartment = departments.find(dep => dep.id == selectedDepartmentId);
 
@@ -77,11 +57,7 @@ function populateDepartmentsAndSpaces(departments) {
             handleAuditScoreChange();
 
             // Show the audit table and create audit button
-            $(".audit-table").removeClass("d-none");
-            $("#create-audit-btn").removeClass("d-none");
-            $("#score").removeClass("d-none");
-            $("#scoreChart").removeClass("d-none");
-            $("#chart-legend").removeClass("d-none");
+            $(".audit-table, #create-audit-btn, #score, #scoreChart, #chart-legend").removeClass("d-none");
         }
     });
 }
@@ -196,24 +172,7 @@ function fetchAndPopulateAuditTable(dep) {
     fetchAuditTypes().then(auditTypes => {
         const auditType = auditTypes.filter(auditType => auditType.name !== dep.audit_type);
         populateAuditTable(auditType);
-        initializeChart();
         updateChart();
-    });
-}
-
-function fetchAndPopulateSpaces(departmentId) {
-    let spaceField = $("#spaceField");
-    let loading = $("<div class='spinner'></div>").text("A carregar...");
-
-    spaceField.after(loading);
-
-    fetchDepartmentSpaces(departmentId).then(spaces => {
-        spaceField.empty();
-        spaces.forEach(space => {
-            spaceField.append(new Option(space.name, space.id));
-        });
-    }).always(() => {
-        loading.remove();
     });
 }
 

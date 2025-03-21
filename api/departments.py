@@ -66,15 +66,14 @@ def get_departments():
             d.id,
             d.name AS department_name,
             a.name AS audit_type,
-            COUNT(DISTINCT u.id) AS user_count,
             COUNT(DISTINCT s.id) AS space_count
         FROM departments d
         JOIN audit_types a ON d.audit_type = a.id
-        LEFT JOIN users u ON d.id = u.department
         LEFT JOIN spaces s ON d.id = s.department
         GROUP BY d.id, d.name, a.name
         ORDER BY a.name ASC, d.name ASC
     """
+
     departments = fetch_all(query)
 
     responsibles_query = """
@@ -98,7 +97,6 @@ def get_departments():
                 "id": dep.id,
                 "name": dep.department_name,
                 "audit_type": dep.audit_type,
-                "users_count": dep.user_count,
                 "spaces_count": dep.space_count,
                 "responsibles": responsibles_map.get(dep.id, []),
             }
@@ -170,7 +168,6 @@ def get_department_by_id(id):
             "id": dep.id,
             "name": dep.department_name,
             "audit_type": dep.audit_type,
-            "users_count": dep.user_count,
             "spaces_count": dep.space_count,
         }
     )
