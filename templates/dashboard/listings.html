@@ -42,7 +42,7 @@
             </div>
             <div class="input-group">
                 <label for="#" class="w-100 form-label">Responsáveis</label>
-                <div id="selectedDepartmentResponsibles" class="d-flex flex-wrap gap-1 mb-2 w-100"></div>
+                <div id="selectedResponsiblesNewDepartment" class="d-flex flex-wrap gap-1 mb-2 w-100"></div>
                 <span class="input-group-text p-3 rounded-start">
                     <i class="fa-solid fa-users-gear mx-auto"></i>
                 </span>
@@ -130,6 +130,16 @@
                     <i class='fa-solid fa-clipboard-list mx-auto'></i>
                 </span>
                 <select class='form-select rounded-end p-3' id='editAuditTypeField' aria-label='Tipo de Auditoria' required></select>
+            </div>
+            <div class='input-group'>
+                <label for='#' class='w-100 form-label'>Responsáveis</label>
+                <div id='selectedResponsiblesNewDepartment' class='d-flex flex-wrap gap-1 mb-2 w-100'></div>
+                <span class='input-group-text p-3 rounded-start'>
+                    <i class='fa-solid fa-users-gear mx-auto'></i>
+                </span>
+                <button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#depResponsiblesModal'>
+                    Adicionar Responsáveis
+                </button>
             </div>
         </form>",
     modal_footer="

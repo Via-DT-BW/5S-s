@@ -100,7 +100,7 @@ $(document).ready(function() {
     }
 
     $("#saveDepartmentResponsiblesBtn").on("click", function() {
-        let selectedContainer = $("#selectedDepartmentResponsibles");
+        let selectedContainer = $("#selectedResponsiblesNewDepartment");
         selectedContainer.empty(); // Clear previous selections
 
         $("#selectedUsersList span").each(function() {
@@ -108,21 +108,29 @@ $(document).ready(function() {
             let username = $(this).text().trim(); // Get username
 
             let badge = $(`
-            <span class="badge bg-primary d-flex align-items-center gap-2 p-2" data-user-id="${userId}">
-                ${username}
-                <button type="button" class="btn-close btn-close-white" aria-label="Remove"></button>
-            </span>
-        `);
+                <span class="badge bg-primary d-flex align-items-center gap-2 p-2" data-user-id="${userId}">
+                    ${username}
+                    <button type="button" class="btn-close btn-close-white" aria-label="Remove"></button>
+                </span>
+            `);
 
             badge.find(".btn-close").on("click", function() {
-                selectedUsers.delete(userId);
-                $(`#selectedUsersList span[data-user-id="${userId}"]`).remove();
-                $(`li[data-user-id="${userId}"]`).removeClass("d-none").find(".option-checkbox").prop("checked", false);
-                badge.remove();
+                selectedUsers.delete(userId); // Remove from the set
+                $(`#selectedUsersList span[data-user-id="${userId}"]`).remove(); // Remove badge
+                $(`li[data-user-id="${userId}"]`).removeClass("d-none").find(".option-checkbox").prop("checked", false); // Show the checkbox again
+                badge.remove(); // Remove the badge
             });
 
             selectedContainer.append(badge);
         });
+
+        // Now clear the selectedUsers set completely after saving responsibles
+        selectedUsers.clear();  // Clear the set after handling it
+        $("#selectedUsersList").empty();  // Optionally clear the selected list UI
+
+        // You may also want to reset any checkboxes or UI changes here
+        $(".list-group-item").find(".form-check-input").prop("checked", false); // Reset checkboxes
+        toastr.success("Responsáveis do departamento atualizados com sucesso.");
     });
 
     function renderPagination(totalUsers) {

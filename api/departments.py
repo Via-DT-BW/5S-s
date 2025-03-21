@@ -41,6 +41,21 @@ def get_departments():
     """
     departments = fetch_all(query)
 
+    responsibles_query = """
+        SELECT dr.department, u.id AS user_id, u.username
+        FROM department_responsibles dr
+        JOIN users u ON dr.responsible = u.id
+    """
+    responsibles = fetch_all(responsibles_query)
+
+    responsibles_map = {}
+    for resp in responsibles:
+        if resp.department not in responsibles_map:
+            responsibles_map[resp.department] = []
+        responsibles_map[resp.department].append(
+            {"id": resp.user_id, "name": resp.username}
+        )
+
     return jsonify(
         [
             {
@@ -49,6 +64,7 @@ def get_departments():
                 "audit_type": dep.audit_type,
                 "users_count": dep.user_count,
                 "spaces_count": dep.space_count,
+                "responsibles": responsibles_map.get(dep.id, []),
             }
             for dep in departments
         ]

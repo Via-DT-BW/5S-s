@@ -3,8 +3,8 @@ import { cachedAuditTypes, loadDepartments } from "../departments.js";
 $(document).ready(function() {
     // Delete Department
     $(document).on("click", ".delete-department-btn", function() {
-        let id = $("#editDepartmentModal").data("department-id");
-        let name = $("#editDepartmentModal").data("department-name");
+        let id = $("#editDepartmentModal").data("id");
+        let name = $("#editDepartmentModal").data("name");
         $("#deleteDepartmentModal").data("id", id);
         $("#deleteDepartmentModal").data("name", name);
 
@@ -36,8 +36,11 @@ $(document).ready(function() {
     // Edit Department
     $(document).on("click", "#departments-table tbody tr", function() {
         let id = $(this).data("id");
-        let name = $(this).data("name");
-        let auditType = $(this).data("audit-type-id");
+        let name = $(this).find('[data-name]').html();
+        let auditType = $(this).find('[data-audit_type] > i').html();
+        let responsibles = $(this).find('.user-avatar').map(function() {
+            return $(this).attr("data-bs-content");
+        }).get();
 
         $("#editDepartmentModal #editDepartmentField").val(name);
 
@@ -46,9 +49,11 @@ $(document).ready(function() {
             optionsHtml += `<option value="${auditTypeData.id}" ${auditTypeData.name == auditType ? 'selected' : ''}>${auditTypeData.name}</option>`;
         });
 
+        let modal = $("#editDepartmentModal")
         $("#editDepartmentModal #editAuditTypeField").html(optionsHtml);
-        $("#editDepartmentModal").data("department-id", id);
-        $("#editDepartmentModal").data("department-name", name);
+        modal.data("id", id);
+        modal.data("name", name);
+        modal.data("responsibles", responsibles)
     });
 
 
@@ -133,6 +138,7 @@ $(document).ready(function() {
                         departmentField.removeClass("is-invalid");
                         auditTypeField.removeClass("is-invalid");
                         departmentErrorField.text("");
+                        $("#selectedResponsiblesNewDepartment").empty();
 
                         loadDepartments();
                         toastr.success(`Departamento ${departmentName} criado com sucesso.`);
@@ -152,7 +158,7 @@ $(document).ready(function() {
 
 
 function getSelectedResponsibles() {
-    return $("#selectedDepartmentResponsibles")
+    return $("#selectedResponsiblesNewDepartment")
         .children().map(function() {
             return $(this).data("user-id");
         }).get();

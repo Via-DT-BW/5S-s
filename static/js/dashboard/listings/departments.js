@@ -35,27 +35,21 @@ export function updateDepartmentsTable(departments) {
 
     departments.forEach(dep => {
         tbody.append(`
-            <tr class="cursor-pointer"
-                data-id="${dep.id}" data-name="${dep.name}" data-audit-type-id="${dep.audit_type}" 
-                data-bs-toggle="modal" data-bs-target="#editDepartmentModal">
+            <tr class="cursor-pointer" data-id="${dep.id}" data-bs-toggle="modal" data-bs-target="#editDepartmentModal">
                 <td>
                     <div class="d-flex flex-column">
-                        <b>${dep.name}</b>
-                        <small><i>${dep.audit_type}</i></small>
+                        <b data-name="${dep.name}">${dep.name}</b>
+                        <small data-audit_type="${dep.audit_type}"><i>${dep.audit_type}</i></small>
                     </div>
                 </td>
                 <td>
                     <div class="d-flex align-items-center avatar-snake">
-                        ${renderAvatar(dep.name)}
-                        ${renderAvatar(dep.name)}
-                        ${renderAvatar(dep.name)}
+                        ${dep.responsibles.map(responsible => renderAvatar(responsible.name)).join("")}
                     </div>
                 </td>
-                <td>${dep.spaces_count}</td>
-                <td>${dep.users_count}</td>
-                <td>
-                    <i class="fa-solid fa-angle-right"></i>
-                </td>
+                <td data-spaces_count="${dep.spaces_count}">${dep.spaces_count}</td>
+                <td data-users_count="${dep.users_count}">${dep.users_count}</td>
+                <td><i class="fa-solid fa-angle-right"></i></td>
             </tr>
         `);
     });
