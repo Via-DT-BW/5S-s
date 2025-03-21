@@ -100,8 +100,8 @@ button[data-bs-target="#depResponsiblesModal"] {
 .user-avatar {
     --size: 40px;
 
-    min-width: var(--size);
-    min-height: var(--size);
+    width: var(--size);
+    height: var(--size);
 }
 
 #card-icon {
@@ -114,6 +114,7 @@ button[data-bs-target="#depResponsiblesModal"] {
     margin: 0 auto;
 }
 
+/* Avatar Snake */
 .avatar-snake .user-avatar {
     margin-left: -10px;
 }

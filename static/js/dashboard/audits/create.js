@@ -1,98 +1,174 @@
-import { fetchAuditTypes, fetchDepartmentsSpaces } from "../api.js";
+import { fetchDepartmentSpaces, fetchAuditTypes, fetchDepartmentsSpaces } from "../api.js";
 import { getBadge } from "./main.js";
 
 let auditChart;
 
 $(document).ready(function() {
-    initializeChart();
     fetchDepartmentsSpaces().then(deps => {
-        if (deps) {
-            populateDepartmentsAndSpaces(deps);
-        }
-    }).catch(error => toastr.error(error));
+        populateDepartmentsAndSpaces(deps);
+    })
+    // $.when(fetchSession(), fetchDepartmentsSpaces()).done((fetchedUser, fetchedDeps) => {
+    //     let departments = fetchedDeps[0];
+    //
+    //     populateDepartmentsAndSpaces(departments)
+    // })
+
+    // fetchSession().then(user => {
+    //     fetchDepartment(user.department).then(dep => {
+    //         user["department_name"] = dep["name"];
+    //
+    //         fetchAndPopulateSpaces(user.department);
+    //         $("#departmentField").val(user.department_name);
+    //
+    //         fetchAndPopulateAuditTable(dep);
+    //         handleAuditScoreChange();
+    //     });
+    // });
 });
 
 function populateDepartmentsAndSpaces(departments) {
     let departmentField = $("#departmentField");
     let spaceField = $("#spaceField");
 
-    $(".audit-table, #create-audit-btn, #score, #scoreChart, #chart-legend").addClass("d-none");
+    // Hide the audit table and create audit button initially
+    $(".audit-table").addClass("d-none");
+    $("#create-audit-btn").addClass("d-none");
+    $("#score").addClass("d-none");
+    $("#scoreChart").addClass("d-none");
+    $("#chart-legend").addClass("d-none");
 
-    departmentField.empty().append('<option selected disabled>-- Selecione um Departamento --</option>');
-    spaceField.empty().append('<option selected disabled>-- Selecione um Espaço --</option>');
-
+    departmentField.append($("<option selected disabled>-- Selecione um Departamento --</option>"));
     departments.forEach(department => {
         let newOption = $(`<option value="${department.id}">${department.name}</option>`);
         departmentField.append(newOption);
     });
 
-    departmentField.off("change").on("change", function() {
+    departmentField.on("change", function() {
         let selectedDepartmentId = $(this).val();
-        spaceField.empty().append('<option selected disabled>-- Selecione um Espaço --</option>');
+
+        spaceField.prop("selectedIndex", -1); // Remove selected attribute
 
         let selectedDepartment = departments.find(dep => dep.id == selectedDepartmentId);
-        if (selectedDepartment?.spaces?.length > 0) {
-            selectedDepartment.spaces.forEach(space => {
-                let spaceOption = $(`<option value="${space.id}">${space.name}</option>`);
-                spaceField.append(spaceOption);
-            });
-        } else {
-            spaceField.append('<option disabled>Nenhum espaço disponível</option>');
-        }
+
+        setTimeout(() => {
+            spaceField.empty().append('<option selected disabled>-- Selecione um Espaço --</option>');
+
+            if (selectedDepartment && selectedDepartment.spaces.length > 0) {
+                selectedDepartment.spaces.forEach(space => {
+                    let spaceOption = $(`<option value="${space.id}">${space.name}</option>`);
+                    spaceField.append(spaceOption);
+                });
+            } else {
+                spaceField.append('<option disabled>Nenhum espaço disponível</option>');
+            }
+        }, 1);
     });
 
-    spaceField.off("change").on("change", function() {
-        let selectedDepartmentId = departmentField.val();
+    spaceField.on("change", function() {
         let selectedSpaceId = $(this).val();
+        let selectedDepartmentId = departmentField.val();
+
         let selectedDepartment = departments.find(dep => dep.id == selectedDepartmentId);
-        let selectedSpace = selectedDepartment?.spaces?.find(space => space.id == selectedSpaceId);
+        let selectedSpace = selectedDepartment ? selectedDepartment.spaces.find(space => space.id == selectedSpaceId) : null;
 
         if (selectedSpace) {
-            fetchAndPopulateAuditTable(selectedDepartment);
+            let dep = selectedDepartment;
+            fetchAndPopulateAuditTable(dep);
             handleAuditScoreChange();
-            $(".audit-table, #create-audit-btn, #score, #scoreChart, #chart-legend").removeClass("d-none");
+
+            // Show the audit table and create audit button
+            $(".audit-table").removeClass("d-none");
+            $("#create-audit-btn").removeClass("d-none");
+            $("#score").removeClass("d-none");
+            $("#scoreChart").removeClass("d-none");
+            $("#chart-legend").removeClass("d-none");
         }
     });
 }
 
 function initializeChart() {
-    auditChart = Highcharts.chart('scoreChart', {
-        chart: { type: 'column' },
-        title: { text: 'Soma de Pontuação por Categoria' },
-        xAxis: { categories: [] },
-        yAxis: { min: 0, max: 20, title: { text: 'Pontuação' } },
-        series: [{ name: 'Pontuação', data: [], colorByPoint: true }]
+    const ctx = document.getElementById("scoreChart").getContext("2d");
+    auditChart = new Chart(ctx, {
+        type: "bar",
+        data: {
+            labels: [],
+            datasets: [{
+                label: "Soma de Pontuação por Categoria",
+                data: [],
+                backgroundColor: "rgba(75, 192, 192, 0.2)",
+                borderColor: "rgba(75, 192, 192, 1)",
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 16
+                }
+            }
+        }
     });
 }
 
 function updateChart() {
     let categoryScores = {};
-    let currentCategory = null;
+    let currentCategory = null;  // Track the current category
 
     $("#audit-table tbody tr").each(function() {
         let row = $(this);
         let categoryCell = row.find("td:first");
 
+        // Check if the row contains a category (vertical-text class)
         if (categoryCell.hasClass("vertical-text")) {
             currentCategory = categoryCell.text().trim();
-        } else if (currentCategory) {
-            let score = row.find("td").slice(-5).toArray().reduce((sum, td) => {
-                let val = parseInt($(td).text(), 10);
-                return isNaN(val) ? sum : sum + val;
-            }, 0);
+        } else {
+            // Skip rows that don't contain valid data
+            if (!currentCategory) return;
 
-            categoryScores[currentCategory] = (categoryScores[currentCategory] || 0) + Math.min(Math.max(score, 0), 20);
+            let lastFiveTds = row.find("td").slice(-5);
+            let score = 0;
+
+            lastFiveTds.each(function() {
+                let val = parseInt($(this).text(), 10);
+                if (!isNaN(val)) {
+                    score += val;  // Accumulate the score instead of resetting
+                }
+            });
+
+            // Ensure the score is clamped between 0 and 20
+            score = Math.min(Math.max(score, 0), 20);
+
+            if (currentCategory) {
+                if (!categoryScores[currentCategory]) {
+                    categoryScores[currentCategory] = 0;
+                }
+                categoryScores[currentCategory] += score;
+            }
         }
     });
 
-    console.log("Updating chart with:", categoryScores);
+    let categories = Object.keys(categoryScores);
+    let totalScores = categories.map(category => categoryScores[category]);
 
-    auditChart.series[0].setData(Object.values(categoryScores));
-    auditChart.xAxis[0].setCategories(Object.keys(categoryScores));
+    let backgroundColors = totalScores.map(score => {
+        if (score >= 16) return "#198754";
+        if (score >= 12) return "#99cc00";
+        if (score >= 8) return "#ffc107";
+        if (score >= 4) return "#ff9900";
+        return "#wdc3545";
+    });
+
+    auditChart.data.labels = categories;
+    auditChart.data.datasets[0].data = totalScores;
+    auditChart.data.datasets[0].backgroundColor = backgroundColors;
+
+    auditChart.update();
 }
 
 function handleAuditScoreChange() {
-    $("#audit-table tbody").off("input", "input[type='number']").on("input", "input[type='number']", function() {
+    $("#audit-table tbody").on("input", "input[type='number']", function() {
         let inputVal = parseInt($(this).val(), 10) || 0;
         let row = $(this).closest("tr");
         let tds = row.find("td");
@@ -100,12 +176,17 @@ function handleAuditScoreChange() {
 
         tds.slice(-5).text("");
 
-        if (inputVal === 0) tds.eq(lastTdIndex).text("4");
-        else if (inputVal === 1) tds.eq(lastTdIndex - 1).text("3");
-        else if (inputVal === 2) tds.eq(lastTdIndex - 2).text("2");
-        else if (inputVal > 2 && inputVal < 6) tds.eq(lastTdIndex - 3).text("1");
-        else if (inputVal >= 6) tds.eq(lastTdIndex - 4).text("0");
-
+        if (inputVal === 0) {
+            tds.eq(lastTdIndex).text("4");
+        } else if (inputVal === 1) {
+            tds.eq(lastTdIndex - 1).text("3");
+        } else if (inputVal === 2) {
+            tds.eq(lastTdIndex - 2).text("2");
+        } else if (inputVal > 2 && inputVal < 6) {
+            tds.eq(lastTdIndex - 3).text("1");
+        } else if (inputVal >= 6) {
+            tds.eq(lastTdIndex - 4).text("0");
+        }
         getAuditTotalScore();
         updateChart();
     });
@@ -114,12 +195,26 @@ function handleAuditScoreChange() {
 function fetchAndPopulateAuditTable(dep) {
     fetchAuditTypes().then(auditTypes => {
         const auditType = auditTypes.filter(auditType => auditType.name !== dep.audit_type);
-        if (auditType.length > 0) {
-            populateAuditTable(auditType);
-            initializeChart();
-            updateChart();
-        }
-    }).catch(error => console.error("Error fetching audit types:", error));
+        populateAuditTable(auditType);
+        initializeChart();
+        updateChart();
+    });
+}
+
+function fetchAndPopulateSpaces(departmentId) {
+    let spaceField = $("#spaceField");
+    let loading = $("<div class='spinner'></div>").text("A carregar...");
+
+    spaceField.after(loading);
+
+    fetchDepartmentSpaces(departmentId).then(spaces => {
+        spaceField.empty();
+        spaces.forEach(space => {
+            spaceField.append(new Option(space.name, space.id));
+        });
+    }).always(() => {
+        loading.remove();
+    });
 }
 
 function populateAuditTable(auditType) {
