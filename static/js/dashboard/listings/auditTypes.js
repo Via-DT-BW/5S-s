@@ -37,12 +37,6 @@ function updateAuditTypesAccordion(auditTypes) {
                         <td class="text-center"><b>${counter}</b></td>
                         <td>${checklist.factor}</td>
                         <td>${checklist.criteria}</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
                     </tr>
                 `;
                 counter++;
@@ -64,33 +58,16 @@ function updateAuditTypesAccordion(auditTypes) {
                 </h2>
                 <div id="collapse${auditType.id}" class="accordion-collapse collapse" data-bs-parent="#audit-types-listing">
                     <div class="accordion-body table-responsive">
-                        <table class="table table-bordered table-hover audit-table">
+                        <table class="table table-bordered table-hover audit-table rounded-3 overflow-hidden">
                             <thead class="text-center">
                                 <tr>
-                                    <th colspan="10" class="text-center h5"> Lista de Verificação dos 5S </th>
+                                    <th colspan="4" class="text-center h5"> Lista de Verificação dos 5S </th>
                                 </tr>
                                 <tr>
                                     <th rowspan="3">5S</th>
                                     <th rowspan="3">Nº</th>
                                     <th rowspan="3">Fator a verificar</th>
                                     <th rowspan="3">Critérios de avaliação</th>
-                                    <th colspan="6">Avaliação</th>
-                                </tr>
-                                <tr>
-                                    <th>Nº Não<br>Conformidades</th>
-                                    <th>Péssimo</th>
-                                    <th>Mau</th>
-                                    <th>Razoável</th>
-                                    <th>Bom</th>
-                                    <th>Excelente</th>
-                                </tr>
-                                <tr>
-                                    <th>5S NOK</th>
-                                    <th>0</th>
-                                    <th>1</th>
-                                    <th>2</th>
-                                    <th>3</th>
-                                    <th>4</th>
                                 </tr>
                             </thead>
                             <tbody>
