@@ -40,12 +40,7 @@ def create_audit_checklist(audit_id):
     audit_type = audit_type[0]
 
     expected_checklist_count = fetch_one(
-        """
-        SELECT COUNT(*)
-        FROM checklists c
-        JOIN categories cat ON c.category = cat.id
-        WHERE cat.audit_type = ?
-        """,
+        "SELECT COUNT(*) FROM checklists c JOIN categories cat ON c.category = cat.id WHERE cat.audit_type = ? ",
         (audit_type,),
     )[0]
 
@@ -58,7 +53,12 @@ def create_audit_checklist(audit_id):
 
     checklist_items = []
     for item in data:
-        if not isinstance(item, dict) or "checklist" not in item or "score" not in item:
+        if (
+            not isinstance(item, dict)
+            or "checklist" not in item
+            or "score" not in item
+            or "noks" not in item
+        ):
             return jsonify(
                 {
                     "error": "Each checklist item must have 'checklist' and 'score' fields."
@@ -67,6 +67,7 @@ def create_audit_checklist(audit_id):
 
         checklist_id = item["checklist"]
         score = item["score"]
+        noks = item["noks"]
 
         if not isinstance(checklist_id, int) or not isinstance(score, int):
             return jsonify(
@@ -80,10 +81,10 @@ def create_audit_checklist(audit_id):
                 {"error": f"Invalid score {score}. It must be between 0 and 4."}
             ), 400
 
-        checklist_items.append((audit_id, checklist_id, score))
+        checklist_items.append((audit_id, checklist_id, score, noks))
 
     execute_bulk_insert(
-        "INSERT INTO audit_checklist (audit, checklist, score) VALUES (?, ?, ?)",
+        "INSERT INTO audit_checklist (audit, checklist, score, noks) VALUES (?, ?, ?, ?)",
         checklist_items,
     )
 

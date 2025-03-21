@@ -113,8 +113,7 @@ def create_audit():
     )
 
     inserted = fetch_one(
-        "SELECT id, signed, space, created_at, next_date, overall_score, comments, completed "
-        "FROM audits WHERE signed=? AND space=? ORDER BY created_at DESC",
+        "SELECT id, signed, space, created_at, overall_score, comments FROM audits WHERE signed=? AND space=? ORDER BY created_at DESC",
         (signed, space),
     )
 
@@ -126,10 +125,8 @@ def create_audit():
         "signed": inserted[1],
         "space": inserted[2],
         "created_at": inserted[3],
-        "next_date": inserted[4],
-        "overall_score": inserted[5],
-        "comments": inserted[6],
-        "completed": bool(inserted[7]),
+        "overall_score": inserted[4],
+        "comments": inserted[5],
     }
 
     return jsonify({"audit": audit_dict}), 201

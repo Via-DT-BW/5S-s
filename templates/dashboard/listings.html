@@ -202,6 +202,7 @@
     <div id='selectedUsersList' class='d-flex flex-wrap gap-2 mt-2'></div>
     <div class='d-flex justify-content-between align-items-center mb-2'>
         <label for='usersPerPage' class='me-2'>Mostrar:</label>
+        <ul id='pagination' class='pagination justify-content-center mt-3 gap-2 align-items-center'></ul>
         <select id='usersPerPage' class='form-select w-auto'>
             <option value='5'>5 por página</option>
             <option value='10'>10 por página</option>
@@ -209,7 +210,6 @@
             <option value='20'>20 por página</option>
         </select>
     </div>
-    <ul id='pagination' class='pagination justify-content-center mt-3 gap-2 align-items-center'></ul>
     ",
     modal_footer="
         <button class='btn btn-secondary' id='saveDepartmentResponsiblesBtn' data-bs-dismiss='modal'>Guardar</button>

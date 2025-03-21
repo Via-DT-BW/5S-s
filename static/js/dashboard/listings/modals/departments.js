@@ -27,7 +27,7 @@ $(document).ready(function() {
                 loadDepartments();
             },
             error: function(xhr) {
-                toastr.error(xhr.responseJSON?.error || "Existem espaços associados a este departamento.");
+                toastr.error(xhr.responseJSON?.error || "Existem registos associados a este departamento.");
             }
         });
         $("#deleteDepartmentModal").modal("hide");

@@ -40,6 +40,13 @@ export function fetchDepartmentSpaces(id) {
     })
 }
 
+export function fetchDepartmentsSpaces() {
+    return $.ajax({
+        url: `/api/departments/spaces`,
+        type: "GET"
+    })
+}
+
 export function fetchDepartment(id) {
     return $.ajax({
         url: `/api/department/${id}`,

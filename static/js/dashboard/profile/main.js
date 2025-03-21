@@ -114,7 +114,6 @@ function loadUserProfile() {
 
 function populateDepartmentsDropdown(departments, departmentId) {
     let select = $("#userDepartmentField");
-    select.empty();
 
     departments.forEach(dep => {
         let selected = (dep.id == departmentId) ? "selected" : "";

@@ -5,6 +5,42 @@ from .utils import fetch_all, fetch_one, execute_query, validate_json_fields
 bp = Blueprint("departments", __name__)
 
 
+@bp.route("/departments/spaces")
+def get_departments_spaces():
+    query = """
+        SELECT
+            d.id AS department_id,
+            d.name AS department_name,
+            a.name AS audit_type,
+            s.id AS space_id,
+            s.name AS space_name
+        FROM departments d
+        LEFT JOIN audit_types a ON d.audit_type = a.id
+        LEFT JOIN spaces s ON d.id = s.department
+    """
+
+    departments = fetch_all(query)
+
+    departments_map = {}
+    for row in departments:
+        id, name, audit_type, space_id, space_name = row
+
+        if id not in departments_map:
+            departments_map[id] = {
+                "id": id,
+                "name": name,
+                "audit_type": audit_type,
+                "spaces": [],
+            }
+
+        if space_id is not None:
+            departments_map[id]["spaces"].append({"id": space_id, "name": space_name})
+
+    departments_list = list(departments_map.values())
+
+    return jsonify(departments_list)
+
+
 @bp.route("/department/<int:id>/spaces")
 def get_department_spaces(id):
     query = """
