@@ -1,42 +1,46 @@
 {% extends 'dashboard/dashboard_base.html' %}
 
 {% block content %}
-<section id="audits" class="container card container-fluid my-3 table-responsive">
+
+<section id="audits" class="container card container-fluid table-responsive">
     <div class="card-body d-flex flex-column gap-3">
         <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ url_for('web.dashboard.audits.home') }}">Auditorias</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Nova Auditoria</li>
+                <li class="breadcrumb-item active card-title fw-bold h5" aria-current="page">Nova Auditoria</li>
             </ol>
         </nav>
 
-        {% if session["department"] == None %}
-        <div class="alert alert-warning d-flex align-items-center" role="alert">
-            <i class="fa-solid fa-circle-exclamation"></i>
-            <span class="ms-3">
-                Precisa de pertencer a um departamento para criar uma nova auditoria!<br>
-                <a href="{{ url_for('web.dashboard.profile.home') }}">Selecionar Departamento</a>
-            </span>
-        </div>
-        {% else %}
-        <h5 class="card-title">Nova Auditoria</h5>
-        <div class="d-flex flex-wrap align-items-center gap-3">
-            <div class="flex-grow-1">
-                <label for="spaceField" class="mb-1">Espaço <span class="text-danger">*</span></label>
-                <select class="form-select" name="space" id="spaceField">
-                    <option disabled>--- Espaço ---</option>
-                </select>
+        <div class="row g-3">
+            <div class="col-md-6">
+                <div class="input-group">
+                    <label for="departmentField" class="form-label w-100">Departamento <span class="text-danger">*</span></label>
+                    <span class="input-group-text p-3 rounded-start">
+                        <i class="fa-solid fa-building mx-auto"></i>
+                    </span>
+                    <select name="department" id="departmentField" class="form-select">
+                        <option selected disabled>-- Selecione um Departamento --</option>
+                    </select>
+                </div>
             </div>
-            <div>
-                <label for="departmentField" class="mb-1">Departamento</label>
-                <input type="text" class="form-control" name="department" id="departmentField" readonly>
+            <div class="col-md-6">
+                <div class="input-group">
+                    <label for="spaceField" class="form-label w-100">Espaço <span class="text-danger">*</span></label>
+                    <span class="input-group-text p-3 rounded-start">
+                        <i class="fa-solid fa-map-marker-alt mx-auto"></i>
+                    </span>
+                    <select name="space" id="spaceField" class="form-select">
+                        <option selected="" disabled="">-- Selecione um Espaço --</option>
+                    </select>
+                </div>
             </div>
         </div>
-        <table id="audit-table" class="table table-bordered audit-table">
+
+        <table id="audit-table" class="table table-bordered audit-table d-none">
             <thead class="text-center">
                 <tr>
                     <th colspan="10">
-                        <h4>Lista de Verificação dos 5S</h4>
+                        <h4 class="text-light">Lista de Verificação dos 5S</h4>
                     </th>
                 </tr>
                 <tr>
@@ -67,23 +71,22 @@
             </thead>
             <tbody></tbody>
         </table>
-        <button id="create-audit-btn" class="btn btn-secondary align-self-end">
+        <button id="create-audit-btn" class="btn btn-secondary align-self-end d-none">
             <i class="fa-solid fa-plus"></i>
             <span>Criar Auditoria</span>
         </button>
-        <div id="score" class="rounded bg-success text-uppercase p-5 d-flex flex-column gap-1 text-center text-light">
+        <div id="score" class="rounded bg-success text-uppercase p-5 d-flex flex-column gap-1 text-center text-light d-none">
             <b id="score_value">100</b>
             <span id="score_name">Excelente</span>
         </div>
-        <canvas id="scoreChart"></canvas>
-        <div id="chart-legend" class="d-flex justify-content-end gap-2 flex-wrap">
+        <canvas id="scoreChart" class="d-none"></canvas>
+        <div id="chart-legend" class="d-flex justify-content-end gap-2 flex-wrap d-none">
             <span class="badge bg-danger">0-50: Péssimo</span>
             <span class="badge bg-danger-subtle">51-70: Mau</span>
             <span class="badge bg-warning">71-80: Razoável</span>
             <span class="badge bg-success-subtle">81-90: Bom</span>
             <span class="badge bg-success">91-100: Excelente</span>
         </div>
-        {% endif %}
     </div>
 </section>
 {% endblock %}

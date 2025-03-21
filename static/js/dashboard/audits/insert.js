@@ -34,6 +34,7 @@ $(document).ready(function() {
                             window.location.href = "/dashboard/audits";
                         },
                         error: function(xhr) {
+                            console.log(xhr.response?.error)
                             let errorMsg = xhr.response?.error | "Ocorreu um erro ao tentar inserir a auditoria";
                             toastr.error(errorMsg);
                             return;
@@ -41,6 +42,7 @@ $(document).ready(function() {
                     })
                 },
                 error: function(xhr) {
+                    console.log(xhr.response?.error)
                     let errorMsg = xhr.responseJSON?.error || "Ocorreu um erro ao tentar inserir a auditoria.";
                     toastr.error(errorMsg);
                     return;
@@ -57,8 +59,9 @@ function getChecklistPayload() {
         let row = $(this);
         let checklistId = row.data("id");
         let lastFiveTds = row.find("td").slice(-5);
-        let score = 0;
+        let noks = row.find("td input[type='number']").val();
 
+        let score = 0;
         lastFiveTds.each(function() {
             let val = parseInt($(this).text(), 10);
             if (!isNaN(val)) {
@@ -69,7 +72,8 @@ function getChecklistPayload() {
         if (checklistId && !isNaN(score)) {
             checklistPayload.push({
                 checklist: checklistId,
-                score: score
+                score: score,
+                noks: noks
             });
         }
     });

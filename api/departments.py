@@ -5,6 +5,42 @@ from .utils import fetch_all, fetch_one, execute_query, validate_json_fields
 bp = Blueprint("departments", __name__)
 
 
+@bp.route("/departments/spaces")
+def get_departments_spaces():
+    query = """
+        SELECT
+            d.id AS department_id,
+            d.name AS department_name,
+            a.name AS audit_type,
+            s.id AS space_id,
+            s.name AS space_name
+        FROM departments d
+        LEFT JOIN audit_types a ON d.audit_type = a.id
+        LEFT JOIN spaces s ON d.id = s.department
+    """
+
+    departments = fetch_all(query)
+
+    departments_map = {}
+    for row in departments:
+        id, name, audit_type, space_id, space_name = row
+
+        if id not in departments_map:
+            departments_map[id] = {
+                "id": id,
+                "name": name,
+                "audit_type": audit_type,
+                "spaces": [],
+            }
+
+        if space_id is not None:
+            departments_map[id]["spaces"].append({"id": space_id, "name": space_name})
+
+    departments_list = list(departments_map.values())
+
+    return jsonify(departments_list)
+
+
 @bp.route("/department/<int:id>/spaces")
 def get_department_spaces(id):
     query = """
@@ -30,16 +66,30 @@ def get_departments():
             d.id,
             d.name AS department_name,
             a.name AS audit_type,
-            COUNT(DISTINCT u.id) AS user_count,
             COUNT(DISTINCT s.id) AS space_count
         FROM departments d
         JOIN audit_types a ON d.audit_type = a.id
-        LEFT JOIN users u ON d.id = u.department
         LEFT JOIN spaces s ON d.id = s.department
         GROUP BY d.id, d.name, a.name
         ORDER BY a.name ASC, d.name ASC
     """
+
     departments = fetch_all(query)
+
+    responsibles_query = """
+        SELECT dr.department, u.id AS user_id, u.username
+        FROM department_responsibles dr
+        JOIN users u ON dr.responsible = u.id
+    """
+    responsibles = fetch_all(responsibles_query)
+
+    responsibles_map = {}
+    for resp in responsibles:
+        if resp.department not in responsibles_map:
+            responsibles_map[resp.department] = []
+        responsibles_map[resp.department].append(
+            {"id": resp.user_id, "name": resp.username}
+        )
 
     return jsonify(
         [
@@ -47,8 +97,8 @@ def get_departments():
                 "id": dep.id,
                 "name": dep.department_name,
                 "audit_type": dep.audit_type,
-                "users_count": dep.user_count,
                 "spaces_count": dep.space_count,
+                "responsibles": responsibles_map.get(dep.id, []),
             }
             for dep in departments
         ]
@@ -118,7 +168,6 @@ def get_department_by_id(id):
             "id": dep.id,
             "name": dep.department_name,
             "audit_type": dep.audit_type,
-            "users_count": dep.user_count,
             "spaces_count": dep.space_count,
         }
     )

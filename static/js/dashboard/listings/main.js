@@ -9,4 +9,10 @@ $(document).ready(function() {
     loadAuditTypes();
     // $("#refresh-departments-btn").click(loadDepartments);
     // $("#refresh-spaces-btn").click(loadSpaces);
+
+    $("body").popover({
+        selector: '[data-bs-toggle="popover"]',
+        trigger: 'hover',
+        placement: 'top'
+    });
 });
